@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.A;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 //hello
-import org.firstinspires.ftc.teamcode.H.Movement;
-import org.firstinspires.ftc.teamcode.H.*;
+import org.firstinspires.ftc.teamcode.Hardware.Movement;
+import org.firstinspires.ftc.teamcode.Hardware.*;
 
 import com.vuforia.CameraDevice;
 

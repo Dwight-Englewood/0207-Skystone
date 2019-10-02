@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.T;/* Copyright (c) 2017 FIRST. All rights reserved.
+package org.firstinspires.ftc.teamcode.TeleOp;/* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -31,7 +31,7 @@ package org.firstinspires.ftc.teamcode.T;/* Copyright (c) 2017 FIRST. All rights
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.H.*;
+import org.firstinspires.ftc.teamcode.Hardware.*;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOwO",group="TeleOp")
 //@Disabled
