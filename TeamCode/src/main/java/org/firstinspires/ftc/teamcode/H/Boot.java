@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.*;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public class B {
-    public static DcMotor BL, BR, FL, FR;
+public class Boot {
+    public static DcMotor BL, BR, FL, FR, lift;
     HardwareMap map;
     Telemetry tele;
 
@@ -26,7 +26,7 @@ public class B {
     BNO055IMU.Parameters parameters;
     Orientation angles;
 
-    public B() {
+    public Boot() {
     }
 
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
@@ -39,11 +39,13 @@ public class B {
         BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
+        lift = this.map.get(DcMotor.class, "Lift");
 
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -84,11 +86,11 @@ public class B {
 
     public void notKevinDrive(double leftStick_y, double leftStick_x, double leftTrigger, double rightTrigger) {
         if (leftTrigger > .3) {
-            drive(ME.LEFTSTRAFE, leftTrigger);
+            drive(Movement.LEFTSTRAFE, leftTrigger);
             return;
         }
         if (rightTrigger > .3) {
-            drive(ME.RIGHTSTRAFE, rightTrigger);
+            drive(Movement.RIGHTSTRAFE, rightTrigger);
             return;
         }
 
@@ -105,12 +107,12 @@ public class B {
         //  double s = sickoMode ? 0.4 : 1;
 
         if (leftTrigger > .3) {
-            drive(ME.LEFTSTRAFE, leftTrigger * i);
+            drive(Movement.LEFTSTRAFE, leftTrigger * i);
             return;
         }
 
         if (rightTrigger > .3) {
-            drive(ME.RIGHTSTRAFE, rightTrigger * i);
+            drive(Movement.RIGHTSTRAFE, rightTrigger * i);
             return;
         }
         leftStick *= i;
@@ -130,7 +132,7 @@ public class B {
         BR.setPower(power);
     }
 
-    public void autonDrive(ME movement, int target) {
+    public void autonDrive(Movement movement, int target) {
         switch (movement) {
             case FORWARD:
                 FL.setTargetPosition(target);
@@ -184,7 +186,7 @@ public class B {
     }
 
     //TODO fix the the driver values and restrict the motor values
-    public void drive(ME movement, double power) {
+    public void drive(Movement movement, double power) {
         switch (movement) {
             case FORWARD:
                 FL.setPower(power);
@@ -256,7 +258,7 @@ public class B {
         } return Math.abs(FL.getTargetPosition()) - Math.abs(FL.getCurrentPosition() * proportionalValue);
     }
 
-    public void autonDriveUltimate(ME movementEnum, int target, double power) {
+    public void autonDriveUltimate(Movement movementEnum, int target, double power) {
         this.autonDrive(movementEnum, target);
         this.setPower(power);
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);

@@ -1,27 +1,21 @@
 package org.firstinspires.ftc.teamcode.A;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 //hello
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.H.ME;
 import org.firstinspires.ftc.teamcode.H.*;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.vuforia.CameraDevice;
 
-@Autonomous(name="BlueBox", group="Autonomous")
-public class A1 extends OpMode {
+@Autonomous(name="RT", group="Autonomous")
+public class RedTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
-    B robot = new B();
+    Boot robot = new Boot();
 
     int auto = 0;
 

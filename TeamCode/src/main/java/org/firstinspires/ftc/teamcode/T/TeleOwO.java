@@ -33,12 +33,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.H.*;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TO",group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOwO",group="TeleOp")
 //@Disabled
-public class TO extends OpMode {
+public class TeleOwO extends OpMode {
     // Declare OpMode members.
     private ElapsedTime timer = new ElapsedTime();
-    B robot = new B();
+    Boot robot = new Boot();
     boolean wabbo = false;
 
     @Override
@@ -63,7 +63,7 @@ public class TO extends OpMode {
     public void loop() {
         if (gamepad1.y){wabbo = false;}
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y,   gamepad1.left_trigger,gamepad1.right_trigger,wabbo, false);
-        telemetry.addData("Speed", robot.motorSpeed());
+        robot.lift.setPower(gamepad2.right_stick_y*0.7);
     }
 
 

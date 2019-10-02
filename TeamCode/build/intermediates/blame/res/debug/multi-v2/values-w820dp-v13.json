@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Owner\\Desktop\\robo\\0207-Skystone-master\\TeamCode\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+            "outputFile": "/Users/kchen21/0207-Skystone/TeamCode/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w820dp-v13/values-w820dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Owner\\Desktop\\robo\\0207-Skystone-master\\FtcRobotController\\build\\intermediates\\packaged_res\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "source": "/Users/kchen21/0207-Skystone/FtcRobotController/build/intermediates/packaged_res/debug/values-w820dp-v13/values-w820dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

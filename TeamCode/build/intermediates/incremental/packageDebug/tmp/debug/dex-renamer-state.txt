@@ -1,4 +1,4 @@
-#Wed Sep 25 16:41:47 EDT 2019
-base.0=C\:\\Users\\Owner\\Desktop\\robo\\0207-Skystone-master\\TeamCode\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
-renamed.0=classes.dex
+#Wed Oct 02 17:03:17 EDT 2019
+base.0=/Users/kchen21/0207-Skystone/TeamCode/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 path.0=classes.dex
+renamed.0=classes.dex

@@ -1,27 +1,22 @@
 package org.firstinspires.ftc.teamcode.A;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 //hello
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.H.ME;
+import org.firstinspires.ftc.teamcode.H.Movement;
 import org.firstinspires.ftc.teamcode.H.*;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.vuforia.CameraDevice;
 
 @Autonomous(name="BB", group="Autonomous")
 public class BlueBox extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
-    B robot = new B();
+    Boot robot = new Boot();
 
     int auto = 0;
 
@@ -68,7 +63,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 1:
-                robot.autonDrive(ME.FORWARD, 560);
+                robot.autonDrive(Movement.FORWARD, 560);
                 auto++;
                 break;
 
@@ -82,7 +77,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 4:
-                robot.autonDriveUltimate(ME.BACKWARD, 140, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 140, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -99,7 +94,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 7:
-                robot.autonDriveUltimate(ME.RIGHTSTRAFE, 280, 0.2);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 280, 0.2);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -117,7 +112,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 14:
-                robot.autonDriveUltimate(ME.FORWARD, 500, 0.4);
+                robot.autonDriveUltimate(Movement.FORWARD, 500, 0.4);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
