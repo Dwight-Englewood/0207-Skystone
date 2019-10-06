@@ -11,8 +11,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Boot {
-    public static DcMotor BL, BR, FL, FR, lift, intake;
-    public Servo turn, clamp;
+    public static DcMotor BL, BR, FL, FR, lift;//, intake;
+   // public Servo turn, clamp;
+    public Servo clamp;
     HardwareMap map;
     Telemetry tele;
 
@@ -41,17 +42,17 @@ public class Boot {
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
         lift = this.map.get(DcMotor.class, "Lift");
-        intake = this.map.get(DcMotor.class, "intake");
+        //intake = this.map.get(DcMotor.class, "intake");
 
         clamp = this.map.get(Servo.class, "clamp");
-        turn = this.map.get(Servo.class, "turn");
+        //turn = this.map.get(Servo.class, "turn");
 
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake.setDirection((DcMotorSimple.Direction.FORWARD));
+        //intake.setDirection((DcMotorSimple.Direction.FORWARD));
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

@@ -64,7 +64,9 @@ public class TeleOwO extends OpMode {
         if (gamepad1.y){wabbo = false;}
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y,   gamepad1.left_trigger,gamepad1.right_trigger,wabbo, false);
         robot.lift.setPower(gamepad2.right_stick_y*0.7);
+        
     }
+
 
 
     /*

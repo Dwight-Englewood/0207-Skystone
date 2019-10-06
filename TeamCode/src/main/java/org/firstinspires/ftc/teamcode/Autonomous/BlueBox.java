@@ -55,7 +55,7 @@ public class BlueBox extends OpMode {
      */
     @Override
     public void loop() {
-        switch (auto) {
+       /* switch (auto) {
             case 0:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -159,6 +159,6 @@ public class BlueBox extends OpMode {
                 break;
         }
         telemetry.addData("Case Number:", auto);
-        telemetry.update();
+        telemetry.update();*/
     }
 }

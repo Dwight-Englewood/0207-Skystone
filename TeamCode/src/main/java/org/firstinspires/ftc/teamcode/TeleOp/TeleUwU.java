@@ -29,6 +29,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;/* Copyright (c) 2017 FIRST. All r
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.*;
@@ -45,8 +46,8 @@ public class TeleUwU extends OpMode {
     public void init() {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
-        robot.clamp.setPosition(0);
-        robot.turn.setPosition(0);
+        //robot.clamp.setPosition(0);
+        //robot.turn.setPosition(0);
 
 
     }
@@ -68,17 +69,21 @@ public class TeleUwU extends OpMode {
         if (gamepad1.y){wabbo = false;}
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y,   gamepad1.left_trigger,gamepad1.right_trigger,wabbo, false);
         robot.lift.setPower(gamepad2.right_stick_y*0.7);
-        robot.intake.setPower((gamepad2.left_stick_y*0.7));
+        //robot.intake.setPower((gamepad2.left_stick_y*0.7));
         if (gamepad2.x) {
-            robot.turn.setPosition(1.0);
-        } else if (gamepad2.y){robot.turn.setPosition(0.5);
-        } else robot.turn.setPosition(0);
+            robot.clamp.setPosition(.5);
+        } else if (gamepad2.y)
+        {
+            //robot.clamp.setDirection(Servo.Direction.REVERSE);
+            robot.clamp.setPosition(0);
+        }
+        //else robot.clamp.setPosition(0);
 
 
-        if (gamepad2.a) {
+        /*if (gamepad2.a) {
             robot.clamp.setPosition(1.0);
         } else if (gamepad2.b){robot.clamp.setPosition(0.5);
-        } else robot.clamp.setPosition(0);
+        } else robot.clamp.setPosition(0);*/
     }
 
 
