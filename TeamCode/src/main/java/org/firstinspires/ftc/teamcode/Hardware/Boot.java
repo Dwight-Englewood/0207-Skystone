@@ -11,7 +11,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Boot {
-    public static DcMotor BL, BR, FL, FR, lift;
+    public static DcMotor BL, BR, FL, FR, lift, intake;
+    public Servo turn, clamp;
     HardwareMap map;
     Telemetry tele;
 
@@ -40,12 +41,17 @@ public class Boot {
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
         lift = this.map.get(DcMotor.class, "Lift");
+        intake = this.map.get(DcMotor.class, "intake");
+
+        clamp = this.map.get(Servo.class, "clamp");
+        turn = this.map.get(Servo.class, "turn");
 
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection((DcMotorSimple.Direction.FORWARD));
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -258,15 +264,17 @@ public class Boot {
         } return Math.abs(FL.getTargetPosition()) - Math.abs(FL.getCurrentPosition() * proportionalValue);
     }
 
-    public void autonDriveUltimate(Movement movementEnum, int target, double power) {
-        this.autonDrive(movementEnum, target);
-        this.setPower(power);
-        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if (Math.abs(FL.getCurrentPosition()) >= Math.abs(FL.getTargetPosition())) {
-            drive(movementEnum.STOP, 0);
-            tele.update();
-        }
+
+    public void autonDriveUltimate(Movement movementEnum, int target, double power) {
+            this.autonDrive(movementEnum, target);
+            this.setPower(power);
+            this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            if (Math.abs(FL.getCurrentPosition()) >= Math.abs(FL.getTargetPosition())) {
+                drive(movementEnum.STOP, 0);
+                tele.update();
+            }
     }
 
 
