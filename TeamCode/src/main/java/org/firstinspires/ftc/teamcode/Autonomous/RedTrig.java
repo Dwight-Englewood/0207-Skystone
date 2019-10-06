@@ -11,7 +11,9 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 
 import com.vuforia.CameraDevice;
 
-@Autonomous(name="RT", group="Autonomous")
+import java.util.FormatFlagsConversionMismatchException;
+
+@Autonomous(name="redTrig", group="Autonomous")
 public class RedTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
@@ -64,17 +66,31 @@ public class RedTrig extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                CameraDevice.getInstance().setFlashTorchMode(true);
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+                robot.autonDriveUltimate(Movement.FORWARD, 2000, 0.5);
                 auto++;
                 break;
 
             case 1:
-                    auto++;
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 2:
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.5);
+                auto++;
                 break;
 
             case 3:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 4:
+          //      robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.5);
+                auto++;
+                break;
+
+            case 5:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;

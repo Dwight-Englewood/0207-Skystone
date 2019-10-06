@@ -11,9 +11,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Boot {
-    public static DcMotor BL, BR, FL, FR, lift;//, intake;
-   // public Servo turn, clamp;
-    public Servo clamp;
+    public static DcMotor BL, BR, FL, FR, lift, intake;
+    public Servo clamp, turn, leftServ, rightServ;
     HardwareMap map;
     Telemetry tele;
 
@@ -28,8 +27,7 @@ public class Boot {
     BNO055IMU.Parameters parameters;
     Orientation angles;
 
-    public Boot() {
-    }
+    public Boot() {}
 
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
         this.map = map;
@@ -42,17 +40,19 @@ public class Boot {
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
         lift = this.map.get(DcMotor.class, "Lift");
-        //intake = this.map.get(DcMotor.class, "intake");
+        intake = this.map.get(DcMotor.class, "intake");
 
         clamp = this.map.get(Servo.class, "clamp");
-        //turn = this.map.get(Servo.class, "turn");
+        turn = this.map.get(Servo.class, "turn");
+        leftServ = this.map.get(Servo.class, "leftServo");
+        rightServ = this.map.get(Servo.class, "rightServo");
 
-        BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FL.setDirection(DcMotorSimple.Direction.FORWARD);
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        //intake.setDirection((DcMotorSimple.Direction.FORWARD));
+        intake.setDirection((DcMotorSimple.Direction.FORWARD));
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -110,7 +110,7 @@ public class Boot {
     }
 
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
-        double i = invert ? 0.4 : 0.65;
+        double i = invert ? 0.4 : 0.7;
         //  double s = sickoMode ? 0.4 : 1;
 
         if (leftTrigger > .3) {
@@ -125,10 +125,10 @@ public class Boot {
         leftStick *= i;
         rightStick *= i;
 
-        FL.setPower(leftStick);
-        FR.setPower(rightStick);
-        BL.setPower(-leftStick);
-        BR.setPower(-rightStick);
+        FL.setPower(rightStick);
+        FR.setPower(leftStick);
+        BL.setPower(-rightStick);
+        BR.setPower(-leftStick);
 
     }
 
@@ -264,8 +264,6 @@ public class Boot {
         if (Math.abs(FL.getCurrentPosition()) < Math.abs(FL.getTargetPosition())) {
         } return Math.abs(FL.getTargetPosition()) - Math.abs(FL.getCurrentPosition() * proportionalValue);
     }
-
-
 
     public void autonDriveUltimate(Movement movementEnum, int target, double power) {
             this.autonDrive(movementEnum, target);
