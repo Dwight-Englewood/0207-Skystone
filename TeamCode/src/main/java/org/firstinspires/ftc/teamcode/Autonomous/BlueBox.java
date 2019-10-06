@@ -63,7 +63,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 1:
-                robot.autonDriveUltimate(Movement.FORWARD, 1220, .5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, .5);
                 auto++;
                 break;
 
@@ -85,6 +85,19 @@ public class BlueBox extends OpMode {
                 break;
 
             case 5:
+                robot.autonDriveUltimate(Movement.FORWARD, 560, .5);
+                auto++;
+                break;
+
+            case 6:
+
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+
+            case 7:
+                robot.autonDriveUltimate(Movement.FORWARD, 560, .5);
                 robot.intake.setTargetPosition(2000);
                 robot.intake.setPower(1);
                 robot.intake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -98,49 +111,49 @@ public class BlueBox extends OpMode {
                 }
                 break;
 
-            case 6:
+            case 8:
                 robot.autonDriveUltimate(Movement.BACKWARD, 140, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
-            case 7:
+            case 9:
                 auto++;
                 break;
 
-            case 8:
+            case 10:
                 CameraDevice.getInstance().setFlashTorchMode(false);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
-            case 9:
+            case 11:
                 robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 280, 0.2);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
-            case 10:
+            case 12:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
-            case 11:
+            case 13:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                 auto = 14;
                 break;
 
-            case 12:
+            case 14:
                 robot.autonDriveUltimate(Movement.FORWARD, 500, 0.4);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
-            case 13:
+            case 15:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
