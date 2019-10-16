@@ -97,8 +97,6 @@ public class BlueBox extends OpMode {
 
             case 6:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                //robot.rightServ.setPosition(0);
-                // robot.leftServ.setPosition(0);
                 auto++;
                 break;
 

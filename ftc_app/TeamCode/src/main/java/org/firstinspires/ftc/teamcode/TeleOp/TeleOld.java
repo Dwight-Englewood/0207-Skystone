@@ -33,7 +33,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Old TeleOp",group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="First TeleOp",group="TeleOp")
 //@Disabled
 public class TeleOld extends OpMode {
     // Declare OpMode members.

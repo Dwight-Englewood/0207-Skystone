@@ -11,13 +11,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Boot {
-    public static DcMotor BL, BR, FL, FR, lift, intake;
-    public Servo clamp, turn, leftServ, rightServ;
+    public static DcMotor BL, BR, FL, FR, lift, intakeL, intakeR;
+    public Servo clamp, turn;
     HardwareMap map;
     Telemetry tele;
 
-    Double powerModifier = 0.02;
-    double turnSpeed = 0.25;
     final double proportionalValue = 0.000005;
 
     //double error = 180 - gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
@@ -33,26 +31,24 @@ public class Boot {
         this.map = map;
         this.tele = tele;
 
-//        left = this.map.get(DcMotor.class, "left");
-//        right = this.map.get(DcMotor.class, "right");
         BR = this.map.get(DcMotor.class, "BR");
         BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
         lift = this.map.get(DcMotor.class, "Lift");
-        intake = this.map.get(DcMotor.class, "intake");
+        intakeL = this.map.get(DcMotor.class, "intakeL");
+        intakeR = this.map.get(DcMotor.class, "intakeR");
 
         clamp = this.map.get(Servo.class, "clamp");
         turn = this.map.get(Servo.class, "turn");
-        leftServ = this.map.get(Servo.class, "leftServo");
-        rightServ = this.map.get(Servo.class, "rightServo");
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake.setDirection((DcMotorSimple.Direction.FORWARD));
+        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+        intakeR.setDirection((DcMotorSimple.Direction.FORWARD));
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
