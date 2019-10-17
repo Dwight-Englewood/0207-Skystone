@@ -88,6 +88,12 @@ public class TeleUwU extends OpMode {
             robot.turn.setPosition(0);
         }
 
+        telemetry.addLine("G2Y: Close Clamp");
+        telemetry.addLine("G2X: Open Clamp");
+        telemetry.addLine("G2b: Close Vault");
+        telemetry.addLine("G2a: Open Vault");
+
+
         /*
          * Code to run ONCE after the driver hits STOP
          */
