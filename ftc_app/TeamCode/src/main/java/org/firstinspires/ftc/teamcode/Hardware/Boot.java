@@ -16,6 +16,8 @@ public class Boot {
     HardwareMap map;
     Telemetry tele;
 
+    ColorSensor color_sensor;
+
     final double proportionalValue = 0.000005;
 
     //double error = 180 - gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
@@ -30,6 +32,8 @@ public class Boot {
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
         this.map = map;
         this.tele = tele;
+
+        color_sensor = this.map.get(ColorSensor.class, "Col");
 
         BR = this.map.get(DcMotor.class, "BR");
         BL = this.map.get(DcMotor.class, "BL");

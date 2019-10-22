@@ -24,6 +24,9 @@ public class BlueBox extends OpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        color_sensor.enableLed(true);
+        
+
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -67,8 +70,13 @@ public class BlueBox extends OpMode {
                 break;
 
             case 1:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, .5);
-                auto++;
+                if(color_sensor.argb() <= 20)
+                {
+                    robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, .5);
+                    telemetry.addData("RGB Value:", color_sensor.argb());
+                    telemetry.update();
+                    auto++;
+                }
                 break;
 
             case 2:
