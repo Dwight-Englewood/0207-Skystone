@@ -16,16 +16,16 @@ public class Boot {
             BR,
             FL,
             FR,
-            lift,
-            intakeL,
-            intakeR
+            lift
+           // intakeL,
+           // intakeR
                     ;
     public Servo
-            clamp,
-            clawTurn,
-            armTurn
+            clamp
+          //  clawTurn,
+          //  armTurn
                     ;
-    
+
     HardwareMap map;
     Telemetry tele;
 
@@ -53,12 +53,12 @@ public class Boot {
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
         lift = this.map.get(DcMotor.class, "Lift");
-        intakeL = this.map.get(DcMotor.class, "intakeL");
-        intakeR = this.map.get(DcMotor.class, "intakeR");
+     //   intakeL = this.map.get(DcMotor.class, "intakeL");
+     //   intakeR = this.map.get(DcMotor.class, "intakeR");
 
         clamp = this.map.get(Servo.class, "clamp");
-        clawTurn = this.map.get(Servo.class, "claw turn");
-        armTurn = this.map.get(Servo.class, "arm turn");
+     //   clawTurn = this.map.get(Servo.class, "claw turn");
+    //    armTurn = this.map.get(Servo.class, "arm turn");
 
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -66,8 +66,8 @@ public class Boot {
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
-        intakeR.setDirection((DcMotorSimple.Direction.FORWARD));
+    //    intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+    //    intakeR.setDirection((DcMotorSimple.Direction.FORWARD));
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
