@@ -47,7 +47,8 @@ public class TeleUwU extends OpMode {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
         robot.clamp.setPosition(0.6);
-        robot.turn.setPosition(1);
+        robot.clawTurn.setPosition(1);
+        robot.armTurn.setPosition(1);
 
 
     }
@@ -83,10 +84,21 @@ public class TeleUwU extends OpMode {
         }
 
         if (gamepad2.b) {
-            robot.turn.setPosition(1);
+            robot.clawTurn.setPosition(1);
         } else if (gamepad2.a) {
-            robot.turn.setPosition(0);
+            robot.clawTurn.setPosition(0);
         }
+
+        if(gamepad2.rb)
+        {
+            robot.armTurn.setPosition(0);
+        }
+
+        else if(gamepad2.lb)
+        {
+            robot.armTurn.setPosition(1);
+        }
+
 
         /*
          * Code to run ONCE after the driver hits STOP

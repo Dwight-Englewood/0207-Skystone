@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Boot {
     public static DcMotor BL, BR, FL, FR, lift, intakeL, intakeR;
-    public Servo clamp, turn;
+    public Servo clamp, clawTurn, armTurn;
     HardwareMap map;
     Telemetry tele;
 
@@ -44,7 +44,9 @@ public class Boot {
         intakeR = this.map.get(DcMotor.class, "intakeR");
 
         clamp = this.map.get(Servo.class, "clamp");
-        turn = this.map.get(Servo.class, "turn");
+        turn = this.map.get(Servo.class, "claw turn");
+        armTurn = this.map.get(Servo.class, "arm turn");
+
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
