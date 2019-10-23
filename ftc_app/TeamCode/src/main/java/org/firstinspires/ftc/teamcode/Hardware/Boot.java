@@ -268,15 +268,16 @@ public class Boot {
     }
 
     public void autonDriveUltimate(Movement movementEnum, int target, double power) {
-            this.autonDrive(movementEnum, target);
-            this.setPower(power);
-            this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.autonDrive(movementEnum, target);
+        this.setPower(power);
+        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            if (Math.abs(FL.getCurrentPosition()) >= Math.abs(FL.getTargetPosition())) {
-                drive(movementEnum.STOP, 0);
-                tele.update();
-            }
+        if (Math.abs(FL.getCurrentPosition()) >= Math.abs(FL.getTargetPosition())) {
+            drive(movementEnum.STOP, 0);
+            tele.update();
+        }
     }
 
 
 }
+

@@ -26,7 +26,6 @@ public class BlueBox extends OpMode {
 
         color_sensor.enableLed(true);
 
-
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -123,3 +122,4 @@ public class BlueBox extends OpMode {
         telemetry.update();
     }
 }
+
