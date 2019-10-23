@@ -89,16 +89,6 @@ public class TeleUwU extends OpMode {
             robot.clawTurn.setPosition(0);
         }
 
-        if(gamepad2.rb)
-        {
-            robot.armTurn.setPosition(0);
-        }
-
-        else if(gamepad2.lb)
-        {
-            robot.armTurn.setPosition(1);
-        }
-
 
         /*
          * Code to run ONCE after the driver hits STOP

@@ -61,10 +61,19 @@ public class TeleOld extends OpMode {
      */
     @Override
     public void loop() {
-        if (gamepad1.y){wabbo = false;}
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger,gamepad1.right_trigger,wabbo, false);
         robot.lift.setPower(gamepad2.right_stick_y*0.7);
 
+        if (gamepad2.x) {
+            robot.clamp.setPosition(0.6);
+        }
+
+        if (gamepad2.y) {
+            robot.clamp.setPosition(0);
+        }
+        
+        telemetry.addLine("G2Y: Close Clamp");
+        telemetry.addLine("G2X: Open Clamp");
     }
 
 
