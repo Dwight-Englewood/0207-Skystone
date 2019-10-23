@@ -16,7 +16,7 @@ public class Boot {
     HardwareMap map;
     Telemetry tele;
 
-    ColorSensor color_sensor;
+    public ColorSensor color_sensor;
 
     final double proportionalValue = 0.000005;
 
@@ -44,7 +44,7 @@ public class Boot {
         intakeR = this.map.get(DcMotor.class, "intakeR");
 
         clamp = this.map.get(Servo.class, "clamp");
-        turn = this.map.get(Servo.class, "claw turn");
+        clawTurn = this.map.get(Servo.class, "claw turn");
         armTurn = this.map.get(Servo.class, "arm turn");
 
 

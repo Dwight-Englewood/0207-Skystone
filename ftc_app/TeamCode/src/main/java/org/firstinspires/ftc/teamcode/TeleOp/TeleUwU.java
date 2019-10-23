@@ -77,17 +77,18 @@ public class TeleUwU extends OpMode {
         robot.intakeR.setPower(gamepad2.left_stick_y * 0.7);
 
 
-        if (gamepad2.y) {
+        if (gamepad2.right_bumper) {
             robot.clamp.setPosition(0);
-        } else if (gamepad2.x) {
+        } else  {
             robot.clamp.setPosition(0.6);
         }
 
-        if (gamepad2.b) {
+        if (gamepad2.left_bumper) {
             robot.clawTurn.setPosition(1);
-        } else if (gamepad2.a) {
+        } else {
             robot.clawTurn.setPosition(0);
         }
+
 
 
         /*
