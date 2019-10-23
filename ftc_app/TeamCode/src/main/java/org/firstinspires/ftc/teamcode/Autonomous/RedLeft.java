@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 //hello
 
 @Autonomous(name = "redBox", group = "Autonomous")
-public class RedBox extends OpMode {
+public class RedLeft extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
@@ -59,7 +59,7 @@ public class RedBox extends OpMode {
         switch (auto) {
             case 0:
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
                 } catch (Exception e) {
                     telemetry.addLine("Sleep Failed");
                     telemetry.update();

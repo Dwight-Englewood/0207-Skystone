@@ -11,8 +11,21 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Boot {
-    public static DcMotor BL, BR, FL, FR, lift, intakeL, intakeR;
-    public Servo clamp, clawTurn, armTurn;
+    public static DcMotor
+            BL,
+            BR,
+            FL,
+            FR,
+            lift,
+            intakeL,
+            intakeR
+                    ;
+    public Servo
+            clamp,
+            clawTurn,
+            armTurn
+                    ;
+    
     HardwareMap map;
     Telemetry tele;
 

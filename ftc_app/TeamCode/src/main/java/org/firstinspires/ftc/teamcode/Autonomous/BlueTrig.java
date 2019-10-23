@@ -66,7 +66,7 @@ public class BlueTrig extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.FORWARD, 2000, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 1500, 0.7);
                 auto++;
                 break;
 
@@ -76,7 +76,7 @@ public class BlueTrig extends OpMode {
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1000, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.7);
                 auto++;
                 break;
 
@@ -85,8 +85,10 @@ public class BlueTrig extends OpMode {
                 auto++;
                 break;
 
+            //-------------------------------ADD CLAW HERE--------------------------
+
             case 4:
-                //     robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1000, 0.5);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.7);
                 auto++;
                 break;
 
