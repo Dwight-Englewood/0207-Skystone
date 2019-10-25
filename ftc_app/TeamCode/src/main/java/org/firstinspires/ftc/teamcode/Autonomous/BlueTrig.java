@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "blueTrig", group = "Autonomous")
+@Autonomous(name = "BlueTrig", group = "Autonomous")
 public class BlueTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
@@ -66,7 +66,7 @@ public class BlueTrig extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.BACKWARD, 1500, 0.7);
+                robot.autonDriveUltimate(Movement.BACKWARD, 3000, 0.7);
                 auto++;
                 break;
 
@@ -85,17 +85,25 @@ public class BlueTrig extends OpMode {
                 auto++;
                 break;
 
-            //-------------------------------ADD CLAW HERE--------------------------
+            //-------------------------------ClOSE CLAW HERE--------------------------
 
             case 4:
                 robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.7);
                 auto++;
                 break;
 
+            //-------------------------------OPEN CLAW HERE--------------------------
+
             case 5:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
+
+            case 6:
+                robot.autonDriveUltimate(Movement.FORWARD, 3750, 0.7);
+                auto++;
+                break;
+
         }
         telemetry.addData("Case Number:", auto);
         telemetry.update();

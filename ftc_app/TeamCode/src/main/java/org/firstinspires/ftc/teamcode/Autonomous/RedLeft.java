@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "redBox", group = "Autonomous")
+@Autonomous(name = "RedLeft", group = "Autonomous")
 public class RedLeft extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;

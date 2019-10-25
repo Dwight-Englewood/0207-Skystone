@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "blueBox", group = "Autonomous")
+@Autonomous(name = "BlueRite", group = "Autonomous")
 public class BlueRite extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
@@ -24,7 +24,7 @@ public class BlueRite extends OpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        robot.color_sensor.enableLed(true);
+        //robot.color_sensor.enableLed(true);
 
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -69,23 +69,17 @@ public class BlueRite extends OpMode {
                 break;
 
             case 1:
-                if(robot.color_sensor.argb() <= 20)
+                /*if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70)
                 {
                     robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, .5);
-                    telemetry.addData("RGB Value:", robot.color_sensor.argb());
                     telemetry.update();
                     auto++;
-                }
+                }*/
                 break;
 
             case 2:
 
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 3:
-                robot.autonDriveUltimate(Movement.FORWARD, 1000, .5);
                 auto++;
                 break;
 
@@ -98,7 +92,7 @@ public class BlueRite extends OpMode {
                 break;
 
             case 5:
-                robot.autonDriveUltimate(Movement.BACKWARD, 1000, .5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 4500, .5);
                 auto++;
                 break;
 
@@ -108,7 +102,7 @@ public class BlueRite extends OpMode {
                 break;
 
             case 7:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1500, .5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 4000, .5);
                 auto++;
                 break;
 
@@ -119,6 +113,10 @@ public class BlueRite extends OpMode {
 
         }
         telemetry.addData("Case Number:", auto);
+        /*telemetry.addData("Red Value:", robot.color_sensor.red());
+        telemetry.addData("Green Value:", robot.color_sensor.green());
+        telemetry.addData("Blue Value:", robot.color_sensor.blue());*/
+        telemetry.addData("FL Encoder Value", robot.FL.getTargetPosition());
         telemetry.update();
     }
 }

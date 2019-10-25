@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
-/**
- * Created by joonsoolee on 9/21/18.
- */
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import com.qualcomm.robotcore.hardware.*;
@@ -16,14 +12,14 @@ public class Boot {
             BR,
             FL,
             FR,
-            lift
-           // intakeL,
-           // intakeR
+            lift,
+            intakeL,
+            intakeR
                     ;
     public Servo
-            clamp
-          //  clawTurn,
-          //  armTurn
+            clamp,
+            clawTurn,
+            armTurn
                     ;
 
     HardwareMap map;
@@ -46,28 +42,28 @@ public class Boot {
         this.map = map;
         this.tele = tele;
 
-        color_sensor = this.map.get(ColorSensor.class, "Col");
+        //color_sensor = this.map.get(ColorSensor.class, "Col");
 
         BR = this.map.get(DcMotor.class, "BR");
         BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
         lift = this.map.get(DcMotor.class, "Lift");
-     //   intakeL = this.map.get(DcMotor.class, "intakeL");
-     //   intakeR = this.map.get(DcMotor.class, "intakeR");
+        intakeL = this.map.get(DcMotor.class, "intakeL");
+        intakeR = this.map.get(DcMotor.class, "intakeR");
 
         clamp = this.map.get(Servo.class, "clamp");
-     //   clawTurn = this.map.get(Servo.class, "claw turn");
-    //    armTurn = this.map.get(Servo.class, "arm turn");
+        clawTurn = this.map.get(Servo.class, "claw turn");
+     //   armTurn = this.map.get(Servo.class, "arm turn");
 
 
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-    //    intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
-    //    intakeR.setDirection((DcMotorSimple.Direction.FORWARD));
+        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+        intakeR.setDirection((DcMotorSimple.Direction.FORWARD));
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -285,12 +281,11 @@ public class Boot {
         this.setPower(power);
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if (Math.abs(FL.getCurrentPosition()) >= Math.abs(FL.getTargetPosition())) {
+        if (Math.abs(FR.getCurrentPosition()) >= Math.abs(FR.getTargetPosition())) {
             drive(movementEnum.STOP, 0);
             tele.update();
         }
     }
-
 
 }
 
