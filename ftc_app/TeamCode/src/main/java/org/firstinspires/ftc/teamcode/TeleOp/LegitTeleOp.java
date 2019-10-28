@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,12 +16,30 @@ public class LegitTeleOp extends OpMode {
     Boot robot = new Boot();
     boolean wabbo = false;
 
+    public static DcMotor lift, intakeL, intakeR;
+    public static Servo clamp, clawTurn;
+
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
-        robot.clamp.setPosition(0.6);
-        robot.clawTurn.setPosition(0);
+
+        lift = this.hardwareMap.get(DcMotor.class, "Lift");
+        intakeL = this.hardwareMap.get(DcMotor.class, "intakeL");
+        intakeR = this.hardwareMap.get(DcMotor.class, "intakeR");
+
+        clamp = this.hardwareMap.get(Servo.class, "clamp");
+        clawTurn = this.hardwareMap.get(Servo.class, "claw turn");
+
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+
+        this.clamp.setPosition(1);
+        this.clawTurn.setPosition(1);
+
+        this.clamp.setPosition(0.6);
+        this.clawTurn.setPosition(0);
 
     }
 
@@ -43,20 +62,20 @@ public class LegitTeleOp extends OpMode {
         }
 
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, wabbo, false);
-        robot.lift.setPower(gamepad2.right_stick_y * 0.7);
-        robot.intakeL.setPower(gamepad2.left_stick_y * 1);
-        robot.intakeR.setPower(gamepad2.left_stick_y * 1);
+        this.lift.setPower(gamepad2.right_stick_y * 0.7);
+        this.intakeL.setPower(gamepad2.left_stick_y * 1);
+        this.intakeR.setPower(gamepad2.left_stick_y * 1);
 
         if (gamepad2.right_bumper) {
-            robot.clamp.setPosition(0.4);
+            this.clamp.setPosition(0.4);
         } else  {
-            robot.clamp.setPosition(0.6);
+            this.clamp.setPosition(0.6);
         }
 
         if (gamepad2.left_bumper) {
-            robot.clawTurn.setPosition(1);
+            this.clawTurn.setPosition(1);
         } else {
-             robot.clawTurn.setPosition(0);
+             this.clawTurn.setPosition(0);
         }
 
 

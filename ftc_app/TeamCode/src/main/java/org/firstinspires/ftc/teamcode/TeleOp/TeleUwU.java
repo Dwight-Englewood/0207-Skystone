@@ -60,21 +60,21 @@ public class TeleUwU extends OpMode {
         }
 
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, wabbo, false);
-        robot.lift.setPower(gamepad2.right_stick_y * 0.7);
-        robot.intakeL.setPower(gamepad2.left_stick_y * 0.7);
-        robot.intakeR.setPower(gamepad2.left_stick_y * 0.7);
+        this.lift.setPower(gamepad2.right_stick_y * 0.7);
+        this.intakeL.setPower(gamepad2.left_stick_y * 0.7);
+        this.intakeR.setPower(gamepad2.left_stick_y * 0.7);
 
 
         if (gamepad2.right_bumper) {
-            robot.clamp.setPosition(0);
+            this.clamp.setPosition(0);
         } else  {
-            robot.clamp.setPosition(0.6);
+            this.clamp.setPosition(0.6);
         }
 
         if (gamepad2.left_bumper) {
-            robot.clawTurn.setPosition(1);
+            this.clawTurn.setPosition(1);
         } else {
-            robot.clawTurn.setPosition(0);
+            this.clawTurn.setPosition(0);
         }
 
 

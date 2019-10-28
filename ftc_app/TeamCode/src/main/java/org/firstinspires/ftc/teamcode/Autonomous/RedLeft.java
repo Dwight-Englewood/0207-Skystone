@@ -176,7 +176,7 @@ public class RedLeft extends OpMode {
             case 101:
                 robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    robot.clamp.setPosition(0);
+      //              robot.clamp.setPosition(0);
                     auto++;
                 }
                 break;
@@ -188,7 +188,7 @@ public class RedLeft extends OpMode {
 
             case 103:
                 robot.autonDriveUltimate(Movement.BACKWARD, 2000, 0.7);
-                robot.clamp.setPosition(0);
+           //     robot.clamp.setPosition(0);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }

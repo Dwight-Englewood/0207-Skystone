@@ -11,15 +11,14 @@ public class Boot {
             BL,
             BR,
             FL,
-            FR,
-            lift,
-            intakeL,
-            intakeR
+            FR
+   //         lift,
+   //         intakeL,
+   //         intakeR
                     ;
-    public Servo
-            clamp,
-            clawTurn,
-            armTurn
+  //  public static Servo
+   //         clamp,
+   //         clawTurn,
                     ;
 
     HardwareMap map;
@@ -48,22 +47,20 @@ public class Boot {
         BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
-        lift = this.map.get(DcMotor.class, "Lift");
-        intakeL = this.map.get(DcMotor.class, "intakeL");
-        intakeR = this.map.get(DcMotor.class, "intakeR");
+  //      lift = this.map.get(DcMotor.class, "Lift");
+   //     intakeL = this.map.get(DcMotor.class, "intakeL");
+  //      intakeR = this.map.get(DcMotor.class, "intakeR");
 
-        clamp = this.map.get(Servo.class, "clamp");
-        clawTurn = this.map.get(Servo.class, "claw turn");
-     //   armTurn = this.map.get(Servo.class, "arm turn");
-
+  //     clamp = this.map.get(Servo.class, "clamp");
+  //      clawTurn = this.map.get(Servo.class, "claw turn");
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
-        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+  //      lift.setDirection(DcMotorSimple.Direction.FORWARD);
+  //      intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+  //      intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
