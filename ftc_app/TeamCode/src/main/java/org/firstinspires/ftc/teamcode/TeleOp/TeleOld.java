@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="2 servos 1 motor",group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="1 servo 1 motor",group="TeleOp")
 //@Disabled
 public class TeleOld extends OpMode {
     // Declare OpMode members.
@@ -13,10 +16,19 @@ public class TeleOld extends OpMode {
     Boot robot = new Boot();
     boolean wabbo = false;
 
+    public static DcMotor lift;
+    public static Servo clamp;
+
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
+
+        lift = this.hardwareMap.get(DcMotor.class, "Lift");
+        clamp = this.hardwareMap.get(Servo.class, "clamp");
+
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        clamp.setPosition(0);
     }
 
     @Override
@@ -34,21 +46,19 @@ public class TeleOld extends OpMode {
     @Override
     public void loop() {
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger,gamepad1.right_trigger,wabbo, false);
-        robot.lift.setPower(gamepad2.right_stick_y*0.7);
+        this.lift.setPower(gamepad2.right_stick_y*0.7);
 
         if (gamepad2.x) {
-            robot.clamp.setPosition(1);
+            this.clamp.setPosition(1);
         }
 
         if (gamepad2.y) {
-            robot.clamp.setPosition(0);
+            this.clamp.setPosition(0);
         }
         
         telemetry.addLine("G2Y: Close Clamp");
         telemetry.addLine("G2X: Open Clamp");
     }
-
-
 
     /*
      * Code to run ONCE after the driver hits STOP

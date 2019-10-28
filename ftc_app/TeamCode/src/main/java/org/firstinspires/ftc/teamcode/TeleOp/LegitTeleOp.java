@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Green Wheels",group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Small Wheels",group="TeleOp")
 //@Disabled
 public class LegitTeleOp extends OpMode {
     // Declare OpMode members.
@@ -20,8 +21,7 @@ public class LegitTeleOp extends OpMode {
         telemetry.addData("Status", "Initialized");
         robot.clamp.setPosition(0.6);
         robot.clawTurn.setPosition(0);
-   //     robot.clawTurn.setPosition(1);
-   //     robot.armTurn.setPosition(1);
+
     }
 
     @Override
@@ -44,11 +44,11 @@ public class LegitTeleOp extends OpMode {
 
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, wabbo, false);
         robot.lift.setPower(gamepad2.right_stick_y * 0.7);
-        robot.intakeL.setPower(gamepad2.left_stick_y * 0.7);
-        robot.intakeR.setPower(gamepad2.left_stick_y * 0.7);
+        robot.intakeL.setPower(gamepad2.left_stick_y * 1);
+        robot.intakeR.setPower(gamepad2.left_stick_y * 1);
 
         if (gamepad2.right_bumper) {
-            robot.clamp.setPosition(0);
+            robot.clamp.setPosition(0.4);
         } else  {
             robot.clamp.setPosition(0.6);
         }

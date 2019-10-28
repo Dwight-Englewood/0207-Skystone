@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Interim Bot",group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Big Wheels",group="TeleOp")
 //@Disabled
 public class TeleUwU extends OpMode {
     // Declare OpMode members.
@@ -14,13 +16,27 @@ public class TeleUwU extends OpMode {
     Boot robot = new Boot();
     boolean wabbo = false;
 
+    public static DcMotor lift, intakeL, intakeR;
+    public static Servo clamp, clawTurn;
+
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
-        robot.clamp.setPosition(0.6);
-    //    robot.clawTurn.setPosition(1);
-    //    robot.armTurn.setPosition(1);
+
+        lift = this.hardwareMap.get(DcMotor.class, "Lift");
+        intakeL = this.hardwareMap.get(DcMotor.class, "intakeL");
+        intakeR = this.hardwareMap.get(DcMotor.class, "intakeR");
+
+        clamp = this.hardwareMap.get(Servo.class, "clamp");
+        clawTurn = this.hardwareMap.get(Servo.class, "claw turn");
+
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+
+        this.clamp.setPosition(1);
+        this.clawTurn.setPosition(1);
 
 
     }
@@ -45,8 +61,8 @@ public class TeleUwU extends OpMode {
 
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, wabbo, false);
         robot.lift.setPower(gamepad2.right_stick_y * 0.7);
-   //     robot.intakeL.setPower(gamepad2.left_stick_y * 0.7);
-   //     robot.intakeR.setPower(gamepad2.left_stick_y * 0.7);
+        robot.intakeL.setPower(gamepad2.left_stick_y * 0.7);
+        robot.intakeR.setPower(gamepad2.left_stick_y * 0.7);
 
 
         if (gamepad2.right_bumper) {
@@ -56,9 +72,9 @@ public class TeleUwU extends OpMode {
         }
 
         if (gamepad2.left_bumper) {
-   //         robot.clawTurn.setPosition(1);
+            robot.clawTurn.setPosition(1);
         } else {
-  //          robot.clawTurn.setPosition(0);
+            robot.clawTurn.setPosition(0);
         }
 
 
