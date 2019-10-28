@@ -59,63 +59,45 @@ public class BlueRite extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                try {
-                    Thread.sleep(2000);
-                } catch (Exception e) {
-                    telemetry.addLine("Sleep Failed");
-                    telemetry.update();
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, .5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
                 }
-                auto++;
                 break;
 
             case 1:
-                /*if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70)
-                {
-                    robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, .5);
-                    telemetry.update();
-                    auto++;
-                }*/
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
                 break;
 
             case 2:
+                robot.autonDriveUltimate(Movement.BACKWARD, 4500, .5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
 
+            case 3:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
             case 4:
-
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                //robot.leftServ.setPosition(0.5);
-                //robot.rightServ.setPosition(0.5);
-                auto++;
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 4000, .5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
                 break;
 
             case 5:
-                robot.autonDriveUltimate(Movement.BACKWARD, 4500, .5);
-                auto++;
-                break;
-
-            case 6:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 7:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 4000, .5);
-                auto++;
-                break;
-
-            case 8:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
         }
         telemetry.addData("Case Number:", auto);
-        /*telemetry.addData("Red Value:", robot.color_sensor.red());
+        telemetry.addData("Red Value:", robot.color_sensor.red());
         telemetry.addData("Green Value:", robot.color_sensor.green());
-        telemetry.addData("Blue Value:", robot.color_sensor.blue());*/
         telemetry.addData("FL Encoder Value", robot.FL.getTargetPosition());
         telemetry.update();
     }

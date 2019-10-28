@@ -19,6 +19,8 @@ public class RedLeft extends OpMode {
     Boot robot = new Boot();
 
     int auto = 0;
+    int stroll = 500;
+    int block;
 
     public void init() {
         robot.init(hardwareMap, telemetry, false);
@@ -58,61 +60,164 @@ public class RedLeft extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                try {
-                    Thread.sleep(2000);
-                } catch (Exception e) {
-                    telemetry.addLine("Sleep Failed");
-                    telemetry.update();
+                robot.autonDriveUltimate(Movement.FORWARD, 1000, 0.7);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 1:
+                robot.color_sensor.enableLed(true);
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+//Block 1
+            case 2:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2000, 0.7);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
+                        auto = 100;
+                        block = 1;
+                    } else {
+                        auto++;
+                    }
+                }
+                break;
+
+            case 3:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+//Block 2
+            case 4:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+                if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
+                    auto = 100;
+                    block = 2;
+                } else {
+                    auto++;
+                }
+                break;
+
+            case 5:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+//Block 3
+            case 6:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+                if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
+                    auto = 100;
+                    block = 3;
+                } else {
+                    auto++;
+                }
+                break;
+
+            case 7:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+//Block 4
+            case 8:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+                if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
+                    auto = 100;
+                    block = 4;
+                } else {
+                    auto++;
+                }
+                break;
+
+            case 9:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+//Block 5
+            case 10:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+                if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
+                    auto = 100;
+                    block = 5;
+                } else {
+                    auto++;
+                }
+                break;
+
+            case 11:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+//Block 6
+            case 12:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+                if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
+                    auto = 100;
+                    block = 6;
+                } else {
+                    auto = 100;
+                    block = 6;
+                }
+                break;
+
+            case 13:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+            case 100:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 101:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    robot.clamp.setPosition(0);
+                    auto++;
+                }
+                break;
+
+            case 102:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 103:
+                robot.autonDriveUltimate(Movement.BACKWARD, 2000, 0.7);
+                robot.clamp.setPosition(0);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 104:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                if (block == 1) {
+                    auto = 200;
+                } else if (block == 2) {
+                    auto = 300;
+                } else if (block == 3) {
+                    auto = 400;
+                } else if (block == 4) {
+                    auto = 500;
+                } else if (block == 5) {
+                    auto = 600;
+                } else if (block == 6) {
+                    auto = 700;
+                } else {
+                    auto ++;
                 }
                 auto++;
                 break;
 
-            case 1:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 2500, .5);
+            case 105:
+                robot.autonDriveUltimate(Movement.STOP, 0, 0);
                 auto++;
                 break;
-
-            case 2:
-
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 3:
-                robot.autonDriveUltimate(Movement.FORWARD, 1000, .5);
-                auto++;
-                break;
-
-            case 4:
-
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                //robot.leftServ.setPosition(0.5);
-                //robot.rightServ.setPosition(0.5);
-                auto++;
-                break;
-
-            case 5:
-                robot.autonDriveUltimate(Movement.BACKWARD, 1000, .5);
-                auto++;
-                break;
-
-            case 6:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                //robot.rightServ.setPosition(0);
-                //robot.leftServ.setPosition(0);
-                auto++;
-                break;
-
-            case 7:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, .5);
-                auto++;
-                break;
-
-            case 8:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
         }
         telemetry.addData("Case Number:", auto);
         telemetry.update();

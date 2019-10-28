@@ -66,8 +66,10 @@ public class BlueTrig extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.BACKWARD, 3000, 0.7);
-                auto++;
+                robot.autonDriveUltimate(Movement.BACKWARD, 1500, 0.7);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
                 break;
 
             case 1:
@@ -77,7 +79,9 @@ public class BlueTrig extends OpMode {
 
             case 2:
                 robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.7);
-                auto++;
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
                 break;
 
             case 3:
@@ -88,8 +92,10 @@ public class BlueTrig extends OpMode {
             //-------------------------------ClOSE CLAW HERE--------------------------
 
             case 4:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.7);
-                auto++;
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1000, 0.7);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
                 break;
 
             //-------------------------------OPEN CLAW HERE--------------------------
@@ -100,10 +106,16 @@ public class BlueTrig extends OpMode {
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.FORWARD, 3750, 0.7);
-                auto++;
+                robot.autonDriveUltimate(Movement.FORWARD, 1750, 0.7);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
                 break;
 
+            case 7:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
         }
         telemetry.addData("Case Number:", auto);
         telemetry.update();
