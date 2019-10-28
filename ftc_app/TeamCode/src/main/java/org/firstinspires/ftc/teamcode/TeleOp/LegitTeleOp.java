@@ -44,11 +44,11 @@ public class LegitTeleOp extends OpMode {
 
         robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, wabbo, false);
         robot.lift.setPower(gamepad2.right_stick_y * 0.7);
-        robot.intakeL.setPower(gamepad2.left_stick_y * 0.7);
-        robot.intakeR.setPower(gamepad2.left_stick_y * 0.7);
+        robot.intakeL.setPower(gamepad2.left_stick_y * 1);
+        robot.intakeR.setPower(gamepad2.left_stick_y * 1);
 
         if (gamepad2.right_bumper) {
-            robot.clamp.setPosition(0);
+            robot.clamp.setPosition(0.4);
         } else  {
             robot.clamp.setPosition(0.6);
         }
