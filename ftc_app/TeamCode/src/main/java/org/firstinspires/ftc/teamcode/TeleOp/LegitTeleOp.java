@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Small Wheels",group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Small Wheels (Broken)",group="TeleOp")
 //@Disabled
 public class LegitTeleOp extends OpMode {
     // Declare OpMode members.

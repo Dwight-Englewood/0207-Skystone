@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "Temporary Auton Blue Line", group = "Autonomous")
+@Autonomous(name = "RedTrig (Test)", group = "Autonomous")
 public class RedTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
@@ -70,7 +70,7 @@ public class RedTrig extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.BACKWARD, 1500, 0.7);
+                robot.autonDriveUltimate(Movement.FORWARD, 1500, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -82,27 +82,27 @@ public class RedTrig extends OpMode {
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1000, 0.7);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 3:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            //-------------------------------ClOSE CLAW HERE--------------------------
-
-            case 4:
                 robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
-            //-------------------------------OPEN CLAW HERE--------------------------
+            //claw drop
+
+            case 3:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 4:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1000, 0.7);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            //claw open
 
             case 5:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -110,7 +110,7 @@ public class RedTrig extends OpMode {
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.FORWARD, 1750, 0.7);
+                robot.autonDriveUltimate(Movement.BACKWARD, 2000, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -118,7 +118,6 @@ public class RedTrig extends OpMode {
 
             case 7:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
                 break;
         }
         telemetry.addData("Case Number:", auto);

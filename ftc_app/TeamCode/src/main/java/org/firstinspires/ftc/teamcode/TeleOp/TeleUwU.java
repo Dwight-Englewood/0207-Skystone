@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Big Wheels",group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Big Wheels (Broken)",group="TeleOp")
 //@Disabled
 public class TeleUwU extends OpMode {
     // Declare OpMode members.
@@ -76,8 +76,6 @@ public class TeleUwU extends OpMode {
         } else {
             this.clawTurn.setPosition(0);
         }
-
-
 
         /*
          * Code to run ONCE after the driver hits STOP

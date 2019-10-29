@@ -5,6 +5,10 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.*;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 
 public class Boot {
     public static DcMotor
@@ -12,14 +16,14 @@ public class Boot {
             BR,
             FL,
             FR
-   //         lift,
-   //         intakeL,
-   //         intakeR
+                    //         lift,
+                    //         intakeL,
+                    //         intakeR
                     ;
-  //  public static Servo
-   //         clamp,
-   //         clawTurn,
-                    ;
+    //  public static Servo
+    //         clamp,
+    //         clawTurn,
+    ;
 
     HardwareMap map;
     Telemetry tele;
@@ -35,7 +39,8 @@ public class Boot {
     BNO055IMU.Parameters parameters;
     Orientation angles;
 
-    public Boot() {}
+    public Boot() {
+    }
 
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
         this.map = map;
@@ -47,20 +52,20 @@ public class Boot {
         BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
-  //      lift = this.map.get(DcMotor.class, "Lift");
-   //     intakeL = this.map.get(DcMotor.class, "intakeL");
-  //      intakeR = this.map.get(DcMotor.class, "intakeR");
+        //      lift = this.map.get(DcMotor.class, "Lift");
+        //     intakeL = this.map.get(DcMotor.class, "intakeL");
+        //      intakeR = this.map.get(DcMotor.class, "intakeR");
 
-  //     clamp = this.map.get(Servo.class, "clamp");
-  //      clawTurn = this.map.get(Servo.class, "claw turn");
+        //     clamp = this.map.get(Servo.class, "clamp");
+        //      clawTurn = this.map.get(Servo.class, "claw turn");
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
-  //      lift.setDirection(DcMotorSimple.Direction.FORWARD);
-  //      intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
-  //      intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+        //      lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        //      intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+        //      intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -270,7 +275,8 @@ public class Boot {
 
     public double motorSpeed() {
         if (Math.abs(FL.getCurrentPosition()) < Math.abs(FL.getTargetPosition())) {
-        } return Math.abs(FL.getTargetPosition()) - Math.abs(FL.getCurrentPosition() * proportionalValue);
+        }
+        return Math.abs(FL.getTargetPosition()) - Math.abs(FL.getCurrentPosition() * proportionalValue);
     }
 
     public void autonDriveUltimate(Movement movementEnum, int target, double power) {
@@ -284,5 +290,23 @@ public class Boot {
         }
     }
 
+    public boolean adjustHeading(int targetHeading) {
+        double curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        double headingError;
+        headingError = targetHeading - curHeading;
+        double driveScale = headingError;
+        this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (headingError < -0.3)
+            driveScale = -0.15;
+        else if (headingError > 0.3)
+            driveScale = 0.15;
+        else {
+            driveScale = 0;
+            this.drive(Movement.LEFTTURN, driveScale);
+            return true;
+        }
+        this.drive(Movement.LEFTTURN, driveScale);
+        return false;
+    }
 }
 
