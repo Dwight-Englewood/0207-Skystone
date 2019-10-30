@@ -44,7 +44,7 @@ public class RedTrig extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+    //    robot.openServo();
     }
 
     /*
@@ -87,9 +87,8 @@ public class RedTrig extends OpMode {
                 }
                 break;
 
-            //claw drop
-
             case 3:
+         //       robot.closeServo();
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
@@ -101,15 +100,14 @@ public class RedTrig extends OpMode {
                 }
                 break;
 
-            //claw open
-
             case 5:
+          //      robot.openServo();
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.BACKWARD, 2000, 0.7);
+                robot.autonDriveUltimate(Movement.BACKWARD, 1750, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -119,8 +117,7 @@ public class RedTrig extends OpMode {
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
-        telemetry.addData("Case Number:", auto);
-        telemetry.addData("FR Position", robot.FR.getCurrentPosition());
+        telemetry.addData("Case:", auto);
         telemetry.update();
     }
 }

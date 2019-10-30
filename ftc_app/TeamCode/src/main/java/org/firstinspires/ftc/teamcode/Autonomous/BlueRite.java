@@ -41,6 +41,8 @@ public class BlueRite extends OpMode {
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -111,10 +113,8 @@ public class BlueRite extends OpMode {
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
-
         }
-        telemetry.addData("Case Number:", auto);
-        telemetry.addData("FL Encoder Value", robot.FL.getTargetPosition());
+        telemetry.addData("Case:", auto);
         telemetry.update();
     }
 }

@@ -46,6 +46,8 @@ public class RedLeft extends OpMode {
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -300,8 +302,7 @@ public class RedLeft extends OpMode {
 
                  */
         }
-        telemetry.addData("Case Number:", auto);
-        telemetry.addData("Gyro:", robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        telemetry.addData("Case:", auto);
         telemetry.update();
     }
 }

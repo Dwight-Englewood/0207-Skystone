@@ -43,6 +43,9 @@ public class BlueTrig extends OpMode {
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+ //       robot.openServo();
     }
 
     /*
@@ -85,9 +88,8 @@ public class BlueTrig extends OpMode {
                 }
                 break;
 
-               //claw drop
-
             case 3:
+     //           robot.closeServo();
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
@@ -99,15 +101,14 @@ public class BlueTrig extends OpMode {
                 }
                 break;
 
-                //claw open
-
             case 5:
+       //         robot.openServo();
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.FORWARD, 2000, 0.7);
+                robot.autonDriveUltimate(Movement.FORWARD, 1750, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
