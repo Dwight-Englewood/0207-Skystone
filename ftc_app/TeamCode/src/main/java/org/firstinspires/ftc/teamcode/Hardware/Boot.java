@@ -120,6 +120,13 @@ public class Boot {
         FR.setPower(leftStick_y);
         BL.setPower(-leftStick_y);
         BR.setPower(-leftStick_y);
+
+        FL.setPower(leftStick_x);
+        FR.setPower(-leftStick_x);
+        BL.setPower(-leftStick_x);
+        BR.setPower(leftStick_x);
+
+
     }
 
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
