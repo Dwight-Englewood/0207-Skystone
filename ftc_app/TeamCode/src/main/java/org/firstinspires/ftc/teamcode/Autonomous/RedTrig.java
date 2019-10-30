@@ -31,7 +31,6 @@ public class RedTrig extends OpMode {
     public void init() {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
-        telemetry.addData("FR Position", robot.FR.getCurrentPosition());
         telemetry.update();
 
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);

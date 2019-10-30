@@ -29,6 +29,9 @@ public class TeleOld extends OpMode {
 
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         clamp.setPosition(0);
+
+        robot.color_sensor.enableLed(false);
+
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.FORWARD);

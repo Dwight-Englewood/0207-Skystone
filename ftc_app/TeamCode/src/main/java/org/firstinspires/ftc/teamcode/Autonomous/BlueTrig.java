@@ -67,7 +67,7 @@ public class BlueTrig extends OpMode {
     public void loop() {
         switch (auto) {
              case 0:
-                robot.autonDriveUltimate(Movement.BACKWARD, 500, 0.7);
+                robot.autonDriveUltimate(Movement.BACKWARD, 1500, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -79,7 +79,7 @@ public class BlueTrig extends OpMode {
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 500, 0.7);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1000, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -93,7 +93,7 @@ public class BlueTrig extends OpMode {
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 500, 0.7);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -107,7 +107,7 @@ public class BlueTrig extends OpMode {
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.FORWARD, 500, 0.7);
+                robot.autonDriveUltimate(Movement.FORWARD, 2000, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }

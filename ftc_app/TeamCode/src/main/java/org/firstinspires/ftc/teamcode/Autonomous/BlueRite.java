@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "Annoying Blue (Broken)", group = "Autonomous")
+@Autonomous(name = "Annoying Blue (TestingAuton)", group = "Autonomous")
 public class BlueRite extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
@@ -65,7 +65,7 @@ public class BlueRite extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, .5);
+                robot.autonDriveUltimate(Movement.FORWARD, 500, .5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -77,7 +77,7 @@ public class BlueRite extends OpMode {
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.BACKWARD, 4500, .5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 500, .5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -89,7 +89,7 @@ public class BlueRite extends OpMode {
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 4000, .5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 500, .5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -100,10 +100,20 @@ public class BlueRite extends OpMode {
                 auto++;
                 break;
 
+            case 6:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 500, .5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 7:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
         }
         telemetry.addData("Case Number:", auto);
-        telemetry.addData("Red Value:", robot.color_sensor.red());
-        telemetry.addData("Green Value:", robot.color_sensor.green());
         telemetry.addData("FL Encoder Value", robot.FL.getTargetPosition());
         telemetry.update();
     }
