@@ -20,11 +20,11 @@ public class Boot {
                     //         intakeL,
                     //         intakeR
                     ;
-  /*    public static Servo
+      public static Servo
              LSERV,
              RSERV
                      ;
-*/
+
     HardwareMap map;
     Telemetry tele;
 
@@ -56,8 +56,8 @@ public class Boot {
         //     intakeL = this.map.get(DcMotor.class, "intakeL");
         //      intakeR = this.map.get(DcMotor.class, "intakeR");
 
- //       LSERV = this.map.get(Servo.class, "LSERV");
-  //      RSERV = this.map.get(Servo.class, "RSERV");
+        LSERV = this.map.get(Servo.class, "LSERV");
+        RSERV = this.map.get(Servo.class, "RSERV");
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -115,7 +115,7 @@ public class Boot {
         }
 
         //   leftStick *= i;
-        //     rightStick *= i;
+        //  rightStick *= i;
         FL.setPower(leftStick_y);
         FR.setPower(leftStick_y);
         BL.setPower(-leftStick_y);
@@ -308,7 +308,7 @@ public class Boot {
         this.drive(Movement.LEFTTURN, driveScale);
         return false;
     }
-     /*
+     
     public void openServo() {
         this.LSERV.setPosition(0);
         this.RSERV.setPosition(1);
@@ -318,8 +318,5 @@ public class Boot {
         this.LSERV.setPosition(1);
         this.RSERV.setPosition(0);
     }
-
-      */
-
 }
 

@@ -63,17 +63,15 @@ public class TeleOld extends OpMode {
             this.clamp.setPosition(0);
         }
 
-    /*    if (gamepad2.a) {
+        if (gamepad2.a) {
             robot.closeServo();
         }
 
         if (gamepad2.b) {
             robot.openServo();
         }
-
-     */
-        telemetry.addLine("G2X: Close Clamp");
         telemetry.addLine("G2Y: Open Clamp");
+        telemetry.addLine("G2X: Close Clamp");
 
         telemetry.addLine("G2B: Open Servo");
         telemetry.addLine("G2A: Close Servo");
@@ -82,7 +80,6 @@ public class TeleOld extends OpMode {
     /*
      * Code to run ONCE after the driver hits STOP
      */
-
 
     @Override
     public void stop() {

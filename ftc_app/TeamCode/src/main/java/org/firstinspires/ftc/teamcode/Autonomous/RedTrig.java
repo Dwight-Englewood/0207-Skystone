@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
@@ -28,10 +29,14 @@ public class RedTrig extends OpMode {
     int leftBack = 800;
     int rightBack = 1750;
 
+    public static Servo clamp;
+
     public void init() {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        clamp = this.hardwareMap.get(Servo.class, "clamp");
 
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -44,7 +49,7 @@ public class RedTrig extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    //    robot.openServo();
+        robot.openServo();
     }
 
     /*
@@ -69,7 +74,8 @@ public class RedTrig extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.FORWARD, 1500, 0.7);
+                this.clamp.setPosition(1);
+                robot.autonDriveUltimate(Movement.BACKWARD, 350, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -81,33 +87,33 @@ public class RedTrig extends OpMode {
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.7);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1350, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
             case 3:
-         //       robot.closeServo();
+                robot.closeServo();
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1000, 0.7);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1350, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
             case 5:
-          //      robot.openServo();
+                robot.openServo();
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.BACKWARD, 1750, 0.7);
+                robot.autonDriveUltimate(Movement.FORWARD, 1700, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
