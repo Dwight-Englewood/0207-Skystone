@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.ElapsedTime;w
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="1 servo 1 motor (Works)",group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="1 servo 1 motor",group="TeleOp")
 //@Disabled
 public class TeleOld extends OpMode {
     // Declare OpMode members.

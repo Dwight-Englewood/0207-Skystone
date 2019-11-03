@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,8 +10,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Big Wheels (Broken)",group="TeleOp")
-//@Disabled
-public class TeleUwU extends OpMode {
+@Disabled
+class TeleUwU extends OpMode {
     // Declare OpMode members.
     private ElapsedTime timer = new ElapsedTime();
     Boot robot = new Boot();

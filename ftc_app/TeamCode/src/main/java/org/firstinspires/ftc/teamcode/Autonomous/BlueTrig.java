@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "BlueTrig (Test)", group = "Autonomous")
+@Autonomous(name = "Blue Triangle", group = "Autonomous")
 public class BlueTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="1 servo 1 motor (no Tank drive Works)",group="TeleOp")
-//@Disabled
+@Disabled
 public class AJTeleOld extends OpMode {
     // Declare OpMode members.
     private ElapsedTime timer = new ElapsedTime();
@@ -64,7 +65,7 @@ public class AJTeleOld extends OpMode {
             this.clamp.setPosition(0);
         }
 
-    /*    if (gamepad2.a) {
+        if (gamepad2.a) {
             robot.closeServo();
         }
 
@@ -72,7 +73,7 @@ public class AJTeleOld extends OpMode {
             robot.openServo();
         }
 
-     */
+
         telemetry.addLine("G2X: Close Clamp");
         telemetry.addLine("G2Y: Open Clamp");
 

@@ -317,13 +317,13 @@ public class Boot {
     }
      
     public void openServo() {
-        this.LSERV.setPosition(0);
-        this.RSERV.setPosition(1);
+        this.LSERV.setPosition(1);
+        this.RSERV.setPosition(0.2);
     }
 
     public void closeServo() {
-        this.LSERV.setPosition(1);
-        this.RSERV.setPosition(0);
+        this.LSERV.setPosition(0);
+        this.RSERV.setPosition(1);
     }
 }
 

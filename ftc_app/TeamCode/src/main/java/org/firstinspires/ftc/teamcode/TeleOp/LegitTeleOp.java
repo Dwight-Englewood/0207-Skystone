@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Small Wheels (Broken)",group="TeleOp")
-//@Disabled
+@Disabled
 public class LegitTeleOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime timer = new ElapsedTime();
@@ -40,7 +41,6 @@ public class LegitTeleOp extends OpMode {
 
         this.clamp.setPosition(0.6);
         this.clawTurn.setPosition(0);
-
     }
 
     @Override
@@ -77,8 +77,6 @@ public class LegitTeleOp extends OpMode {
         } else {
              this.clawTurn.setPosition(0);
         }
-
-
 
         /*
          * Code to run ONCE after the driver hits STOP
