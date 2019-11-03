@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 //hello
 
 @Autonomous(name = "Double Sample Red", group = "Autonomous")
-public class RedLeft extends OpMode {
+public class RedDoubleSample extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
@@ -165,13 +165,18 @@ public class RedLeft extends OpMode {
                 break;
 
             case 100:
-                this.clamp.setPosition(0);
-                count++;
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 200, 0);
                 auto++;
                 break;
 
             case 101:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                this.clamp.setPosition(0);
+                auto++;
+                count++;
+                break;
+
+            case 102:
                 robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1500, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     this.clamp.setPosition(0);
@@ -179,57 +184,11 @@ public class RedLeft extends OpMode {
                 }
                 break;
 
-            case 102:
+            case 103:
                 this.clamp.setPosition(0);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto = 700;
                 break;
-
-           /* case 105:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                if (block == 1) {
-                    auto = 200;
-                } else if (block == 2) {
-                    auto = 300;
-                } else if (block == 3) {
-                    auto = 400;
-                } else if (block == 4) {
-                    auto = 500;
-                } else if (block == 5) {
-                    auto = 600;
-                } else if (block == 6) {
-                    auto = 700;
-                } else {
-                    auto ++;
-                }
-                auto = 700;
-                break;
-
-            case 200:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, 0);
-                auto = 1000;
-                break;
-
-            case 300:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2600, 0);
-                auto = 1000;
-                break;
-
-            case 400:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2700, 0);
-                auto = 1000;
-                break;
-
-            case 500:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2800, 0);
-                auto = 1000;
-                break;
-
-            case 600:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2900, 0);
-                auto = 1000;
-                break;
-            */
 
             case 700:
                 robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, 0);
@@ -362,7 +321,6 @@ public class RedLeft extends OpMode {
                     auto++;
                 }
                 break;
-
                  */
         }
         telemetry.addData("Case:", auto);

@@ -46,7 +46,7 @@ public class Boot {
         this.map = map;
         this.tele = tele;
 
-        //color_sensor = this.map.get(ColorSensor.class, "Col");
+//        color_sensor = this.map.get(ColorSensor.class, "Col");
 
         BR = this.map.get(DcMotor.class, "BR");
         BL = this.map.get(DcMotor.class, "BL");
@@ -318,12 +318,12 @@ public class Boot {
      
     public void openServo() {
         this.LSERV.setPosition(1);
-        this.RSERV.setPosition(0.2);
+        this.RSERV.setPosition(1);
     }
 
     public void closeServo() {
         this.LSERV.setPosition(0);
-        this.RSERV.setPosition(1);
+        this.RSERV.setPosition(0);
     }
 }
 

@@ -7,17 +7,20 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import java.lang.Thread;
+
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "Red Triangle", group = "Autonomous")
-public class RedTrig extends OpMode {
+@Autonomous(name = "RedPark", group = "Autonomous")
+public class RedPark extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
+
 
     int auto = 0;
 
@@ -73,9 +76,7 @@ public class RedTrig extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                this.clamp.setPosition(1);
-                robot.openServo();
-                robot.autonDriveUltimate(Movement.BACKWARD, 400, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 650, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -83,58 +84,7 @@ public class RedTrig extends OpMode {
 
             case 1:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 3:
-                robot.closeServo();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1450, 1);
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 5:
-                robot.openServo();
-                this.clamp.setPosition(0.2);
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 6:
-                robot.autonDriveUltimate(Movement.FORWARD, 1650, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 7:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         //       auto++;
                 break;
         }
         telemetry.addData("Case:", auto);

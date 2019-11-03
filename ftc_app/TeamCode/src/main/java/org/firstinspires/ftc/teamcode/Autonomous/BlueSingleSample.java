@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 //hello
 
 @Autonomous(name = "Single Sample Blue", group = "Autonomous")
-public class BlueRite extends OpMode {
+public class BlueSingleSample extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
@@ -179,87 +179,29 @@ public class BlueRite extends OpMode {
             case 102:
                 this.clamp.setPosition(0);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto = 700;
+                auto++;
                 break;
 
-           /* case 105:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                if (block == 1) {
-                    auto = 200;
-                } else if (block == 2) {
-                    auto = 300;
-                } else if (block == 3) {
-                    auto = 400;
-                } else if (block == 4) {
-                    auto = 500;
-                } else if (block == 5) {
-                    auto = 600;
-                } else if (block == 6) {
-                    auto = 700;
-                } else {
-                    auto ++;
-                }
-                auto = 700;
-                break;
-
-            case 200:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, 0);
-                auto = 1000;
-                break;
-
-            case 300:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2600, 0);
-                auto = 1000;
-                break;
-
-            case 400:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2700, 0);
-                auto = 1000;
-                break;
-
-            case 500:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2800, 0);
-                auto = 1000;
-                break;
-
-            case 600:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2900, 0);
-                auto = 1000;
-                break;
-            */
-
-            case 700:
+            case 103:
                 robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, 0);
                 auto++;
                 break;
 
-
-            case 701:
+            case 104:
                 this.clamp.setPosition(1);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
 
-            case 702:
+            case 105:
                 robot.autonDriveUltimate(Movement.LEFTSTRAFE, 500, 0);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
-            case 703:
+            case 106:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
-
-                /*
-                if (Math.abs(45 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 3) {
-                    robot.adjustHeading(0);
-                } else if (Math.abs(45 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) < 3) {
-                    robot.drive(Movement.STOP, 0);
-                    auto++;
-                }
-                break;
-
-                 */
         }
         telemetry.addData("Case:", auto);
         telemetry.update();
