@@ -63,7 +63,7 @@ public class Boot {
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
-        //      lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        //      lift.setDirection(DcMotorSimple.Directiofn.FORWARD);
         //      intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
         //      intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
 

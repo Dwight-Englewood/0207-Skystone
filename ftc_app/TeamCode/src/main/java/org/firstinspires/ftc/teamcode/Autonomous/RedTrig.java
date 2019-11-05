@@ -8,6 +8,11 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
@@ -87,7 +92,7 @@ public class RedTrig extends OpMode {
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.5);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1475, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -106,7 +111,7 @@ public class RedTrig extends OpMode {
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1450, 1);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1600, 0.8);
 
                 try {
                     Thread.sleep(2000);
@@ -120,20 +125,47 @@ public class RedTrig extends OpMode {
                 break;
 
             case 5:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 6:
+                if (Math.abs(0 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 3) {
+                   robot.adjustHeading(0);
+                } else if (Math.abs(0 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) < 3) {
+                    robot.drive(Movement.STOP, 0);
+                    auto++;
+                }
+                break;
+
+            case 7:
                 robot.openServo();
                 this.clamp.setPosition(0.2);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
-            case 6:
-                robot.autonDriveUltimate(Movement.FORWARD, 1650, 0.5);
+            case 8:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 500, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
-            case 7:
+            case 9:
+                robot.openServo();
+                this.clamp.setPosition(0.2);
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 10:
+                robot.autonDriveUltimate(Movement.BACKWARD, 1000, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+
+            case 11:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

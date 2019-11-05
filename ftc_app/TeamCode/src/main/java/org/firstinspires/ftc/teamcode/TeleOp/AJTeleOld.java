@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="1 servo 1 motor (no Tank drive Works)",group="TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="1 servo 1 motor (Not Tank)",group="TeleOp")
 @Disabled
 public class AJTeleOld extends OpMode {
     // Declare OpMode members.

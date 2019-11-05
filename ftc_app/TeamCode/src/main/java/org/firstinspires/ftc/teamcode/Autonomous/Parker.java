@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "RedPark", group = "Autonomous")
-public class RedPark extends OpMode {
+@Autonomous(name = "Parker", group = "Autonomous")
+public class Parker extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
