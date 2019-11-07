@@ -1,16 +1,15 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
+import org.firstinspires.ftc.teamcode.Deprecated.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Small Wheels (Broken)",group="TeleOp")
-@Disabled
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Small Wheels (New)",group="TeleOp")
+//@Disabled
 public class LegitTeleOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime timer = new ElapsedTime();

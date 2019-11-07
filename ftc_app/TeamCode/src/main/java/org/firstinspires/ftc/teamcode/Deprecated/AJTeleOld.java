@@ -1,16 +1,17 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.Deprecated;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
+import org.firstinspires.ftc.teamcode.Deprecated.Boot;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="1 servo 1 motor",group="TeleOp")
-//@Disabled
-public class TeleOld extends OpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="1 servo 1 motor (Not Tank)",group="TeleOp")
+@Disabled
+public class AJTeleOld extends OpMode {
     // Declare OpMode members.
     private ElapsedTime timer = new ElapsedTime();
     Boot robot = new Boot();
@@ -30,7 +31,7 @@ public class TeleOld extends OpMode {
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         clamp.setPosition(0);
 
-     //   robot.color_sensor.enableLed(false);
+        //robot.color_sensor.enableLed(false);
 
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -52,7 +53,8 @@ public class TeleOld extends OpMode {
      */
     @Override
     public void loop() {
-        robot.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y, gamepad1.left_trigger,gamepad1.right_trigger,wabbo, false);
+        robot.notKevinDrive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.left_trigger,gamepad1.right_trigger);
+
         this.lift.setPower(gamepad2.right_stick_y);
 
         if (gamepad2.y) {
@@ -70,8 +72,9 @@ public class TeleOld extends OpMode {
         if (gamepad2.b) {
             robot.openServo();
         }
-        telemetry.addLine("G2Y: Open Clamp");
+
         telemetry.addLine("G2X: Close Clamp");
+        telemetry.addLine("G2Y: Open Clamp");
 
         telemetry.addLine("G2B: Open Servo");
         telemetry.addLine("G2A: Close Servo");
@@ -80,6 +83,7 @@ public class TeleOld extends OpMode {
     /*
      * Code to run ONCE after the driver hits STOP
      */
+
 
     @Override
     public void stop() {

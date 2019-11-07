@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Deprecated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -8,12 +8,10 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
@@ -56,6 +54,11 @@ public class RedTrig extends OpMode {
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
+    public void caseSkipper() {
+        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        auto++;
+    }
+
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
@@ -87,8 +90,7 @@ public class RedTrig extends OpMode {
                 break;
 
             case 1:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 
             case 2:
@@ -105,9 +107,7 @@ public class RedTrig extends OpMode {
                 } catch (InterruptedException E) {
                     telemetry.addLine("Sleep Failed");
                 }
-
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 
             case 4:
@@ -125,8 +125,7 @@ public class RedTrig extends OpMode {
                 break;
 
             case 5:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 
             case 6:
@@ -141,8 +140,7 @@ public class RedTrig extends OpMode {
             case 7:
                 robot.openServo();
                 this.clamp.setPosition(0.2);
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 
             case 8:
@@ -155,8 +153,7 @@ public class RedTrig extends OpMode {
             case 9:
                 robot.openServo();
                 this.clamp.setPosition(0.2);
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 
             case 10:

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Hardware;
+package org.firstinspires.ftc.teamcode.Deprecated;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 
 public class Boot {
@@ -20,10 +21,9 @@ public class Boot {
                     //         intakeL,
                     //         intakeR
                     ;
-      public static Servo
-             LSERV,
-             RSERV
-                     ;
+    public static Servo
+            LSERV,
+            RSERV;
 
     HardwareMap map;
     Telemetry tele;
@@ -46,7 +46,7 @@ public class Boot {
         this.map = map;
         this.tele = tele;
 
-//        color_sensor = this.map.get(ColorSensor.class, "Col");
+        color_sensor = this.map.get(ColorSensor.class, "Col");
 
         BR = this.map.get(DcMotor.class, "BR");
         BL = this.map.get(DcMotor.class, "BL");
@@ -77,7 +77,6 @@ public class Boot {
         tele.addData(">", "Gyro Calibrating. Do Not Move!");
         tele.update();
     }
-
 
     public static void changeRunMode(DcMotor.RunMode runMode) {
         BL.setMode(runMode);
@@ -149,7 +148,6 @@ public class Boot {
         FR.setPower(leftStick);
         BL.setPower(-rightStick);
         BR.setPower(-leftStick);
-
     }
 
     public void setPower(double power) {
@@ -315,7 +313,7 @@ public class Boot {
         this.drive(Movement.LEFTTURN, driveScale);
         return false;
     }
-     
+
     public void openServo() {
         this.LSERV.setPosition(1);
         this.RSERV.setPosition(1);
@@ -325,5 +323,19 @@ public class Boot {
         this.LSERV.setPosition(0);
         this.RSERV.setPosition(0);
     }
+
+    public void blockIncrement(int distance, int auto, int block) {
+        this.autonDriveUltimate(Movement.LEFTSTRAFE, distance, 0.7);
+        block++;
+        auto++;
+    }
+
+    public void caseSkipper(int auto, int target, int power, Movement movement) {
+        this.autonDriveUltimate(movement, target, power);
+        if (Math.abs(this.FL.getCurrentPosition()) >= Math.abs(this.FL.getTargetPosition())) {
+            auto++;
+        }
+    }
 }
+
 

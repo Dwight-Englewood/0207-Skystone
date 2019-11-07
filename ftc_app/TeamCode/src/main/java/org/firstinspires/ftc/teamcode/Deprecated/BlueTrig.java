@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Deprecated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -10,13 +10,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.lang.Thread;
 
 
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "Parker", group = "Autonomous")
-public class Parker extends OpMode {
+@Autonomous(name = "Blue Triangle", group = "Autonomous")
+public class BlueTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
@@ -54,6 +53,11 @@ public class Parker extends OpMode {
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
+    public void caseSkipper() {
+        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        auto++;
+    }
+
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
@@ -75,16 +79,64 @@ public class Parker extends OpMode {
     @Override
     public void loop() {
         switch (auto) {
-            case 0:
-                robot.autonDriveUltimate(Movement.BACKWARD, 650, 0.5);
+             case 0:
+                this.clamp.setPosition(1);
+                 robot.openServo();
+                 robot.autonDriveUltimate(Movement.FORWARD, 375, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
             case 1:
+                this.caseSkipper();
+                break;
+
+            case 2:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 3:
+                robot.closeServo();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException E) {
+                    telemetry.addLine("Sleep Failed");
+                }
+                this.caseSkipper();
+                break;
+
+            case 4:
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1450, 0.5);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException E) {
+                    telemetry.addLine("Sleep Failed");
+                }
+
+                if (Math.abs(robot.FL.getCurrentPosition()) >=- Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 5:
+                robot.openServo();
+                this.caseSkipper();
+                break;
+
+            case 6:
+                robot.autonDriveUltimate(Movement.BACKWARD, 2000, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 7:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-         //       auto++;
                 break;
         }
         telemetry.addData("Case:", auto);

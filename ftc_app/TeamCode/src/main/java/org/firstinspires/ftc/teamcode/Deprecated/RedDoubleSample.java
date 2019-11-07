@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Deprecated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -8,12 +8,6 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
@@ -50,6 +44,16 @@ public class RedDoubleSample extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void caseSkipper() {
+        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        auto++;
+    }
+
+    public void caseSelector(int auto) {
+        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        auto++;
     }
 
     /*
@@ -104,8 +108,7 @@ public class RedDoubleSample extends OpMode {
                 break;
 
             case 3:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 //Block 3
             case 4:
@@ -119,8 +122,7 @@ public class RedDoubleSample extends OpMode {
                 break;
 
             case 5:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 //Block 4
             case 6:
@@ -134,8 +136,7 @@ public class RedDoubleSample extends OpMode {
                 break;
 
             case 7:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 
 //Block 5
@@ -150,18 +151,21 @@ public class RedDoubleSample extends OpMode {
                 break;
 
             case 9:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 //Block 6
             case 10:
                 robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.7);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    auto = 99;
                     block = 6;
                 } else {
-                    auto = 100;
+                    auto = 99;
                 }
+                break;
+
+            case 99:
+                this.caseSkipper();
                 break;
 
             case 100:
@@ -170,9 +174,8 @@ public class RedDoubleSample extends OpMode {
                 break;
 
             case 101:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 this.clamp.setPosition(0);
-                auto++;
+                this.caseSkipper();
                 count++;
                 break;
 
@@ -195,7 +198,6 @@ public class RedDoubleSample extends OpMode {
                 auto++;
                 break;
 
-
             case 701:
                 this.clamp.setPosition(1);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -205,7 +207,6 @@ public class RedDoubleSample extends OpMode {
                     auto = 2000;
                 }
                 break;
-
 
             case 702:
                 robot.autonDriveUltimate(Movement.LEFTSTRAFE, 2500, 0);
@@ -242,8 +243,7 @@ public class RedDoubleSample extends OpMode {
                 break;
 
             case 1002:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 //Block 3
             case 1003:
@@ -257,8 +257,7 @@ public class RedDoubleSample extends OpMode {
                 break;
 
             case 1004:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 //Block 4
             case 1005:
@@ -272,8 +271,7 @@ public class RedDoubleSample extends OpMode {
                 break;
 
             case 1006:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 
 //Block 5
@@ -288,8 +286,7 @@ public class RedDoubleSample extends OpMode {
                 break;
 
             case 1008:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                this.caseSkipper();
                 break;
 //Block 6
             case 1009:
