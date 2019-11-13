@@ -72,7 +72,7 @@ public class BlueSingleSample extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.FORWARD, 400, 0.7);
+                robot.autonDriveUltimate(Movement.FORWARD, 750, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -82,7 +82,7 @@ public class BlueSingleSample extends OpMode {
                 robot.color_sensor.enableLed(true);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    auto = 98;
                     block = 1;
                 } else {
                     auto++;
@@ -90,10 +90,10 @@ public class BlueSingleSample extends OpMode {
                 break;
 //Block 2
             case 2:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.7);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                        auto = 100;
+                        auto = 98;
                         block = 2;
                     } else {
                         auto++;
@@ -107,9 +107,9 @@ public class BlueSingleSample extends OpMode {
                 break;
 //Block 3
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.7);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    auto = 98;
                     block = 3;
                 } else {
                     auto++;
@@ -122,9 +122,9 @@ public class BlueSingleSample extends OpMode {
                 break;
 //Block 4
             case 6:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.7);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    auto = 98;
                     block = 4;
                 } else {
                     auto++;
@@ -138,9 +138,9 @@ public class BlueSingleSample extends OpMode {
 
 //Block 5
             case 8:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.7);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    auto = 98;
                     block = 5;
                 } else {
                     auto++;
@@ -153,12 +153,25 @@ public class BlueSingleSample extends OpMode {
                 break;
 //Block 6
             case 10:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.7);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    auto = 98;
                     block = 6;
                 } else {
-                    auto = 100;
+                    auto = 98;
+                }
+                break;
+
+            case 98:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 99:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    this.clamp.setPosition(0);
+                    auto++;
                 }
                 break;
 
@@ -169,7 +182,7 @@ public class BlueSingleSample extends OpMode {
                 break;
 
             case 101:
-                robot.autonDriveUltimate(Movement.BACKWARD, 350, 0.7);
+                robot.autonDriveUltimate(Movement.BACKWARD, 150, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     this.clamp.setPosition(0);
                     auto++;
@@ -183,7 +196,7 @@ public class BlueSingleSample extends OpMode {
                 break;
 
             case 103:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.5);
                 auto++;
                 break;
 
@@ -193,7 +206,7 @@ public class BlueSingleSample extends OpMode {
                 auto++;
 
             case 105:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 500, 0);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1000, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -204,6 +217,8 @@ public class BlueSingleSample extends OpMode {
                 break;
         }
         telemetry.addData("Case:", auto);
+        telemetry.addData("Red", robot.color_sensor.red());
+        telemetry.addData("Green", robot.color_sensor.green());
         telemetry.update();
     }
 }

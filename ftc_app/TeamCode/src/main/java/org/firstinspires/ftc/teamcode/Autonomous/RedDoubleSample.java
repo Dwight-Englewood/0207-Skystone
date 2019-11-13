@@ -324,6 +324,8 @@ public class RedDoubleSample extends OpMode {
                 */
         }
         telemetry.addData("Case:", auto);
+        telemetry.addData("Red", robot.color_sensor.red());
+        telemetry.addData("Green", robot.color_sensor.green());
         telemetry.update();
     }
 }
