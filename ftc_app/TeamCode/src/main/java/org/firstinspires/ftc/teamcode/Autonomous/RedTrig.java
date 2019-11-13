@@ -8,21 +8,21 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.Deprecated.Boot;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
+import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
 //hello
 
-@Autonomous(name = "Auton Tester", group = "Autonomous")
-public class AutonTester extends OpMode {
+@Autonomous(name = "Red Triangle", group = "Autonomous")
+public class RedTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
-
 
     int auto = 0;
 
@@ -40,6 +40,8 @@ public class AutonTester extends OpMode {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        clamp = this.hardwareMap.get(Servo.class, "clamp");
 
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -76,7 +78,9 @@ public class AutonTester extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.FORWARD, 1050, 0.5);
+                this.clamp.setPosition(1);
+                robot.openServo();
+                robot.autonDriveUltimate(Movement.BACKWARD, 430, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -88,21 +92,57 @@ public class AutonTester extends OpMode {
                 break;
 
             case 2:
-                if (Math.abs(-45 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 3) {
-                    robot.adjustHeading(0);
-                } else if (Math.abs(45 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) < 3) {
-                    robot.drive(Movement.STOP, 0);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.35);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
             case 3:
+                robot.closeServo();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException E) {
+                    telemetry.addLine("Sleep Failed");
+                }
+
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
+
+            case 4:
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1800, 0.5);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException E) {
+                    telemetry.addLine("Sleep Failed");
+                }
+
+                if (Math.abs(robot.FL.getCurrentPosition()) >=- Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 5:
+                robot.openServo();
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 6:
+                robot.autonDriveUltimate(Movement.FORWARD , 2000, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 7:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                break;
         }
         telemetry.addData("Case:", auto);
-        telemetry.addData("Gyro", robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        telemetry.addData("Gyro", Math.abs(0 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle));
         telemetry.update();
     }
 }

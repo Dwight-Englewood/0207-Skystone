@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Deprecated.Boot;
+import org.firstinspires.ftc.teamcode.Hardware.Boot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Small Wheels (New)",group="TeleOp")
 //@Disabled

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Deprecated;
+package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
