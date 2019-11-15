@@ -34,6 +34,8 @@ public class RedTrig extends OpMode {
     int leftBack = 800;
     int rightBack = 1750;
 
+    int curVal = 0;
+
     public static Servo clamp;
 
     public void init() {
@@ -80,7 +82,7 @@ public class RedTrig extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.autonDriveUltimate(Movement.BACKWARD, 430, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 400, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -111,8 +113,7 @@ public class RedTrig extends OpMode {
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1800, 0.5);
-
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 2000, 0.5);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException E) {
@@ -125,13 +126,12 @@ public class RedTrig extends OpMode {
                 break;
 
             case 5:
-                robot.openServo();
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.FORWARD , 2000, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTTURN , 1300, 0.3);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -139,10 +139,36 @@ public class RedTrig extends OpMode {
 
             case 7:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 8:
+                robot.openServo();
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE , 500, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 9:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 10:
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE , 2000, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 11:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", auto);
-        telemetry.addData("Gyro", Math.abs(0 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle));
+        telemetry.addData("Gyro", Math.abs(robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle));
+        telemetry.addData("CurVal:", curVal);
         telemetry.update();
     }
 }

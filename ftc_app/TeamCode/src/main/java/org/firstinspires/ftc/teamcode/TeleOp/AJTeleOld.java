@@ -57,22 +57,21 @@ public class AJTeleOld extends OpMode {
 
         this.lift.setPower(gamepad2.right_stick_y);
 
-        if (gamepad2.y) {
-            this.clamp.setPosition(1);
-        }
-
         if (gamepad2.x) {
             this.clamp.setPosition(0);
         }
 
-        if (gamepad2.a) {
-            robot.closeServo();
+        if (gamepad2.y) {
+            this.clamp.setPosition(1);
         }
 
         if (gamepad2.b) {
             robot.openServo();
         }
 
+        if (gamepad2.a) {
+            robot.closeServo();
+        }
 
         telemetry.addLine("G2X: Close Clamp");
         telemetry.addLine("G2Y: Open Clamp");
