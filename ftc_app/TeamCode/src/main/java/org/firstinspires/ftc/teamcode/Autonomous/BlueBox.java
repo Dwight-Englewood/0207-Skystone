@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -15,7 +16,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
-
 @Autonomous(name = "BlueBox", group = "Autonomous")
 public class BlueBox extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -75,7 +75,7 @@ public class BlueBox extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.FORWARD, 1150, 0.5);
+                robot.autonDriveUltimate(Movement.FORWARD, 1200, 0.4);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -135,7 +135,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 8:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 5000, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 4900, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                         auto++;
                 }
@@ -147,7 +147,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 10:
-                robot.autonDriveUltimate(Movement.BACKWARD, 400, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 350, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -159,7 +159,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 12:
-                robot.autonDriveUltimate(Movement.FORWARD, 1125, 0.5);
+                robot.autonDriveUltimate(Movement.FORWARD, 1200, 0.4);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }

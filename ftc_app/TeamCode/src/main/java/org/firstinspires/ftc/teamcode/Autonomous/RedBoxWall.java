@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -15,9 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
-
-@Autonomous(name = "RedBox", group = "Autonomous")
-public class RedBox extends OpMode {
+@Autonomous(name = "RedBoxWall", group = "Autonomous")
+public class RedBoxWall extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
@@ -75,7 +75,7 @@ public class RedBox extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                robot.autonDriveUltimate(Movement.FORWARD, 1150, 0.5);
+                robot.autonDriveUltimate(Movement.FORWARD, 1200, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -223,7 +223,7 @@ public class RedBox extends OpMode {
                 break;
 
             case 20:
-                robot.autonDriveUltimate(Movement.FORWARD, 200, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 600, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Untested;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -16,18 +16,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
-@Disabled
-@Autonomous(name = "Single Sample Blue", group = "Autonomous")
-public class BlueSingleSample extends OpMode {
+@Autonomous(name = "RedBoxMiddle", group = "Autonomous")
+public class RedBoxMiddle extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
 
     int auto = 0;
-    int stroll = 500;
-    int block;
 
     public static Servo clamp;
+    public static DcMotor lift;
+
 
     public void init() {
         robot.init(hardwareMap, telemetry, false);
@@ -35,11 +34,13 @@ public class BlueSingleSample extends OpMode {
         telemetry.update();
 
         clamp = this.hardwareMap.get(Servo.class, "clamp");
+        lift = this.hardwareMap.get(DcMotor.class, "Lift");
 
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        this.lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -47,6 +48,7 @@ public class BlueSingleSample extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         clamp.setPosition(1);
     }
@@ -78,31 +80,22 @@ public class BlueSingleSample extends OpMode {
                     auto++;
                 }
                 break;
-//Block 1
+
             case 1:
+                this.clamp.setPosition(0);
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException E) {
                     telemetry.addLine("Sleep Failed");
                 }
-                robot.color_sensor.enableLed(true);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 98;
-                    block = 1;
-                } else {
-                    auto++;
-                }
+                auto++;
                 break;
-//Block 2
+
             case 2:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 300, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                        auto = 98;
-                    } else {
-                        auto++;
-                    }
+                    auto++;
                 }
                 break;
 
@@ -110,31 +103,29 @@ public class BlueSingleSample extends OpMode {
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
-//Block 3
+
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 2550, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                        auto = 98;
-                    } else {
-                        auto++;
-                    }
+                    auto++;
                 }
                 break;
 
             case 5:
+                this.clamp.setPosition(1);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException E) {
+                    telemetry.addLine("Sleep Failed");
+                }
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
-//Block 4
+
             case 6:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 200, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                        auto = 98;
-                    } else {
-                        auto++;
-                    }
+                    auto++;
                 }
                 break;
 
@@ -143,73 +134,118 @@ public class BlueSingleSample extends OpMode {
                 auto++;
                 break;
 
-//Block 5
             case 8:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 5000, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 9:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 10:
+                robot.autonDriveUltimate(Movement.BACKWARD, 400, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 11:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 12:
+                robot.autonDriveUltimate(Movement.FORWARD, 1125, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 13:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 14:
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 700, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 15:
+                this.clamp.setPosition(0);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException E) {
+                    telemetry.addLine("Sleep Failed");
+                }
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 16:
+                robot.autonDriveUltimate(Movement.BACKWARD, 250, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 17:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 18:
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 3650, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
                         auto = 98;
+                    } else {
+                        auto++;
                     }
                 }
                 break;
-//Block 6
 
-            case 98:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 99:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 150, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 100:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 101:
-                this.clamp.setPosition(0);
-                robot.autonDriveUltimate(Movement.BACKWARD, 150, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 102:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 103:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 3000, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 104:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-
-            case 105:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 3500, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 106:
+            case 19:
                 this.clamp.setPosition(1);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException E) {
+                    telemetry.addLine("Sleep Failed");
+                }
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 20:
+                robot.autonDriveUltimate(Movement.FORWARD, 200, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 21:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 22:
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1400, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 23:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", auto);
-        telemetry.addData("Red Val", robot.color_sensor.red());
-        telemetry.addData("Green Val", robot.color_sensor.green());
         telemetry.update();
     }
 }

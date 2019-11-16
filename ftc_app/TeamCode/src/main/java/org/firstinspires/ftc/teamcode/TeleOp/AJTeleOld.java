@@ -29,7 +29,6 @@ public class AJTeleOld extends OpMode {
         clamp = this.hardwareMap.get(Servo.class, "clamp");
 
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        clamp.setPosition(0);
 
         //   robot.color_sensor.enableLed(false);
 

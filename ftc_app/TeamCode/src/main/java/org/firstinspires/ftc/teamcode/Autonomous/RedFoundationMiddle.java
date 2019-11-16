@@ -16,8 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
-@Autonomous(name = "Red Foundation", group = "Autonomous")
-public class RedTrig extends OpMode {
+@Autonomous(name = "RedFoundationMiddle", group = "Autonomous")
+public class RedFoundationMiddle extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
@@ -129,7 +129,7 @@ public class RedTrig extends OpMode {
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.LEFTTURN , 1300, 0.3);
+                robot.autonDriveUltimate(Movement.LEFTTURN , 1250, 0.3);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
