@@ -16,9 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
-//hello
-
-@Autonomous(name = "Blue Triangle", group = "Autonomous")
+@Autonomous(name = "Blue Foundation", group = "Autonomous")
 public class BlueTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
@@ -143,7 +141,6 @@ public class BlueTrig extends OpMode {
                 break;
         }
         telemetry.addData("Case:", auto);
-        telemetry.addData("Gyro", Math.abs(0 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle));
         telemetry.update();
     }
 }

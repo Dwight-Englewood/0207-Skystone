@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Untested;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -16,9 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
-//hello
-
-@Autonomous(name = "Single Sample Blue Box", group = "Autonomous")
+@Autonomous(name = "Single Sample Blue", group = "Autonomous")
 public class BlueSingleSample extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
@@ -150,25 +148,10 @@ public class BlueSingleSample extends OpMode {
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
                         auto = 98;
-                    } else {
-                        auto++;
                     }
                 }
-                break;
-
-            case 9:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
                 break;
 //Block 6
-            case 10:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())) {
-                    if (robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                        auto = 98;
-                    }
-                }
-                break;
 
             case 98:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -202,7 +185,9 @@ public class BlueSingleSample extends OpMode {
 
             case 103:
                 robot.autonDriveUltimate(Movement.LEFTSTRAFE, 3000, 0.5);
-                auto++;
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
                 break;
 
             case 104:
@@ -210,7 +195,7 @@ public class BlueSingleSample extends OpMode {
                 auto++;
 
             case 105:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 4000, 0.5);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 3500, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -222,8 +207,8 @@ public class BlueSingleSample extends OpMode {
                 break;
         }
         telemetry.addData("Case:", auto);
-        telemetry.addData("Red", robot.color_sensor.red());
-        telemetry.addData("Green", robot.color_sensor.green());
+        telemetry.addData("Red Val", robot.color_sensor.red());
+        telemetry.addData("Green Val", robot.color_sensor.green());
         telemetry.update();
     }
 }

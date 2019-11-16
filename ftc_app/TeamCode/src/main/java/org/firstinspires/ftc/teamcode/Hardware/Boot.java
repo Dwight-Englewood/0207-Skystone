@@ -105,11 +105,11 @@ public class Boot {
 
     public void notKevinDrive(double leftStick_y, double leftStick_x, double leftTrigger, double rightTrigger) {
         if (leftTrigger > .3) {
-            drive(Movement.LEFTSTRAFE, leftTrigger);
+            drive(Movement.LEFTSTRAFE, leftTrigger * 0.75);
             return;
         }
         if (rightTrigger > .3) {
-            drive(Movement.RIGHTSTRAFE, rightTrigger);
+            drive(Movement.RIGHTSTRAFE, rightTrigger * 0.75);
             return;
         }
 
