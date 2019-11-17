@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Untested;
+package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -8,18 +8,21 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import java.lang.Thread;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
+import org.firstinspires.ftc.teamcode.Autonomous.*;
+
 @Disabled
-@Autonomous(name = "Blue Foundation [Strafe]", group = "Autonomous")
-public class BlueTrig extends OpMode {
+@Autonomous(name = "RedFoundation", group = "Autonomous")
+public class RedTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
-    Boot robot = new Boot();
-
+    AutonMethods robot = new AutonMethods();
 
     int auto = 0;
 
@@ -30,6 +33,8 @@ public class BlueTrig extends OpMode {
     int centerBack = 1100;
     int leftBack = 800;
     int rightBack = 1750;
+
+    int curVal = 0;
 
     public static Servo clamp;
 
@@ -77,7 +82,7 @@ public class BlueTrig extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.autonDriveUltimate(Movement.FORWARD, 410, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD, 400, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -89,7 +94,7 @@ public class BlueTrig extends OpMode {
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.4);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.35);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -108,8 +113,7 @@ public class BlueTrig extends OpMode {
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1750, 0.5);
-
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 2000, 0.5);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException E) {
@@ -122,19 +126,43 @@ public class BlueTrig extends OpMode {
                 break;
 
             case 5:
-                robot.openServo();
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 auto++;
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.BACKWARD, 2200, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTTURN , 1250, 0.3);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
             case 7:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 8:
+                robot.openServo();
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE , 500, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 9:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 10:
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE , 2000, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 11:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

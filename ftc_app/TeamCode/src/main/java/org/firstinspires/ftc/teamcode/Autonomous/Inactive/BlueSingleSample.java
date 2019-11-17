@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Untested;
+package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -9,16 +9,15 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
+import org.firstinspires.ftc.teamcode.Autonomous.*;
 
-//hello
 @Disabled
-@Autonomous(name = "Single Sample Red", group = "Autonomous")
-public class RedSingleSample extends OpMode {
+@Autonomous(name = "Single Sample Blue", group = "Autonomous")
+public class BlueSingleSample extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
-    Boot robot = new Boot();
+    AutonMethods robot = new AutonMethods();
 
     int auto = 0;
     int stroll = 500;
@@ -93,7 +92,7 @@ public class RedSingleSample extends OpMode {
                 break;
 //Block 2
             case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
                         auto = 98;
@@ -109,7 +108,7 @@ public class RedSingleSample extends OpMode {
                 break;
 //Block 3
             case 4:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
                         auto = 98;
@@ -125,7 +124,7 @@ public class RedSingleSample extends OpMode {
                 break;
 //Block 4
             case 6:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
                         auto = 98;
@@ -142,7 +141,7 @@ public class RedSingleSample extends OpMode {
 
 //Block 5
             case 8:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
                         auto = 98;
@@ -157,7 +156,7 @@ public class RedSingleSample extends OpMode {
                 break;
 
             case 99:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 150, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 150, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -182,7 +181,7 @@ public class RedSingleSample extends OpMode {
                 break;
 
             case 103:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 3000, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 3000, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -193,7 +192,7 @@ public class RedSingleSample extends OpMode {
                 auto++;
 
             case 105:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 3500, 0.5);
+                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 3500, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }

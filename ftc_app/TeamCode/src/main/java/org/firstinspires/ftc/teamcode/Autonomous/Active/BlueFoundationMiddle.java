@@ -13,12 +13,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
+import org.firstinspires.ftc.teamcode.Autonomous.*;
 
 @Autonomous(name = "BlueFoundationMiddle", group = "Autonomous")
 public class BlueFoundationMiddle extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
-    Boot robot = new Boot();
+    AutonMethods robot = new AutonMethods();
 
     int auto = 0;
 

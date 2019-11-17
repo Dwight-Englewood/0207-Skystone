@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Untested;
+package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -37,7 +37,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
+import org.firstinspires.ftc.teamcode.Hardware.*;
+import org.firstinspires.ftc.teamcode.Autonomous.*;
 
 @Disabled
 /**
@@ -51,7 +52,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Boot;
 @Autonomous(name = "Gyro_Test", group = "Autonomous")
 public class GyroTest extends OpMode {
 
-    Boot robot = new Boot();
+    AutonMethods robot = new AutonMethods();
 
     @Override
     public void init() {

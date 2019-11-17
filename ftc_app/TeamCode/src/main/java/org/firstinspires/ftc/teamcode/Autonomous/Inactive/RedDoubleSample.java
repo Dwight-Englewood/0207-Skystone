@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Untested;
+package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -9,16 +9,15 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
+import org.firstinspires.ftc.teamcode.Autonomous.*;
 
-//hello
 @Disabled
 @Autonomous(name = "Double Sample Red", group = "Autonomous")
 public class RedDoubleSample extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
-    Boot robot = new Boot();
+    AutonMethods robot = new AutonMethods();
 
     int auto = 0;
     int stroll = 500;
