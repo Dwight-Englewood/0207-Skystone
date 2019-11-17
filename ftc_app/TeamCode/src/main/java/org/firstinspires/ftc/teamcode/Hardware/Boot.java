@@ -85,24 +85,6 @@ public class Boot {
         FR.setMode(runMode);
     }
 
-//    public void setRunMode(DcMotor.RunMode encoderRunMode) {
-//        BR.setMode(runMode);
-//        BL.setMode(runMode);
-//        FL.setMode(runMode);
-//        FR.setMode(runMode);
-//        left.setMode(encoderRunMode);
-//        right.setMode(encoderRunMode);
-//        lift.setMode(encoderRunMode);
-//        intake.setMode(encoderRunMode);
-//    }
-
-    public void drive(double in) {
-        BL.setPower(in);
-        BR.setPower(in);
-        FR.setPower(in);
-        FL.setPower(in);
-    }
-
     public void notKevinDrive(double leftStick_y, double leftStick_x, double leftTrigger, double rightTrigger) {
         if (leftTrigger > .3) {
             drive(Movement.LEFTSTRAFE, leftTrigger * 0.75);
@@ -124,8 +106,6 @@ public class Boot {
         FR.setPower(-leftStick_x);
         BL.setPower(-leftStick_x);
         BR.setPower(leftStick_x);
-
-
     }
 
     public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
@@ -149,67 +129,6 @@ public class Boot {
         BL.setPower(-rightStick);
         BR.setPower(-leftStick);
     }
-
-    public void setPower(double power) {
-        FL.setPower(power);
-        BL.setPower(power);
-        FR.setPower(power);
-        BR.setPower(power);
-    }
-
-    public void autonDrive(Movement movement, int target) {
-        switch (movement) {
-            case FORWARD:
-                FL.setTargetPosition(target);
-                FR.setTargetPosition(target);
-                BL.setTargetPosition(target);
-                BR.setTargetPosition(target);
-                break;
-
-            case BACKWARD:
-                FL.setTargetPosition(-target);
-                FR.setTargetPosition(-target);
-                BL.setTargetPosition(-target);
-                BR.setTargetPosition(-target);
-                break;
-
-            case LEFTSTRAFE:
-                FL.setTargetPosition(-target);
-                FR.setTargetPosition(target);
-                BL.setTargetPosition(target);
-                BR.setTargetPosition(-target);
-                break;
-
-            case RIGHTSTRAFE:
-                FL.setTargetPosition(target);
-                FR.setTargetPosition(-target);
-                BL.setTargetPosition(-target);
-                BR.setTargetPosition(target);
-                break;
-
-            case LEFTTURN:
-                FL.setTargetPosition(-target);
-                FR.setTargetPosition(target);
-                BL.setTargetPosition(-target);
-                BR.setTargetPosition(target);
-                break;
-
-            case RIGHTTURN:
-                FL.setTargetPosition(target);
-                FR.setTargetPosition(-target);
-                BL.setTargetPosition(target);
-                BR.setTargetPosition(-target);
-                break;
-
-            case STOP:
-                FL.setTargetPosition(FL.getCurrentPosition());
-                FR.setTargetPosition(FR.getCurrentPosition());
-                BL.setTargetPosition(BL.getCurrentPosition());
-                BR.setTargetPosition(BR.getCurrentPosition());
-                break;
-        }
-    }
-
     //TODO fix the the driver values and restrict the motor values
     public void drive(Movement movement, double power) {
         switch (movement) {
@@ -264,56 +183,6 @@ public class Boot {
         }
     }
 
-    public void turn(double in) {
-        BL.setPower(in);
-        BR.setPower(-in);
-        FR.setPower(-in);
-        FL.setPower(in);
-    }
-
-    public void getDrivePosition() {
-        FL.getCurrentPosition();
-        FR.getCurrentPosition();
-        BL.getCurrentPosition();
-        BR.getCurrentPosition();
-    }
-
-    public double motorSpeed() {
-        if (Math.abs(FL.getCurrentPosition()) < Math.abs(FL.getTargetPosition())) {
-        }
-        return Math.abs(FL.getTargetPosition()) - Math.abs(FL.getCurrentPosition() * proportionalValue);
-    }
-
-    public void autonDriveUltimate(Movement movementEnum, int target, double power) {
-        this.autonDrive(movementEnum, target);
-        this.setPower(power);
-        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if (Math.abs(FR.getCurrentPosition()) >= Math.abs(FR.getTargetPosition())) {
-            drive(movementEnum.STOP, 0);
-            tele.update();
-        }
-    }
-
-    public boolean adjustHeading(int targetHeading) {
-        double curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        double headingError;
-        headingError = targetHeading - curHeading;
-        double driveScale = headingError;
-        this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        if (headingError < -0.3)
-            driveScale = -0.15;
-        else if (headingError > 0.3)
-            driveScale = 0.15;
-        else {
-            driveScale = 0;
-            this.drive(Movement.LEFTTURN, driveScale);
-            return true;
-        }
-        this.drive(Movement.LEFTTURN, driveScale);
-        return false;
-    }
-
     public void openServo() {
         this.LSERV.setPosition(1);
         this.RSERV.setPosition(1);
@@ -324,18 +193,6 @@ public class Boot {
         this.RSERV.setPosition(0);
     }
 
-    public void blockIncrement(int distance, int auto, int block) {
-        this.autonDriveUltimate(Movement.LEFTSTRAFE, distance, 0.7);
-        block++;
-        auto++;
-    }
-
-    public void caseSkipper(int auto, int target, int power, Movement movement) {
-        this.autonDriveUltimate(movement, target, power);
-        if (Math.abs(this.FL.getCurrentPosition()) >= Math.abs(this.FL.getTargetPosition())) {
-            auto++;
-        }
-    }
 }
 
 

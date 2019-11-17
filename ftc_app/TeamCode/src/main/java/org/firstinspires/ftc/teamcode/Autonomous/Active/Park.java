@@ -1,28 +1,24 @@
-package org.firstinspires.ftc.teamcode.Untested;
+package org.firstinspires.ftc.teamcode.Autonomous.Active;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import java.lang.Thread;
 
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
-@Disabled
-@Autonomous(name = "Blue Foundation [Strafe]", group = "Autonomous")
-public class BlueTrig extends OpMode {
+
+@Autonomous(name = "Park Auton", group = "Autonomous")
+public class Park extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
-
 
     int auto = 0;
 
@@ -33,6 +29,8 @@ public class BlueTrig extends OpMode {
     int centerBack = 1100;
     int leftBack = 800;
     int rightBack = 1750;
+
+    int curVal = 0;
 
     public static Servo clamp;
 
@@ -80,64 +78,18 @@ public class BlueTrig extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.autonDriveUltimate(Movement.FORWARD, 410, 0.5);
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException E) {
+                    telemetry.addLine("Sleep Failed");
+                }
+                robot.autonDriveUltimate(Movement.BACKWARD, 400, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
             case 1:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.4);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 3:
-                robot.closeServo();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1750, 0.5);
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                if (Math.abs(robot.FL.getCurrentPosition()) >=- Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 5:
-                robot.openServo();
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
-                break;
-
-            case 6:
-                robot.autonDriveUltimate(Movement.BACKWARD, 2200, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
-                break;
-
-            case 7:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

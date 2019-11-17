@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.Active;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -12,12 +12,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
-@Autonomous(name = "RedFoundationMiddle", group = "Autonomous")
-public class RedFoundationMiddle extends OpMode {
+@Autonomous(name = "BlueFoundationWall", group = "Autonomous")
+public class BlueFoundationWall extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
@@ -80,7 +78,7 @@ public class RedFoundationMiddle extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.autonDriveUltimate(Movement.BACKWARD, 400, 0.5);
+                robot.autonDriveUltimate(Movement.FORWARD, 500, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -111,7 +109,7 @@ public class RedFoundationMiddle extends OpMode {
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 2000, 0.5);
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1600, 0.5);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException E) {
@@ -129,7 +127,7 @@ public class RedFoundationMiddle extends OpMode {
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.LEFTTURN , 1250, 0.3);
+                robot.autonDriveUltimate(Movement.RIGHTTURN , 2000, 0.3);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
@@ -154,13 +152,26 @@ public class RedFoundationMiddle extends OpMode {
                 break;
 
             case 10:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE , 2000, 0.5);
+                robot.openServo();
+                robot.autonDriveUltimate(Movement.FORWARD , 450, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
                 break;
 
             case 11:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                auto++;
+                break;
+
+            case 12:
+                robot.autonDriveUltimate(Movement.LEFTSTRAFE , 2000, 0.5);
+                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
+                    auto++;
+                }
+                break;
+
+            case 13:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

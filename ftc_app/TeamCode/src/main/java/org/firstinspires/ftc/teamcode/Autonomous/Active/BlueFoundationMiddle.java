@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.Active;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -12,12 +12,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-
-import org.firstinspires.ftc.teamcode.Hardware.Boot;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
-@Autonomous(name = "BlueFoundationWall", group = "Autonomous")
-public class BlueFoundationWall extends OpMode {
+@Autonomous(name = "BlueFoundationMiddle", group = "Autonomous")
+public class BlueFoundationMiddle extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     Boot robot = new Boot();
@@ -155,7 +153,7 @@ public class BlueFoundationWall extends OpMode {
 
             case 10:
                 robot.openServo();
-                robot.autonDriveUltimate(Movement.FORWARD , 450, 0.5);
+                robot.autonDriveUltimate(Movement.BACKWARD , 400, 0.5);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     auto++;
                 }
