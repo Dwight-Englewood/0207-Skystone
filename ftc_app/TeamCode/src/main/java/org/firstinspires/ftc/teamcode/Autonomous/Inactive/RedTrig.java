@@ -78,6 +78,7 @@ public class RedTrig extends OpMode {
      */
     @Override
     public void loop() {
+        /*
         switch (auto) {
             case 0:
                 this.clamp.setPosition(1);
@@ -168,5 +169,7 @@ public class RedTrig extends OpMode {
         }
         telemetry.addData("Case:", auto);
         telemetry.update();
+
+         */
     }
 }

@@ -67,6 +67,7 @@ public class BlueSingleSample extends OpMode {
      */
     @Override
     public void loop() {
+        /*
         switch (auto) {
             case 0:
                 robot.autonDriveUltimate(Movement.FORWARD, 1200, 0.5);
@@ -207,5 +208,7 @@ public class BlueSingleSample extends OpMode {
         telemetry.addData("Red Val", robot.color_sensor.red());
         telemetry.addData("Green Val", robot.color_sensor.green());
         telemetry.update();
+
+         */
     }
 }

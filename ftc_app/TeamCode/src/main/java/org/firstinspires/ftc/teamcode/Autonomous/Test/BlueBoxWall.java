@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Active;
+package org.firstinspires.ftc.teamcode.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,15 +8,11 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Hardware.*;
-import org.firstinspires.ftc.teamcode.Autonomous.*;
+import org.firstinspires.ftc.teamcode.Autonomous.AutonMethods;
+import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "BlueBox", group = "Autonomous")
-public class BlueBox extends OpMode {
+@Autonomous(name = "BlueBoxWall [Test!]", group = "Autonomous")
+public class BlueBoxWall extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();

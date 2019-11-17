@@ -79,97 +79,55 @@ public class BlueFoundationWall extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.autonDriveUltimate(Movement.FORWARD, 500, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.FORWARD, 500, 0.5);
                 break;
 
             case 1:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.35);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.RIGHTSTRAFE, 1500, 0.35);
                 break;
 
             case 3:
-                robot.closeServo();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.closeServ();
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1600, 0.5);
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                if (Math.abs(robot.FL.getCurrentPosition()) >=- Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.LEFTSTRAFE, 1600, 0.5);
                 break;
 
             case 5:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.RIGHTTURN , 2000, 0.3);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.RIGHTTURN , 2000, 0.3);
                 break;
 
             case 7:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.openServ();
                 break;
 
             case 8:
-                robot.openServo();
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE , 500, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.RIGHTSTRAFE , 500, 0.5);
                 break;
 
             case 9:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 
             case 10:
-                robot.openServo();
-                robot.autonDriveUltimate(Movement.FORWARD , 450, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.FORWARD , 450, 0.5);
                 break;
 
             case 11:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 
             case 12:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE , 2000, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.LEFTSTRAFE , 2000, 0.5);
                 break;
 
             case 13:

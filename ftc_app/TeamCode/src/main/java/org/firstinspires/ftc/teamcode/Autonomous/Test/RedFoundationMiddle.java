@@ -1,25 +1,25 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
+package org.firstinspires.ftc.teamcode.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import java.lang.Thread;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 import org.firstinspires.ftc.teamcode.Autonomous.*;
 
-@Disabled
-@Autonomous(name = "Blue Foundation [Strafe]", group = "Autonomous")
-public class BlueTrig extends OpMode {
+@Autonomous(name = "RedFoundationMiddle [Test!]", group = "Autonomous")
+public class RedFoundationMiddle extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
-
 
     int auto = 0;
 
@@ -30,6 +30,8 @@ public class BlueTrig extends OpMode {
     int centerBack = 1100;
     int leftBack = 800;
     int rightBack = 1750;
+
+    int curVal = 0;
 
     public static Servo clamp;
 
@@ -73,74 +75,59 @@ public class BlueTrig extends OpMode {
      */
     @Override
     public void loop() {
-     /*   switch (auto) {
+        switch (auto) {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.autonDriveUltimate(Movement.FORWARD, 410, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.BACKWARD, 400, 0.5);
                 break;
 
             case 1:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.4);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.RIGHTSTRAFE, 1500, 0.35);
                 break;
 
             case 3:
-                robot.closeServo();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.closeServ();
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1750, 0.5);
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                if (Math.abs(robot.FL.getCurrentPosition()) >=- Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.LEFTSTRAFE, 2000, 0.5);
                 break;
 
             case 5:
-                robot.openServo();
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.BACKWARD, 2200, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.LEFTTURN , 1250, 0.3);
                 break;
 
             case 7:
+                robot.openServ();
+                break;
+
+            case 8:
+                robot.runToTarget(Movement.RIGHTSTRAFE , 500, 0.5);
+                break;
+
+            case 9:
+                robot.encoderReset();
+
+                break;
+
+            case 10:
+                robot.runToTarget(Movement.LEFTSTRAFE , 2000, 0.5);
+                break;
+
+            case 11:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", auto);
         telemetry.update();
-
-      */
     }
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Active;
+package org.firstinspires.ftc.teamcode.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -15,8 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 import org.firstinspires.ftc.teamcode.Autonomous.*;
 
-@Autonomous(name = "RedFoundationMiddle", group = "Autonomous")
-public class RedFoundationMiddle extends OpMode {
+@Autonomous(name = "RedFoundationWall [Test!]", group = "Autonomous")
+public class RedFoundationWall extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
@@ -79,84 +79,48 @@ public class RedFoundationMiddle extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.autonDriveUltimate(Movement.BACKWARD, 400, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.BACKWARD, 400, 0.5);
                 break;
 
             case 1:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 
             case 2:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1500, 0.35);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.RIGHTSTRAFE, 1500, 0.35);
                 break;
 
             case 3:
-                robot.closeServo();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.closeServ();
                 break;
 
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 2000, 0.5);
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-
-                if (Math.abs(robot.FL.getCurrentPosition()) >=- Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.LEFTSTRAFE, 2000, 0.5);
                 break;
 
             case 5:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 
             case 6:
-                robot.autonDriveUltimate(Movement.LEFTTURN , 1250, 0.3);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.LEFTTURN , 1250, 0.3);
                 break;
 
             case 7:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.openServ();
                 break;
 
             case 8:
-                robot.openServo();
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE , 500, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.RIGHTSTRAFE , 500, 0.5);
                 break;
 
             case 9:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
+
                 break;
 
             case 10:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE , 2000, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.LEFTSTRAFE , 2000, 0.5);
                 break;
 
             case 11:

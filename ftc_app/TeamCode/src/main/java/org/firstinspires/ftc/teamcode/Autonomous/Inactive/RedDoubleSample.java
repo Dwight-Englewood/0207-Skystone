@@ -68,6 +68,7 @@ public class RedDoubleSample extends OpMode {
     @Override
     public void loop() {
         switch (auto) {
+            /*
             case 0:
                 robot.autonDriveUltimate(Movement.FORWARD, 400, 0.7);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){

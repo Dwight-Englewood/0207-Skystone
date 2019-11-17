@@ -221,21 +221,15 @@ public class AutonMethods {
         return false;
     }
 
-    public void autonDriveUltimate(Movement movementEnum, int target, double power) {
-        this.autonDrive(movementEnum, target);
-        this.drive(power);
+    public void runToTarget(Movement movementEnum, int target, double power) {
+        this.autonDrive(movementEnum, cmDistance(target));
+        this.drive(scalePower(power));
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if (Math.abs(FR.getCurrentPosition()) >= Math.abs(FR.getTargetPosition())) {
-            autonDrive(movementEnum.STOP, 0);
-            tele.update();
-        }
-    }
-
-    public void runToTarget(Movement movementEnum, int target, double power) {
-        this.autonDriveUltimate(movementEnum, cmDistance(target), scalePower(power));
         if ((Math.abs(FL.getCurrentPosition() + 20) >= Math.abs(FL.getTargetPosition()) &&
                 Math.abs(FL.getCurrentPosition() - 20) >= Math.abs(FL.getTargetPosition()))){
+            autonDrive(movementEnum.STOP, 0);
+            tele.update();
             this.auto++;
         }
     }
@@ -253,6 +247,20 @@ public class AutonMethods {
 
     public void openClamp(){
         this.clamp.setPosition(1);
+        this.sleepFunc(1000);
+        this.encoderReset();
+    }
+
+    public void closeServ(){
+        this.LSERV.setPosition(0);
+        this.RSERV.setPosition(0);
+        this.sleepFunc(1000);
+        this.encoderReset();
+    }
+
+    public void openServ(){
+        this.LSERV.setPosition(1);
+        this.RSERV.setPosition(1);
         this.sleepFunc(1000);
         this.encoderReset();
     }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Active;
+package org.firstinspires.ftc.teamcode.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 import org.firstinspires.ftc.teamcode.Autonomous.*;
 
-@Autonomous(name = "Park Auton", group = "Autonomous")
+@Autonomous(name = "Park Auton [Test!]", group = "Autonomous")
 public class Park extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
@@ -79,15 +79,8 @@ public class Park extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException E) {
-                    telemetry.addLine("Sleep Failed");
-                }
-                robot.autonDriveUltimate(Movement.BACKWARD, 400, 0.5);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.sleepFunc(1000);
+                robot.runToTarget(Movement.BACKWARD, 400, 0.5);
                 break;
 
             case 1:
