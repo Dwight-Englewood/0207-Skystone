@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Test;
+package org.firstinspires.ftc.teamcode.Autonomous.Active;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -15,14 +14,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 import org.firstinspires.ftc.teamcode.Autonomous.*;
-@Disabled
-@Autonomous(name = "Park Auton [Test!]", group = "Autonomous")
-public class Park extends OpMode {
+
+@Autonomous(name = "Blue Foundation", group = "Autonomous")
+public class BlueFoundation extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
 
-    int auto = 0;
+    public int auto = 0;
 
     int center = 150;
     int left = 600;
@@ -80,10 +79,58 @@ public class Park extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.runToTarget(Movement.BACKWARD, 400, 0.5, false);
+                auto += robot.runToTarget(Movement.FORWARD, 35, 0.5, false);
                 break;
 
             case 1:
+                auto += robot.encoderReset();
+                break;
+
+            case 2:
+                auto += robot.runToTarget(Movement.RIGHTSTRAFE, 77, 0.35, true);
+                break;
+
+            case 3:
+                auto += robot.closeServ();
+                break;
+
+            case 4:
+                auto += robot.runToTarget(Movement.LEFTSTRAFE, 77, 0.5, true);
+                break;
+
+            case 5:
+                auto += robot.encoderReset();
+                break;
+
+            case 6:
+                auto += robot.runToTarget(Movement.RIGHTTURN , 50, 0.3, false);
+                break;
+
+            case 7:
+                auto += robot.openServ();
+                break;
+
+            case 8:
+                auto += robot.runToTarget(Movement.RIGHTSTRAFE , 20, 0.5, true);
+                break;
+
+            case 9:
+                auto += robot.encoderReset();
+                break;
+
+            case 10:
+                auto += robot.runToTarget(Movement.BACKWARD , 20, 0.5, false);
+                break;
+
+            case 11:
+                auto += robot.encoderReset();
+                break;
+
+            case 12:
+                auto += robot.runToTarget(Movement.LEFTSTRAFE , 50, 0.5, true);
+                break;
+
+            case 13:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

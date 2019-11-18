@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Active;
+package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 import org.firstinspires.ftc.teamcode.Autonomous.*;
-
+@Disabled
 @Autonomous(name = "RedBoxWall", group = "Autonomous")
 public class RedBoxWall extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -73,7 +73,7 @@ public class RedBoxWall extends OpMode {
      */
     @Override
     public void loop() {
-        switch (auto) {
+        switch (auto) {/*
             case 0:
                 robot.runToTarget(Movement.FORWARD, 1200, 0.5);
                 break;
@@ -169,6 +169,7 @@ public class RedBoxWall extends OpMode {
             case 23:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
+                */
         }
         telemetry.addData("Case:", auto);
         telemetry.update();

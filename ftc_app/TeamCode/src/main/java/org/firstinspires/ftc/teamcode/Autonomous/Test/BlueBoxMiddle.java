@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 import org.firstinspires.ftc.teamcode.Autonomous.*;
-
+@Disabled
 @Autonomous(name = "BlueBoxMiddle [Test!]", group = "Autonomous")
 public class BlueBoxMiddle extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -69,6 +69,7 @@ public class BlueBoxMiddle extends OpMode {
     @Override
     public void loop() {
         switch (auto) {
+            /*
             case 0:
                 robot.runToTarget(Movement.FORWARD, 1200, 0.4);
                 break;
@@ -164,6 +165,8 @@ public class BlueBoxMiddle extends OpMode {
             case 23:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
+
+             */
         }
         telemetry.addData("Case:", auto);
         telemetry.update();

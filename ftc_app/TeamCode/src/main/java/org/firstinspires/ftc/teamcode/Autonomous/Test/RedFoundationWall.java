@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 import org.firstinspires.ftc.teamcode.Autonomous.*;
-
+@Disabled
 @Autonomous(name = "RedFoundationWall [Test!]", group = "Autonomous")
 public class RedFoundationWall extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -76,6 +77,7 @@ public class RedFoundationWall extends OpMode {
     @Override
     public void loop() {
         switch (auto) {
+            /*
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
@@ -126,6 +128,8 @@ public class RedFoundationWall extends OpMode {
             case 11:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
+
+             */
         }
         telemetry.addData("Case:", auto);
         telemetry.update();

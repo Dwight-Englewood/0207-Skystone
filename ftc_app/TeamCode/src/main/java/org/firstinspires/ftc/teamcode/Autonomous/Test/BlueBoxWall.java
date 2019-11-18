@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
-
+@Disabled
 @Autonomous(name = "BlueBoxWall [Test!]", group = "Autonomous")
 public class BlueBoxWall extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -64,6 +65,7 @@ public class BlueBoxWall extends OpMode {
     @Override
     public void loop() {
         switch (auto) {
+            /*
             case 0:
                 robot.runToTarget(Movement.FORWARD, 1200, 0.4);
                 break;
@@ -159,6 +161,8 @@ public class BlueBoxWall extends OpMode {
             case 23:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
+
+             */
         }
         telemetry.addData("Case:", auto);
         telemetry.update();

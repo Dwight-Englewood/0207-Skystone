@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Active;
+package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -14,9 +15,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 import org.firstinspires.ftc.teamcode.Autonomous.*;
-
-@Autonomous(name = "BlueFoundationWall", group = "Autonomous")
-public class BlueFoundationWall extends OpMode {
+@Disabled
+@Autonomous(name = "BlueFoundationMiddle", group = "Autonomous")
+public class BlueFoundationMiddle extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
@@ -76,7 +77,7 @@ public class BlueFoundationWall extends OpMode {
     @Override
     public void loop() {
         switch (auto) {
-            case 0:
+            /*case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
                 robot.runToTarget(Movement.FORWARD, 500, 0.5);
@@ -119,7 +120,7 @@ public class BlueFoundationWall extends OpMode {
                 break;
 
             case 10:
-                robot.runToTarget(Movement.FORWARD , 450, 0.5);
+                robot.runToTarget(Movement.BACKWARD , 400, 0.5);
                 break;
 
             case 11:
@@ -133,6 +134,8 @@ public class BlueFoundationWall extends OpMode {
             case 13:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
+
+             */
         }
         telemetry.addData("Case:", auto);
         telemetry.update();

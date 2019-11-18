@@ -10,7 +10,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-
 public class AutonMethods {
     public static DcMotor BL, BR, FL, FR, lift;
     public static Servo LSERV, RSERV, clamp;
@@ -21,7 +20,6 @@ public class AutonMethods {
 
     final double proportionalValue = 0.000005;
     private int originTick;
-    public int auto;
 
     //double error = 180 - gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     //Double turnSpeed = 0.5;
@@ -31,7 +29,6 @@ public class AutonMethods {
     Orientation angles;
 
     public AutonMethods() {
-        auto = 0;
     }
 
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
@@ -221,48 +218,62 @@ public class AutonMethods {
         return false;
     }
 
-    public void runToTarget(Movement movementEnum, int target, double power) {
-        this.autonDrive(movementEnum, cmDistance(target));
+    public double strafeVal(double target){
+        return (target*1.2);
+    }
+
+    public int runToTarget(Movement movementEnum, double target, double power, boolean strafe) {
+        if (strafe) {
+            this.autonDrive(movementEnum, cmDistance(strafeVal(target)));
+        } else {
+            this.autonDrive(movementEnum, cmDistance(target));
+        }
         this.drive(scalePower(power));
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if ((Math.abs(FL.getCurrentPosition() + 20) >= Math.abs(FL.getTargetPosition()) &&
-                Math.abs(FL.getCurrentPosition() - 20) >= Math.abs(FL.getTargetPosition()))){
+                Math.abs(FL.getCurrentPosition() - 20) <= Math.abs(FL.getTargetPosition()))) {
             autonDrive(movementEnum.STOP, 0);
             tele.update();
-            this.auto++;
+            return (1);
+        } else {
+            return (0);
         }
     }
 
-    public void encoderReset() {
+    public int encoderReset() {
         this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        this.auto++;
+        return (1);
     }
 
-    public void closeClamp(){
+    public int closeClamp(){
         this.clamp.setPosition(0);
         this.sleepFunc(1000);
         this.encoderReset();
+        return (1);
     }
 
-    public void openClamp(){
+    public int openClamp(){
         this.clamp.setPosition(1);
         this.sleepFunc(1000);
         this.encoderReset();
+        return (1);
     }
 
-    public void closeServ(){
+    public int closeServ(){
         this.LSERV.setPosition(0);
         this.RSERV.setPosition(0);
         this.sleepFunc(1000);
         this.encoderReset();
+        return (1);
     }
 
-    public void openServ(){
+    public int openServ(){
         this.LSERV.setPosition(1);
         this.RSERV.setPosition(1);
         this.sleepFunc(1000);
         this.encoderReset();
+        return (1);
     }
 
     public void sleepFunc(long time ) {
@@ -310,6 +321,7 @@ public class AutonMethods {
         final double gearMotorTickThing = 537.6; //neverrest orbital 20 = 537.6 counts per revolution
         //1:1 gear ratio so no need for multiplier
         return (int) (gearMotorTickThing * (distance / wheelCirc));
+        //target = 537.6
     }
 
 }
