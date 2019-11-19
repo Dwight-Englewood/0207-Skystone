@@ -75,59 +75,59 @@ public class BlueFoundation extends OpMode {
      */
     @Override
     public void loop() {
-        switch (auto) {
+        switch (robot.command) {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                auto += robot.runToTarget(Movement.FORWARD, 35, 0.5, false);
+                robot.runToTarget(Movement.FORWARD, 35, false);
                 break;
 
             case 1:
-                auto += robot.encoderReset();
+                robot.encoderReset();
                 break;
 
             case 2:
-                auto += robot.runToTarget(Movement.RIGHTSTRAFE, 77, 0.35, true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 77,  true);
                 break;
 
             case 3:
-                auto += robot.closeServ();
+                robot.closeServoAuton();
                 break;
 
             case 4:
-                auto += robot.runToTarget(Movement.LEFTSTRAFE, 77, 0.5, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 77,  true);
                 break;
 
             case 5:
-                auto += robot.encoderReset();
+                robot.encoderReset();
                 break;
 
             case 6:
-                auto += robot.runToTarget(Movement.RIGHTTURN , 50, 0.3, false);
+                robot.runToTarget(Movement.RIGHTTURN , 50,  false);
                 break;
 
             case 7:
-                auto += robot.openServ();
+                robot.openServoAuton();
                 break;
 
             case 8:
-                auto += robot.runToTarget(Movement.RIGHTSTRAFE , 20, 0.5, true);
+                robot.runToTarget(Movement.RIGHTSTRAFE , 20,  true);
                 break;
 
             case 9:
-                auto += robot.encoderReset();
+                robot.encoderReset();
                 break;
 
             case 10:
-                auto += robot.runToTarget(Movement.BACKWARD , 20, 0.5, false);
+                robot.runToTarget(Movement.BACKWARD , 20,  false);
                 break;
 
             case 11:
-                auto += robot.encoderReset();
+                robot.encoderReset();
                 break;
 
             case 12:
-                auto += robot.runToTarget(Movement.LEFTSTRAFE , 50, 0.5, true);
+                robot.runToTarget(Movement.LEFTSTRAFE , 50,  true);
                 break;
 
             case 13:

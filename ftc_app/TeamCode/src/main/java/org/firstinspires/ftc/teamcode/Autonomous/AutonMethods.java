@@ -19,6 +19,7 @@ public class AutonMethods {
     public ColorSensor color_sensor;
 
     final double proportionalValue = 0.000005;
+    public int command;
     private int originTick;
 
     //double error = 180 - gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
@@ -29,6 +30,7 @@ public class AutonMethods {
     Orientation angles;
 
     public AutonMethods() {
+        command = 0;
     }
 
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
@@ -222,58 +224,56 @@ public class AutonMethods {
         return (target*1.2);
     }
 
-    public int runToTarget(Movement movementEnum, double target, double power, boolean strafe) {
+    public void runToTarget(Movement movementEnum, double target, boolean strafe) {
         if (strafe) {
             this.autonDrive(movementEnum, cmDistance(strafeVal(target)));
         } else {
             this.autonDrive(movementEnum, cmDistance(target));
         }
-        this.drive(scalePower(power));
+        this.scalePower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if ((Math.abs(FL.getCurrentPosition() + 20) >= Math.abs(FL.getTargetPosition()) &&
                 Math.abs(FL.getCurrentPosition() - 20) <= Math.abs(FL.getTargetPosition()))) {
             autonDrive(movementEnum.STOP, 0);
             tele.update();
-            return (1);
-        } else {
-            return (0);
+            this.command++;
         }
     }
 
-    public int encoderReset() {
+    public void encoderReset() {
         this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        return (1);
+        this.command++;
     }
 
-    public int closeClamp(){
+    public void closeClampAuton(){
         this.clamp.setPosition(0);
         this.sleepFunc(1000);
         this.encoderReset();
-        return (1);
+        this.command++;
     }
 
-    public int openClamp(){
+    public void openClampAuton(){
         this.clamp.setPosition(1);
         this.sleepFunc(1000);
         this.encoderReset();
-        return (1);
+        this.command++;
     }
 
-    public int closeServ(){
+    public void closeServoAuton(){
         this.LSERV.setPosition(0);
         this.RSERV.setPosition(0);
         this.sleepFunc(1000);
         this.encoderReset();
-        return (1);
+        this.command++;
     }
 
-    public int openServ(){
+    public void openServoAuton(){
         this.LSERV.setPosition(1);
         this.RSERV.setPosition(1);
         this.sleepFunc(1000);
         this.encoderReset();
-        return (1);
+        this.command++;
     }
 
     public void sleepFunc(long time ) {
@@ -284,12 +284,13 @@ public class AutonMethods {
         }
     }
 
-    public double scalePower(double power) {
+    public void scalePower() {
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
-        int sign = target < current ? -1 : 1;
+   //     int sign = target < current ? -1 : 1;
         int diff = Math.abs(target - current);
         int originDiff = Math.abs(this.originTick - current);
+        double power;
 
         if (originDiff < 75) {
             power = .1;
@@ -311,17 +312,14 @@ public class AutonMethods {
             power = .7;
         }
 
-        this.drive(sign * power);
-
-        return(power);
+        this.drive(/*sign **/ power);
     }
 
     private int cmDistance(double distance) {
         final double wheelCirc = 31.9185813;
-        final double gearMotorTickThing = 537.6; //neverrest orbital 20 = 537.6 counts per revolution
+        final double gearMotorTick = 537.6; //neverrest orbital 20 = 537.6 counts per revolution
         //1:1 gear ratio so no need for multiplier
-        return (int) (gearMotorTickThing * (distance / wheelCirc));
-        //target = 537.6
+        return (int) (gearMotorTick * (distance / wheelCirc));
     }
 
 }
