@@ -33,12 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.Hardware.Movement;
-import org.firstinspires.ftc.teamcode.Hardware.*;
-import org.firstinspires.ftc.teamcode.Autonomous.*;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 
 @Disabled
 /**

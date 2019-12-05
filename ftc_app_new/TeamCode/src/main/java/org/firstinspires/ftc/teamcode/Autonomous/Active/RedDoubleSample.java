@@ -1,25 +1,26 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
+package org.firstinspires.ftc.teamcode.Autonomous.Active;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.WebVu;
+import com.vuforia.CameraDevice;
 
-import org.firstinspires.ftc.teamcode.Hardware.*;
-import org.firstinspires.ftc.teamcode.Autonomous.*;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 
-@Disabled
 @Autonomous(name = "Double Sample Red", group = "Autonomous")
 public class RedDoubleSample extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
+    WebVu tensorFlow = new WebVu();
 
-    int auto = 0;
+    WebVu.TFState fakeState, actualState;
+
     int stroll = 500;
     int block;
 
@@ -29,6 +30,7 @@ public class RedDoubleSample extends OpMode {
 
     public void init() {
         robot.init(hardwareMap, telemetry, false);
+        tensorFlow.init(hardwareMap, telemetry);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -60,135 +62,131 @@ public class RedDoubleSample extends OpMode {
     @Override
     public void start() {
         runtime.reset();
+        tensorFlow.start();
+        fakeState = tensorFlow.getState();
     }
-
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
     public void loop() {
-        switch (auto) {
-            /*
-            case 0:
-                robot.autonDriveUltimate(Movement.FORWARD, 400, 0.7);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
+        switch (robot.command = 999) {
+            case 999:
+                fakeState = (fakeState != WebVu.TFState.NOTVISIBLE) ? fakeState : tensorFlow.getState();
+                if(fakeState != WebVu.TFState.NOTVISIBLE){
+                    telemetry.addLine("Visible");
                 }
+                else {
+                    fakeState = WebVu.TFState.RIGHT;
+                    telemetry.addLine("Failed, default to right");
+                }
+/*
+            case 0:
+                robot.runToTarget(Movement.FORWARD, 400, false);
                 break;
 //Block 1
             case 1:
                 robot.color_sensor.enableLed(true);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 1;
                 } else {
-                    auto++;
+                    robot.command++;
                 }
                 break;
 //Block 2
             case 2:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1000, 0.7);
+                robot.runToTarget(Movement.LEFTSTRAFE, 1000, true);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                        auto = 100;
+                        robot.command = 100;
                         block = 2;
                     } else {
-                        auto++;
+                        robot.command++;
                     }
                 }
                 break;
 
             case 3:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 //Block 3
             case 4:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.7);
+                robot.runToTarget(Movement.LEFTSTRAFE, stroll, true);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 3;
                 } else {
-                    auto++;
+                    robot.command++;
                 }
                 break;
 
             case 5:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 //Block 4
             case 6:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.7);
+                robot.runToTarget(Movement.LEFTSTRAFE, stroll, true);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 4;
                 } else {
-                    auto++;
+                    robot.command++;
                 }
                 break;
 
             case 7:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 
 //Block 5
             case 8:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.7);
+                robot.runToTarget(Movement.LEFTSTRAFE, stroll, true);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 5;
                 } else {
-                    auto++;
+                    robot.command++;
                 }
                 break;
 
             case 9:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+                robot.encoderReset();
                 break;
 //Block 6
             case 10:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, stroll, 0.7);
+                robot.runToTarget(Movement.LEFTSTRAFE, stroll, true);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 6;
                 } else {
-                    auto = 100;
+                    robot.command = 100;
                 }
                 break;
 
             case 100:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 200, 0);
-                auto++;
+                robot.runToTarget(Movement.RIGHTSTRAFE, 200, true);
                 break;
 
             case 101:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 this.clamp.setPosition(0);
-                auto++;
                 count++;
                 break;
 
             case 102:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 1500, 0.7);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    this.clamp.setPosition(0);
-                    auto++;
-                }
+                robot.runToTarget(Movement.LEFTSTRAFE, 1500, true);
                 break;
 
             case 103:
                 this.clamp.setPosition(0);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto = 700;
+                robot.command = 700;
                 break;
 
             case 700:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 2500, 0);
-                auto++;
+                robot.runToTarget(Movement.RIGHTSTRAFE, 2500, true);
                 break;
 
 
@@ -196,130 +194,113 @@ public class RedDoubleSample extends OpMode {
                 this.clamp.setPosition(1);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 if (count <= 1) {
-                    auto++;
+                    robot.command++;
                 } else {
-                    auto = 2000;
+                    robot.command = 2000;
                 }
                 break;
 
 
             case 702:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 2500, 0);
-                auto++;
+                robot.runToTarget(Movement.LEFTSTRAFE, 2500, true);
                 break;
 
             case 703:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto = 1000;
+                robot.encoderReset();
                 break;
 
             //Block 1
-            case 1000:
+            case 704:
                 robot.color_sensor.enableLed(true);
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 1;
                 } else {
-                    auto++;
+                    robot.command++;
                 }
                 break;
 //Block 2
-            case 1001:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, 1000, 0.7);
+            case 705:
+                robot.runToTarget(Movement.RIGHTSTRAFE, 1000, true);
                 if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
                     if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                        auto = 100;
+                        robot.command = 100;
                         block = 2;
                     } else {
-                        auto++;
+                        robot.command++;
                     }
                 }
                 break;
 
-            case 1002:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+            case 706:
+                robot.encoderReset();
                 break;
 //Block 3
-            case 1003:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+            case 707:
+                robot.runToTarget(Movement.RIGHTSTRAFE, stroll, true);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 3;
                 } else {
-                    auto++;
+                    robot.command++;
                 }
                 break;
 
-            case 1004:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+            case 708:
+                robot.encoderReset();
                 break;
 //Block 4
-            case 1005:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+            case 709:
+                robot.runToTarget(Movement.RIGHTSTRAFE, stroll, true);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 4;
                 } else {
-                    auto++;
+                    robot.command++;
                 }
                 break;
 
-            case 1006:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+            case 710:
+                robot.encoderReset();
                 break;
 
 //Block 5
-            case 1007:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+            case 711:
+                robot.runToTarget(Movement.RIGHTSTRAFE, stroll, true);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 5;
                 } else {
-                    auto++;
+                    robot.command++;
                 }
                 break;
 
-            case 1008:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                auto++;
+            case 712:
+                robot.encoderReset();
                 break;
 //Block 6
-            case 1009:
-                robot.autonDriveUltimate(Movement.RIGHTSTRAFE, stroll, 0.7);
+            case 713:
+                robot.runToTarget(Movement.RIGHTSTRAFE, stroll, true);
                 if(robot.color_sensor.red() <= 70 && robot.color_sensor.green() <= 70) {
-                    auto = 100;
+                    robot.command = 100;
                     block = 6;
                 } else {
-                    auto = 100;
+                    robot.command = 100;
                 }
                 break;
 
             case 2000:
-                robot.autonDriveUltimate(Movement.LEFTSTRAFE, 500, 0);
-                if (Math.abs(robot.FL.getCurrentPosition()) >= Math.abs(robot.FL.getTargetPosition())){
-                    auto++;
-                }
+                robot.runToTarget(Movement.LEFTSTRAFE, 500, true);
                 break;
 
             case 2001:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.encoderReset();
                 break;
 
-               /*
-               if (Math.abs(45 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 3) {
-                   robot.adjustHeading(0);
-               } else if (Math.abs(45 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) < 3) {
-                   robot.drive(Movement.STOP, 0);
-                   auto++;
-               }
-               break;
-                */
+ */
         }
-        telemetry.addData("Case:", auto);
+        telemetry.addData("Case:", robot.command);
         telemetry.addData("Red", robot.color_sensor.red());
         telemetry.addData("Green", robot.color_sensor.green());
         telemetry.update();

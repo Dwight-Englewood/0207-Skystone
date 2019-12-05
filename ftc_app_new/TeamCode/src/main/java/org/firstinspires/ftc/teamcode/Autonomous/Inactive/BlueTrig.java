@@ -8,10 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import java.lang.Thread;
 
-import org.firstinspires.ftc.teamcode.Hardware.*;
-import org.firstinspires.ftc.teamcode.Autonomous.*;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 
 @Disabled
 @Autonomous(name = "Blue Foundation [Strafe]", group = "Autonomous")

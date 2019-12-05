@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.Methods;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
@@ -236,7 +236,8 @@ public class AutonMethods {
 //        if ((Math.abs(FL.getCurrentPosition() + 25) >= Math.abs(FL.getTargetPosition()) &&
 //                Math.abs(FL.getCurrentPosition() - 25) <= Math.abs(FL.getTargetPosition()))) {
         tele.addData("Delta", Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()));
-        if (Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 25) {
+        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 25)  ||
+                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 25)) {
             autonDrive(movementEnum.STOP, 0);
             tele.update();
             this.command++;
@@ -290,25 +291,24 @@ public class AutonMethods {
         double power;
 
         if (originDiff < 75) {
-            power = .25;
+            power = .5;
         } else if (originDiff < 250) {
-            power = .3;
+            power = .6;
         } else if (originDiff < 400) {
-            power = .375;
+            power = .7;
         } else {
-            power = .45;
+            power = .8;
         }
 
         if (diff < 100) {
-            power = .25;
+            power = .5;
         } else if (diff < 300) {
-            power = .35;
+            power = .6;
         } else if (diff < 500) {
-            power = .375;
+            power = .7;
         } else if (diff < 750) {
-            power = .45;
+            power = .8;
         }
-
         this.drive(power);
     }
 
@@ -317,8 +317,8 @@ public class AutonMethods {
         final double gearMotorTick = 537.6; //neverrest orbital 20 = 537.6 counts per revolution
         //1:1 gear ratio so no need for multiplier
         return (int) (gearMotorTick * (distance / wheelCirc));
+        //rate = x(0.05937236104)
     }
-
 }
 
 

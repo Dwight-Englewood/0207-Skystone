@@ -8,12 +8,8 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.*;
-import org.firstinspires.ftc.teamcode.Autonomous.*;
 
 @Autonomous(name = "Red Foundation", group = "Autonomous")
 public class RedFoundation extends OpMode {
@@ -79,7 +75,7 @@ public class RedFoundation extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.runToTarget(Movement.BACKWARD, 35, false);
+                robot.runToTarget(Movement.BACKWARD, 30, false);
                 break;
 
             case 1:
@@ -119,7 +115,7 @@ public class RedFoundation extends OpMode {
                 break;
 
             case 10:
-                robot.runToTarget(Movement.BACKWARD , 50,  false);
+                robot.runToTarget(Movement.FORWARD , 10,  false);
                 break;
 
             case 11:
@@ -127,7 +123,7 @@ public class RedFoundation extends OpMode {
                 break;
 
             case 12:
-                robot.runToTarget(Movement.LEFTSTRAFE , 80,  true);
+                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
                 break;
 
             case 13:

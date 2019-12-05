@@ -8,12 +8,8 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.*;
-import org.firstinspires.ftc.teamcode.Autonomous.*;
 
 @Autonomous(name = "Blue Foundation", group = "Autonomous")
 public class BlueFoundation extends OpMode {
@@ -119,7 +115,7 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 10:
-                robot.runToTarget(Movement.BACKWARD , 50,  false);
+                robot.runToTarget(Movement.FORWARD , 50,  false);
                 break;
 
             case 11:
@@ -127,10 +123,18 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 12:
-                robot.runToTarget(Movement.LEFTSTRAFE , 80,  true);
+                robot.runToTarget(Movement.BACKWARD , 10,  false);
                 break;
 
             case 13:
+                robot.encoderReset();
+                break;
+
+            case 14:
+                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
+                break;
+
+            case 15:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

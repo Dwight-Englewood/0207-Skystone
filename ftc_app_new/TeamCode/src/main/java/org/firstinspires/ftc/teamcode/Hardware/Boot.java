@@ -10,7 +10,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-
 public class Boot {
     public static DcMotor
             BL,
@@ -29,6 +28,7 @@ public class Boot {
     Telemetry tele;
 
     public ColorSensor color_sensor;
+    public DigitalChannel magSwitch;
 
     final double proportionalValue = 0.000005;
 
@@ -47,6 +47,7 @@ public class Boot {
         this.tele = tele;
 
         color_sensor = this.map.get(ColorSensor.class, "Col");
+        magSwitch = this.map.get(DigitalChannel.class, "Mag");
 
         BR = this.map.get(DcMotor.class, "BR");
         BL = this.map.get(DcMotor.class, "BL");
@@ -63,6 +64,7 @@ public class Boot {
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        magSwitch.setMode(DigitalChannel.Mode.INPUT);
         //      lift.setDirection(DcMotorSimple.Directiofn.FORWARD);
         //      intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
         //      intakeR.setDirection((DcMotorSimple.Direction.REVERSE));

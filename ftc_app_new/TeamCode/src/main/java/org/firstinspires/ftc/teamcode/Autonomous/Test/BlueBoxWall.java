@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AutonMethods;
-import org.firstinspires.ftc.teamcode.Hardware.Movement;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
+
 @Disabled
 @Autonomous(name = "BlueBoxWall [Test!]", group = "Autonomous")
 public class BlueBoxWall extends OpMode {

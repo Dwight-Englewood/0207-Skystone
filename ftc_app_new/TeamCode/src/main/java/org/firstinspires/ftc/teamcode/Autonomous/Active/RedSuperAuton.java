@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
+package org.firstinspires.ftc.teamcode.Autonomous.Active;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,19 +9,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
-
-@Disabled
-@Autonomous(name = "RedBoxWall", group = "Autonomous")
-public class RedBoxWall extends OpMode {
+import org.firstinspires.ftc.teamcode.Hardware.Movement;
+@Autonomous(name = "RedSuperAuton", group = "Autonomous")
+public class RedSuperAuton extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
 
-    int auto = 0;
-
     public static Servo clamp;
     public static DcMotor lift;
-
 
     public void init() {
         robot.init(hardwareMap, telemetry, false);
@@ -30,13 +25,12 @@ public class RedBoxWall extends OpMode {
         telemetry.update();
 
         clamp = this.hardwareMap.get(Servo.class, "clamp");
-        lift = this.hardwareMap.get(DcMotor.class, "Lift");
 
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
-        this.lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -44,9 +38,7 @@ public class RedBoxWall extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        this.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        clamp.setPosition(1);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -69,17 +61,18 @@ public class RedBoxWall extends OpMode {
      */
     @Override
     public void loop() {
-        switch (auto) {/*
+        switch (robot.command) {
             case 0:
-                robot.runToTarget(Movement.FORWARD, 1200, 0.5);
+                this.clamp.setPosition(1);
+                robot.runToTarget(Movement.FORWARD, 71, false);
                 break;
 
             case 1:
-                robot.closeClamp();
+                robot.closeClampAuton();
                 break;
 
             case 2:
-                robot.runToTarget(Movement.BACKWARD, 300, 0.5);
+                robot.runToTarget(Movement.BACKWARD, 20, false);
                 break;
 
             case 3:
@@ -87,23 +80,23 @@ public class RedBoxWall extends OpMode {
                 break;
 
             case 4:
-                robot.runToTarget(Movement.LEFTSTRAFE, 2550, 0.5);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 200, true);
                 break;
 
             case 5:
-                robot.openClamp();
-                break;
-
-            case 6:
-                robot.runToTarget(Movement.BACKWARD, 200, 0.5);
-                break;
-
-            case 7:
                 robot.encoderReset();
                 break;
 
+            case 6:
+                robot.runToTarget(Movement.FORWARD, 20, false);
+                break;
+
+            case 7:
+                robot.openClampAuton();
+                break;
+
             case 8:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 5000, 0.5);
+                robot.runToTarget(Movement.BACKWARD, 20, false);
                 break;
 
             case 9:
@@ -111,7 +104,7 @@ public class RedBoxWall extends OpMode {
                 break;
 
             case 10:
-                robot.runToTarget(Movement.BACKWARD, 400, 0.5);
+                robot.runToTarget(Movement.LEFTSTRAFE, 240, true);
                 break;
 
             case 11:
@@ -119,39 +112,39 @@ public class RedBoxWall extends OpMode {
                 break;
 
             case 12:
-                robot.runToTarget(Movement.FORWARD, 1125, 0.5);
+                robot.runToTarget(Movement.FORWARD, 20, false);
                 break;
 
             case 13:
-                robot.encoderReset();
+                robot.closeClampAuton();
                 break;
 
             case 14:
-                robot.runToTarget(Movement.LEFTSTRAFE, 700, 0.5);
+                robot.runToTarget(Movement.BACKWARD, 20, false);
                 break;
 
             case 15:
-                robot.closeClamp();
-                break;
-
-            case 16:
-                robot.runToTarget(Movement.BACKWARD, 250, 0.5);
-                break;
-
-            case 17:
                 robot.encoderReset();
                 break;
 
+            case 16:
+                robot.runToTarget(Movement.RIGHTSTRAFE, 240,  true);
+                break;
+
+            case 17:
+                robot.openClampAuton();
+                break;
+
             case 18:
-                robot.runToTarget(Movement.LEFTSTRAFE, 3650, 0.5);
+                robot.runToTarget(Movement.RIGHTTURN , 100,  false);
                 break;
 
             case 19:
-                robot.openClamp();
+                robot.openServoAuton();
                 break;
 
             case 20:
-                robot.runToTarget(Movement.BACKWARD, 600, 0.5);
+                robot.runToTarget(Movement.LEFTSTRAFE , 40,  true);
                 break;
 
             case 21:
@@ -159,15 +152,34 @@ public class RedBoxWall extends OpMode {
                 break;
 
             case 22:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 1400, 0.5);
+                robot.runToTarget(Movement.LEFTTURN , 100,  false);
                 break;
 
             case 23:
+                robot.encoderReset();
+                break;
+
+            case 24:
+                robot.runToTarget(Movement.RIGHTSTRAFE , 40,  true);
+                break;
+
+            case 25:
+                robot.runToTarget(Movement.FORWARD , 10,  false);
+                break;
+
+            case 26:
+                robot.encoderReset();
+                break;
+
+            case 27:
+                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
+                break;
+
+            case 28:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
-                */
         }
-        telemetry.addData("Case:", auto);
+        telemetry.addData("Case:", robot.command);
         telemetry.update();
     }
 }
