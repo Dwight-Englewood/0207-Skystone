@@ -36,6 +36,7 @@ public class RedSuperAuton extends OpMode {
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -63,6 +64,7 @@ public class RedSuperAuton extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
+                robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 this.clamp.setPosition(1);
                 robot.runToTarget(Movement.FORWARD, 71, false);
                 break;
@@ -80,106 +82,132 @@ public class RedSuperAuton extends OpMode {
                 break;
 
             case 4:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 200, true);
-                break;
-
-            case 5:
-                robot.encoderReset();
-                break;
-
-            case 6:
-                robot.runToTarget(Movement.FORWARD, 20, false);
-                break;
-
-            case 7:
-                robot.openClampAuton();
-                break;
-
-            case 8:
-                robot.runToTarget(Movement.BACKWARD, 20, false);
-                break;
-
-            case 9:
-                robot.encoderReset();
-                break;
-
-            case 10:
-                robot.runToTarget(Movement.LEFTSTRAFE, 240, true);
-                break;
-
-            case 11:
-                robot.encoderReset();
-                break;
-
-            case 12:
-                robot.runToTarget(Movement.FORWARD, 20, false);
-                break;
-
-            case 13:
-                robot.closeClampAuton();
-                break;
-
-            case 14:
-                robot.runToTarget(Movement.BACKWARD, 20, false);
-                break;
-
-            case 15:
-                robot.encoderReset();
-                break;
-
-            case 16:
                 robot.runToTarget(Movement.RIGHTSTRAFE, 240,  true);
                 break;
 
-            case 17:
+            case 5:
+                robot.raiseLift(120);
+                break;
+
+            case 6:
+                robot.runToTarget(Movement.FORWARD, 15,  false);
+                break;
+
+            case 7:
+                robot.lowerLift(100);
+                break;
+
+            case 8:
                 robot.openClampAuton();
                 break;
 
+            case 9:
+                robot.runToTarget(Movement.BACKWARD, 20, false);
+                break;
+
+            case 10:
+                robot.encoderReset();
+                break;
+
+            case 11:
+                robot.runToTarget(Movement.LEFTSTRAFE, 300, true);
+                break;
+
+            case 12:
+                robot.encoderReset();
+                break;
+
+            case 13:
+                robot.runToTarget(Movement.BACKWARD, 50, false);
+                break;
+
+            case 14:
+                robot.encoderReset();
+                break;
+
+            case 15:
+                robot.runToTarget(Movement.FORWARD, 20, false);
+                break;
+
+            case 16:
+                robot.closeClampAuton();
+                break;
+
+            case 17:
+                robot.runToTarget(Movement.BACKWARD, 20, false);
+                break;
+
             case 18:
-                robot.runToTarget(Movement.RIGHTTURN , 100,  false);
+                robot.encoderReset();
                 break;
 
             case 19:
-                robot.openServoAuton();
+                robot.runToTarget(Movement.RIGHTSTRAFE, 240,  true);
                 break;
 
             case 20:
-                robot.runToTarget(Movement.LEFTSTRAFE , 40,  true);
+                robot.raiseLiftDeux(140);
                 break;
 
             case 21:
-                robot.encoderReset();
+                robot.runToTarget(Movement.FORWARD, 15,  false);
                 break;
 
             case 22:
-                robot.runToTarget(Movement.LEFTTURN , 100,  false);
+                robot.lowerLiftDeux(120);
                 break;
 
             case 23:
-                robot.encoderReset();
+                robot.openClampAuton();
                 break;
 
             case 24:
-                robot.runToTarget(Movement.RIGHTSTRAFE , 40,  true);
+                robot.runToTarget(Movement.RIGHTTURN , 100,  false);
                 break;
 
             case 25:
-                robot.runToTarget(Movement.FORWARD , 10,  false);
+                robot.openServoAuton();
                 break;
 
             case 26:
-                robot.encoderReset();
+                robot.runToTarget(Movement.LEFTSTRAFE , 40,  true);
                 break;
 
             case 27:
-                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
+                robot.encoderReset();
                 break;
 
             case 28:
+                robot.runToTarget(Movement.LEFTTURN , 100,  false);
+                break;
+
+            case 29:
+                robot.encoderReset();
+                break;
+
+            case 30:
+                robot.runToTarget(Movement.RIGHTSTRAFE , 40,  true);
+                break;
+
+            case 31:
+                robot.runToTarget(Movement.FORWARD , 10,  false);
+                break;
+
+            case 32:
+                robot.encoderReset();
+                break;
+
+            case 33:
+                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
+                break;
+
+            case 34:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", robot.command);
+        telemetry.addData("Lift target", robot.lift.getTargetPosition());
+        telemetry.addData("Lift current", robot.lift.getCurrentPosition());
         telemetry.update();
     }
 }

@@ -19,7 +19,7 @@ public class WebVu implements Subsystem {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String BLACK_BLOCK = "Black Block";
     private static final String GOLD_BLOCK = "Gold Block";
-    private static final String VUFORIA_KEY = "AbZUuPf/////AAAAGUmS0Chan00iu7rnRhzu63+JgDtPo889M6dNtjvv+WKxiMJ8w2DgSJdM2/zEI+a759I7DlPj++D2Ryr5sEHAg4k1bGKdo3BKtkSeh8hCy78w0SIwoOACschF/ImuyP/V259ytjiFtEF6TX4teE8zYpQZiVkCQy0CmHI9Ymoa7NEvFEqfb3S4P6SicguAtQ2NSLJUX+Fdn49SEJKvpSyhwyjbrinJbak7GWqBHcp7fGh7TNFcfPFMacXg28XxlvVpQaVNgkvuqolN7wkTiR9ZMg6Fnm0zN4Xjr5lRtDHeE51Y0bZoBUbyLWSA+ts3SyDjDPPUU7GMI+Ed/ifb0csVpM12aOiNr8d+HsfF2Frnzrj2";
+    private static final String VUFORIA_KEY = "AalCmlL/////AAABmX1QrqB1nUg9ocZ6eiXDvG0PvDRt0IXeA3yX89HHD+kI67mRqnF1LxjWbCI5xJwYIOLc5WxjOQ0mbCPV/wmDi2Cx6kjFBlcXtkrhAA6v8Ag5yslgW+7bB0JZv7+LnQcMG1u5rH+qBG3i4C0EeJHP73k+KzJ3RTS+j9c1uK0vlf+1NCuN6xPwnWRIRgM+SEYPxh2N96f77gWGCWlGn8cUN/sr28d4KIvdYU7yQJF1QzlWDf+53OcgpdzmV04mPmWb4hQS/a2LUCG8rTVMtjmqn5rfksJnQS7xWzxFeyymCmaTShJDescyOaRyokH7GF7vckPATFQiZGvMuVT4LheJoVMocEpdiTs86M7tvk06LogG";
 
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
@@ -73,7 +73,9 @@ public class WebVu implements Subsystem {
     @Override
     public void init(HardwareMap hwMap, Telemetry tele) {
         this.tele = tele;
+        this.hwMap = hwMap;
         this.initVuforia();
+
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             this.initTfod(hwMap);
@@ -149,7 +151,7 @@ public class WebVu implements Subsystem {
     }
 
 
-    private void initVuforia() {
+    public void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
@@ -167,7 +169,7 @@ public class WebVu implements Subsystem {
     /**
      * Initialize the Tensor Flow Object Detection engine.
      */
-    private void initTfod(HardwareMap hardwareMap) {
+    public void initTfod(HardwareMap hardwareMap) {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);

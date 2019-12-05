@@ -251,28 +251,80 @@ public class AutonMethods {
 
     public void closeClampAuton(){
         this.clamp.setPosition(0);
-        this.sleepFunc(1000);
+        this.sleepFunc(200);
         this.encoderReset();
     }
 
     public void openClampAuton(){
         this.clamp.setPosition(1);
-        this.sleepFunc(1000);
+        this.sleepFunc(200);
         this.encoderReset();
     }
 
     public void closeServoAuton(){
         this.LSERV.setPosition(0);
         this.RSERV.setPosition(0);
-        this.sleepFunc(1000);
+        this.sleepFunc(200);
         this.encoderReset();
     }
 
     public void openServoAuton(){
         this.LSERV.setPosition(1);
         this.RSERV.setPosition(1);
-        this.sleepFunc(1000);
+        this.sleepFunc(200);
         this.encoderReset();
+    }
+
+    public void raiseLift(double height) {
+        this.lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        this.lift.setTargetPosition(cmDistance(height));
+        this.lift.setPower(1);
+        this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
+            this.lift.setPower(0);
+            tele.update();
+            this.command++;
+        }
+    }
+
+    public void lowerLift(double height){
+        this.lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.lift.setTargetPosition(cmDistance(height));
+        this.lift.setPower(1);
+        this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
+            this.lift.setPower(0);
+            tele.update();
+            this.command++;
+        }
+    }
+
+    public void raiseLiftDeux(double height){
+        this.lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        this.lift.setTargetPosition(cmDistance(height));
+        this.lift.setPower(0.5);
+        this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
+            this.lift.setPower(0);
+            tele.update();
+            this.command++;
+        }
+    }
+
+    public void lowerLiftDeux(double height){
+        this.lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.lift.setTargetPosition(cmDistance(height));
+        this.lift.setPower(0.5);
+        this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
+            this.lift.setPower(0);
+            tele.update();
+            this.command++;
+        }
     }
 
     public void sleepFunc(long time ) {
