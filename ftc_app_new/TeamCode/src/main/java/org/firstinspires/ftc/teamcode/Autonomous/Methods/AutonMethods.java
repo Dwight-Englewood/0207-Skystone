@@ -21,6 +21,7 @@ public class AutonMethods {
     final double proportionalValue = 0.000005;
     public int command;
     private int originTick;
+    int curVal = 0;
 
     //double error = 180 - gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     //Double turnSpeed = 0.5;
@@ -244,58 +245,81 @@ public class AutonMethods {
         }
     }
 
+    public void turn(Movement movementEnum, double target, double power) {
+        this.autonDrive(movementEnum, cmDistance(target));
+        this.drive(power);
+        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+//        if ((Math.abs(FL.getCurrentPosition() + 25) >= Math.abs(FL.getTargetPosition()) &&
+//                Math.abs(FL.getCurrentPosition() - 25) <= Math.abs(FL.getTargetPosition()))) {
+        tele.addData("Delta", Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()));
+        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 25)  ||
+                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 25)) {
+            autonDrive(movementEnum.STOP, 0);
+            tele.update();
+            this.command++;
+        }
+    }
+
     public void encoderReset() {
         this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.command++;
     }
 
+    public void liftReset() {
+        this.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.command++;
+    }
+
     public void closeClampAuton(){
         this.clamp.setPosition(0);
-        this.sleepFunc(200);
+        this.sleepFunc(1000);
         this.encoderReset();
     }
 
     public void openClampAuton(){
         this.clamp.setPosition(1);
-        this.sleepFunc(200);
+        this.sleepFunc(1000);
         this.encoderReset();
     }
 
     public void closeServoAuton(){
         this.LSERV.setPosition(0);
         this.RSERV.setPosition(0);
-        this.sleepFunc(200);
+        this.sleepFunc(1000);
         this.encoderReset();
     }
 
     public void openServoAuton(){
         this.LSERV.setPosition(1);
         this.RSERV.setPosition(1);
-        this.sleepFunc(200);
+        this.sleepFunc(1000);
         this.encoderReset();
     }
 
     public void raiseLift(double height) {
         this.lift.setDirection(DcMotorSimple.Direction.FORWARD);
         this.lift.setTargetPosition(cmDistance(height));
-        this.lift.setPower(1);
+        this.lift.setPower(0.8);
         this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
             this.lift.setPower(0);
+            this.sleepFunc(1000);
             tele.update();
             this.command++;
         }
     }
 
     public void lowerLift(double height){
-        this.lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.lift.setDirection(DcMotorSimple.Direction.FORWARD);
         this.lift.setTargetPosition(cmDistance(height));
-        this.lift.setPower(1);
+        this.lift.setPower(-0.8);
         this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
             this.lift.setPower(0);
+            this.sleepFunc(1000);
             tele.update();
             this.command++;
         }
@@ -343,25 +367,36 @@ public class AutonMethods {
         double power;
 
         if (originDiff < 75) {
-            power = .5;
+            power = .3;
         } else if (originDiff < 250) {
-            power = .6;
+            power = .45;
         } else if (originDiff < 400) {
-            power = .7;
+            power = .55;
         } else {
-            power = .8;
+            power = .65;
         }
 
         if (diff < 100) {
-            power = .5;
+            power = .3;
         } else if (diff < 300) {
-            power = .6;
+            power = .45;
         } else if (diff < 500) {
-            power = .7;
+            power = .55;
         } else if (diff < 750) {
-            power = .8;
+            power = .65;
         }
         this.drive(power);
+    }
+
+    public void gyroTurn(int turn){
+        if(Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle ) > 3) {
+            this.adjustHeading(turn);
+        }
+        else if (Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle ) < 3) {
+            this.curVal = turn;
+            this.drive(Movement.STOP, 0);
+            this.command++;
+        }
     }
 
     private int cmDistance(double distance) {

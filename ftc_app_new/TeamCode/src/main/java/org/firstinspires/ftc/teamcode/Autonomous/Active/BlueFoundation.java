@@ -83,7 +83,7 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 77,  true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 74,  true);
                 break;
 
             case 3:
@@ -99,7 +99,7 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 6:
-                robot.runToTarget(Movement.RIGHTTURN , 100,  false);
+                robot.turn(Movement.RIGHTTURN , 100,  0.25);
                 break;
 
             case 7:
@@ -123,7 +123,7 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 12:
-                robot.runToTarget(Movement.BACKWARD , 10,  false);
+                robot.runToTarget(Movement.BACKWARD , 20,  false);
                 break;
 
             case 13:

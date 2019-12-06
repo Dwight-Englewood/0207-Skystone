@@ -72,7 +72,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.BACKWARD, 71, false);
+                robot.runToTarget(Movement.BACKWARD, 65, false);
                 break;
 
             case 3:
@@ -88,7 +88,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 6:
-                robot.runToTarget(Movement.BACKWARD, 12, false);
+                robot.runToTarget(Movement.BACKWARD, 5, false);
                 break;
 
             case 7:
@@ -96,7 +96,7 @@ public class BlueBox extends OpMode {
                 break;
 
             case 8:
-                robot.runToTarget(Movement.LEFTSTRAFE, 210, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 250, true);
                 break;
 
             case 9:
@@ -144,18 +144,34 @@ public class BlueBox extends OpMode {
                 break;
 
             case 20:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 217, true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 150, true);
                 break;
 
             case 21:
-                robot.openClampAuton();
+                robot.encoderReset();
                 break;
 
             case 22:
-                robot.runToTarget(Movement.LEFTSTRAFE, 83, true);
+                robot.runToTarget(Movement.FORWARD, 20, false);
                 break;
 
             case 23:
+                robot.openClampAuton();
+                break;
+
+            case 24:
+                robot.runToTarget(Movement.BACKWARD, 20, false);
+                break;
+
+            case 25:
+                robot.encoderReset();
+                break;
+
+            case 26:
+                robot.runToTarget(Movement.LEFTSTRAFE, 50, true);
+                break;
+
+            case 27:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

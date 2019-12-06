@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,15 +9,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
+import org.firstinspires.ftc.teamcode.Hardware.*;
 
-@Disabled
-@Autonomous(name = "Park Auton [Test!]", group = "Autonomous")
-public class Park extends OpMode {
+@Autonomous(name = "GyroTurn", group = "Autonomous")
+public class GyroTurn extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
 
-    int auto = 0;
+    public int auto = 0;
 
     int center = 150;
     int left = 600;
@@ -72,18 +71,38 @@ public class Park extends OpMode {
      */
     @Override
     public void loop() {
-        switch (auto) {
+        switch (robot.command) {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-             //   robot.runToTarget(Movement.BACKWARD, 400, 0.5, false);
+                robot.runToTarget(Movement.BACKWARD, 30, false);
                 break;
 
             case 1:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.gyroTurn(-50);
+                break;
+
+            case 2:
+                robot.encoderReset();
+                break;
+
+            case 3:
+                robot.gyroTurn(0);
+                break;
+
+            case 4:
+                robot.encoderReset();
+                break;
+
+            case 5:
+                robot.gyroTurn(0);
+                break;
+
+            case 6:
+                robot.encoderReset();
                 break;
         }
-        telemetry.addData("Case:", auto);
+        telemetry.addData("Case:", robot.command);
         telemetry.update();
     }
 }

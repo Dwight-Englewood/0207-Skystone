@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Active;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,15 +10,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
-import org.firstinspires.ftc.teamcode.Hardware.*;
+import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "Red Foundation", group = "Autonomous")
-public class RedFoundation extends OpMode {
+@Disabled
+@Autonomous(name = "Park Auton [Test!]", group = "Autonomous")
+public class Park extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
 
-    public int auto = 0;
+    int auto = 0;
 
     int center = 150;
     int left = 600;
@@ -71,66 +73,18 @@ public class RedFoundation extends OpMode {
      */
     @Override
     public void loop() {
-        switch (robot.command) {
+        switch (auto) {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.runToTarget(Movement.BACKWARD, 30, false);
+                robot.runToTarget(Movement.BACKWARD, 10,  false);
                 break;
 
             case 1:
-                robot.encoderReset();
-                break;
-
-            case 2:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 74,  true);
-                break;
-
-            case 3:
-                robot.closeServoAuton();
-                break;
-
-            case 4:
-                robot.runToTarget(Movement.LEFTSTRAFE, 77,  true);
-                break;
-
-            case 5:
-                robot.encoderReset();
-                break;
-
-            case 6:
-                robot.turn(Movement.LEFTTURN , 100,  0.25);
-                break;
-
-            case 7:
-                robot.openServoAuton();
-                break;
-
-            case 8:
-                robot.runToTarget(Movement.RIGHTSTRAFE , 40,  true);
-                break;
-
-            case 9:
-                robot.encoderReset();
-                break;
-
-            case 10:
-                robot.runToTarget(Movement.FORWARD , 20,  false);
-                break;
-
-            case 11:
-                robot.encoderReset();
-                break;
-
-            case 12:
-                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
-                break;
-
-            case 13:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
-        telemetry.addData("Case:", robot.command);
+        telemetry.addData("Case:", auto);
         telemetry.update();
     }
 }

@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Active;
+package org.firstinspires.ftc.teamcode.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Methods.WebVu;
 import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
-
+@Disabled
 @Autonomous(name = "Double Sample Red", group = "Autonomous")
 public class RedDoubleSample extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();

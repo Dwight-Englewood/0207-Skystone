@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Active;
+package org.firstinspires.ftc.teamcode.Autonomous.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
+@Disabled
 @Autonomous(name = "RedSuperAuton", group = "Autonomous")
 public class RedSuperAuton extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -90,7 +92,8 @@ public class RedSuperAuton extends OpMode {
                 break;
 
             case 6:
-                robot.runToTarget(Movement.FORWARD, 15,  false);
+                robot.liftReset();
+                robot.runToTarget(Movement.FORWARD, 7,  false);
                 break;
 
             case 7:
@@ -98,18 +101,20 @@ public class RedSuperAuton extends OpMode {
                 break;
 
             case 8:
+                robot.liftReset();
                 robot.openClampAuton();
                 break;
 
             case 9:
-                robot.runToTarget(Movement.BACKWARD, 20, false);
+                robot.runToTarget(Movement.BACKWARD, 7, false);
                 break;
 
             case 10:
-                robot.encoderReset();
+                robot.lowerLift(20);
                 break;
 
             case 11:
+                robot.liftReset();
                 robot.runToTarget(Movement.LEFTSTRAFE, 300, true);
                 break;
 
@@ -142,6 +147,7 @@ public class RedSuperAuton extends OpMode {
                 break;
 
             case 19:
+                robot.liftReset();
                 robot.runToTarget(Movement.RIGHTSTRAFE, 240,  true);
                 break;
 
@@ -150,7 +156,8 @@ public class RedSuperAuton extends OpMode {
                 break;
 
             case 21:
-                robot.runToTarget(Movement.FORWARD, 15,  false);
+                robot.liftReset();
+                robot.runToTarget(Movement.FORWARD, 7,  false);
                 break;
 
             case 22:
@@ -162,46 +169,67 @@ public class RedSuperAuton extends OpMode {
                 break;
 
             case 24:
-                robot.runToTarget(Movement.RIGHTTURN , 100,  false);
+                robot.encoderReset();
                 break;
 
             case 25:
-                robot.openServoAuton();
+                robot.runToTarget(Movement.BACKWARD, 7,  false);
                 break;
 
             case 26:
-                robot.runToTarget(Movement.LEFTSTRAFE , 40,  true);
+                robot.turn(Movement.RIGHTTURN , 100,  0.25);
                 break;
 
             case 27:
-                robot.encoderReset();
+                robot.openServoAuton();
                 break;
 
             case 28:
-                robot.runToTarget(Movement.LEFTTURN , 100,  false);
+                robot.runToTarget(Movement.RIGHTSTRAFE , 10,  true);
                 break;
 
             case 29:
-                robot.encoderReset();
+                robot.closeServoAuton();
                 break;
 
             case 30:
-                robot.runToTarget(Movement.RIGHTSTRAFE , 40,  true);
+                robot.runToTarget(Movement.LEFTSTRAFE , 40,  true);
                 break;
 
             case 31:
-                robot.runToTarget(Movement.FORWARD , 10,  false);
-                break;
-
-            case 32:
                 robot.encoderReset();
                 break;
 
+            case 32:
+                robot.runToTarget(Movement.LEFTTURN , 100,  false);
+                break;
+
             case 33:
-                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
+                robot.encoderReset();
                 break;
 
             case 34:
+                robot.runToTarget(Movement.RIGHTSTRAFE , 40,  true);
+                break;
+
+            case 35:
+                robot.encoderReset();
+                break;
+
+            case 36:
+                robot.runToTarget(Movement.FORWARD , 10,  false);
+                break;
+
+            case 37:
+                robot.encoderReset();
+                break;
+
+            case 38:
+                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
+                break;
+
+            case 39:
+                robot.liftReset();
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
