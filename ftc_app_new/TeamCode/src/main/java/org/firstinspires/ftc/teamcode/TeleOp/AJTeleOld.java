@@ -104,7 +104,7 @@ public class AJTeleOld extends OpMode {
         telemetry.addLine("G2B: Open Servo");
         telemetry.addLine("G2A: Close Servo");
 
-        telemetry.addData("MagSwitch State", robot.magSwitch.getState());
+ //       telemetry.addData("MagSwitch State", robot.magSwitch.getState());
     }
 
     /*
