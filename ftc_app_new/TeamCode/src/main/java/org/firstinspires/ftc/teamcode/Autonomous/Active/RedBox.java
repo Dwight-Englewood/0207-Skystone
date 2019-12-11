@@ -39,6 +39,7 @@ public class RedBox extends OpMode {
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.LSERV.setDirection(Servo.Direction.REVERSE);
     }
 
     /*
@@ -112,7 +113,7 @@ public class RedBox extends OpMode {
                 break;
 
             case 12:
-                robot.runToTarget(Movement.BACKWARD, 10, false);
+                robot.runToTarget(Movement.BACKWARD, 15, false);
                 break;
 
             case 13:
@@ -120,7 +121,7 @@ public class RedBox extends OpMode {
                 break;
 
             case 14:
-                robot.runToTarget(Movement.FORWARD, 73, false);
+                robot.runToTarget(Movement.FORWARD, 75, false);
                 break;
 
             case 15:
@@ -128,7 +129,7 @@ public class RedBox extends OpMode {
                 break;
 
             case 16:
-                robot.runToTarget(Movement.LEFTSTRAFE, 22, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 19, true);
                 break;
 
             case 17:
@@ -136,7 +137,7 @@ public class RedBox extends OpMode {
                 break;
 
             case 18:
-                robot.runToTarget(Movement.BACKWARD, 25, false);
+                robot.runToTarget(Movement.BACKWARD, 35, false);
                 break;
 
             case 19:

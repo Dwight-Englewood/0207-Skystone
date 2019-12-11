@@ -82,8 +82,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-
-@TeleOp(name="VuforiaTest", group ="Concept")
+@Disabled
+@TeleOp(name="VuforiaTest [Delete]", group ="Concept")
 public class VuforiaTest extends LinearOpMode {
 
     // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:

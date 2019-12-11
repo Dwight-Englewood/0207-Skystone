@@ -192,32 +192,26 @@ public class AutonMethods {
         }
     }
 
-    public void openServo() {
-        this.LSERV.setPosition(1);
-        this.RSERV.setPosition(1);
-    }
-
-    public void closeServo() {
-        this.LSERV.setPosition(0);
-        this.RSERV.setPosition(0);
-    }
-
     public boolean adjustHeading(int targetHeading) {
         double curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         double headingError;
         headingError = targetHeading - curHeading;
         double driveScale = headingError;
         this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        if (headingError < -0.3)
-            driveScale = -0.15;
-        else if (headingError > 0.3)
-            driveScale = 0.15;
+
+        if (headingError < -.3)
+            driveScale = -.15;
+        else if (headingError > .3)
+            driveScale = .15;
         else {
             driveScale = 0;
             this.drive(Movement.LEFTTURN, driveScale);
             return true;
         }
         this.drive(Movement.LEFTTURN, driveScale);
+        tele.addData("curHeading", curHeading);
+        tele.addData("headingError", headingError);
+        tele.update();
         return false;
     }
 
@@ -234,7 +228,8 @@ public class AutonMethods {
         this.scalePower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-//        if ((Math.abs(FL.getCurrentPosition() + 25) >= Math.abs(FL.getTargetPosition()) &&
+//        if ((Math.abs(FL.getCurrentPosition() + 25) >= Math.abs(FL.getTargetPosi
+//        tion()) &&
 //                Math.abs(FL.getCurrentPosition() - 25) <= Math.abs(FL.getTargetPosition()))) {
         tele.addData("Delta", Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()));
         if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 25)  ||
@@ -283,16 +278,28 @@ public class AutonMethods {
         this.encoderReset();
     }
 
-    public void closeServoAuton(){
+    public void openServo() {
+        this.LSERV.setPosition(1);
+        this.RSERV.setPosition(1);
+    }
+
+    public void closeServo() {
+        this.LSERV.setDirection(Servo.Direction.REVERSE);
         this.LSERV.setPosition(0);
-        this.RSERV.setPosition(0);
+        this.RSERV.setPosition(0.15);
+    }
+
+    public void openServoAuton() {
+        this.LSERV.setPosition(1);
+        this.RSERV.setPosition(1);
         this.sleepFunc(1000);
         this.encoderReset();
     }
 
-    public void openServoAuton(){
-        this.LSERV.setPosition(1);
-        this.RSERV.setPosition(1);
+    public void closeServoAuton() {
+        this.LSERV.setDirection(Servo.Direction.REVERSE);
+        this.LSERV.setPosition(0);
+        this.RSERV.setPosition(0.15);
         this.sleepFunc(1000);
         this.encoderReset();
     }
@@ -389,14 +396,22 @@ public class AutonMethods {
     }
 
     public void gyroTurn(int turn){
-        if(Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle ) > 3) {
+        if(Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle ) > 10) {
             this.adjustHeading(turn);
         }
-        else if (Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle ) < 3) {
-            this.curVal = turn;
+        else if (Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle ) < 10) {
+         //   this.curVal = turn;
             this.drive(Movement.STOP, 0);
             this.command++;
         }
+    }
+
+    public double getCurval(){
+        return this.curVal;
+    }
+
+    public double getAngle(){
+        return this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 
     private int cmDistance(double distance) {

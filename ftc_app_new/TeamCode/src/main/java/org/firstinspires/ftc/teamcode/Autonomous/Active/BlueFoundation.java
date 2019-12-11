@@ -49,6 +49,7 @@ public class BlueFoundation extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.LSERV.setDirection(Servo.Direction.REVERSE);
     }
 
     /*
@@ -75,7 +76,8 @@ public class BlueFoundation extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.runToTarget(Movement.FORWARD, 35, false);
+                robot.runToTarget(Movement.FORWARD, 32
+                        , false);
                 break;
 
             case 1:

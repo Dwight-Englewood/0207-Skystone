@@ -191,8 +191,9 @@ public class Boot {
     }
 
     public void closeServo() {
+        this.LSERV.setDirection(Servo.Direction.REVERSE);
         this.LSERV.setPosition(0);
-        this.RSERV.setPosition(0);
+        this.RSERV.setPosition(0.15);
     }
 
 }

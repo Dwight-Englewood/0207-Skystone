@@ -39,6 +39,7 @@ public class BlueBox extends OpMode {
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.LSERV.setDirection(Servo.Direction.REVERSE);
     }
 
     /*

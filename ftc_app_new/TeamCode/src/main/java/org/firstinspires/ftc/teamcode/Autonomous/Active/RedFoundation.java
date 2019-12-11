@@ -49,6 +49,8 @@ public class RedFoundation extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.LSERV.setDirection(Servo.Direction.REVERSE);
+        robot.openServo();
     }
 
     /*
@@ -74,7 +76,6 @@ public class RedFoundation extends OpMode {
         switch (robot.command) {
             case 0:
                 this.clamp.setPosition(1);
-                robot.openServo();
                 robot.runToTarget(Movement.BACKWARD, 30, false);
                 break;
 
@@ -83,7 +84,7 @@ public class RedFoundation extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 74,  true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 69,  true);
                 break;
 
             case 3:
@@ -112,10 +113,9 @@ public class RedFoundation extends OpMode {
 
             case 9:
                 robot.encoderReset();
-                break;
 
             case 10:
-                robot.runToTarget(Movement.FORWARD , 20,  false);
+                robot.runToTarget(Movement. BACKWARD , 35,  false);
                 break;
 
             case 11:
@@ -123,10 +123,18 @@ public class RedFoundation extends OpMode {
                 break;
 
             case 12:
-                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
+                robot.runToTarget(Movement.FORWARD , 70,  false);
                 break;
 
             case 13:
+                robot.encoderReset();
+                break;
+
+            case 14:
+                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
+                break;
+
+            case 15:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

@@ -8,6 +8,9 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
@@ -16,6 +19,7 @@ public class GyroTurn extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
+    GyroCalibration gyroo = new GyroCalibration();
 
     public int auto = 0;
 
@@ -75,34 +79,39 @@ public class GyroTurn extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.runToTarget(Movement.BACKWARD, 30, false);
+                if(Math.abs(30 - robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle ) > 5) {
+                    robot.adjustHeading(30);
+                }
+                else{
+                    this.curVal = 0;
+                    robot.drive(Movement.STOP, 0);
+                    robot.command++;
+                }
                 break;
 
             case 1:
-                robot.gyroTurn(-50);
+                robot.encoderReset();
                 break;
 
             case 2:
-                robot.encoderReset();
+                robot.gyroTurn(-120);
                 break;
 
             case 3:
-                robot.gyroTurn(0);
-                break;
-
-            case 4:
                 robot.encoderReset();
                 break;
 
-            case 5:
-                robot.gyroTurn(0);
+            case 4:
+                robot.gyroTurn(-140);
                 break;
 
-            case 6:
+            case 5:
                 robot.encoderReset();
                 break;
         }
         telemetry.addData("Case:", robot.command);
+        telemetry.addData("curVal", robot.getCurval());
+        telemetry.addData("gyroo", robot.getAngle());
         telemetry.update();
     }
 }

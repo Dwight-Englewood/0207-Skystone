@@ -53,67 +53,60 @@ public class AJTeleOld extends OpMode {
      */
     @Override
     public void loop() {
-        robot.notKevinDrive(gamepad1.left_stick_y * speed, gamepad1.left_stick_x * speed, gamepad1.left_trigger * speed,gamepad1.right_trigger * speed);
-        /*if(robot.magSwitch.getState()){
+        robot.notKevinDrive(gamepad1.left_stick_y * speed, gamepad1.left_stick_x * speed, gamepad1.left_trigger * speed, gamepad1.right_trigger * speed);
+        /*
+        if (robot.magSwitch.getState()) {
             this.lift.setPower(gamepad2.right_stick_y);
+        } else if (!robot.magSwitch.getState()) {
+            if (gamepad2.right_stick_y < 0) {
+                this.lift.setPower(gamepad2.right_stick_y);
+            } else {
+                this.lift.setPower(0);
+            }
         }
-        else if(!robot.magSwitch.getState() && gamepad2.right_stick_y > 0){
-            this.lift.setPower(gamepad2.right_stick_y);
-        }
-        else if(!robot.magSwitch.getState() && gamepad2.right_stick_y < 0){
-            this.lift.setPower(0);
-        } else {
-            this.lift.setPower(0);
+*/
+        this.lift.setPower(gamepad2.right_stick_y);
+            //If true, go.
+            //If false, stop and change direction.
+            //If false and gamepad goes up, go up.
+            //If false and gamepad goes down, power = 0
+            // slowmode
+            if (gamepad1.a) {
+                speed = 0.5;
+            } else if (gamepad1.b) {
+                speed = 1;
+            }
+
+            if (gamepad2.x) {
+                this.clamp.setPosition(0);
+            }
+
+            if (gamepad2.y) {
+                this.clamp.setPosition(1);
+            }
+
+            if (gamepad2.b) {
+                robot.openServo();
+            }
+
+            if (gamepad2.a) {
+                robot.closeServo();
+            }
+
+            telemetry.addLine("G2X: Close Clamp");
+            telemetry.addLine("G2Y: Open Clamp");
+            telemetry.addLine("G2B: Open Servo");
+            telemetry.addLine("G2A: Close Servo");
+
+            //       telemetry.addData("MagSwitch State", robot.magSwitch.getState());
         }
 
+        /*
+         * Code to run ONCE after the driver hits STOP
          */
 
-        this.lift.setPower(gamepad2.right_stick_y);
 
-
-        //If true, go.
-        //If false, stop and change direction.
-        //If false and gamepad goes up, go up.
-        //If false and gamepad goes down, power = 0
-        // slowmode
-        if (gamepad1.a) {
-            speed = 0.5;
+        @Override
+        public void stop () {
         }
-        else if (gamepad1.b) {
-            speed = 1;
-        }
-
-        if (gamepad2.x) {
-            this.clamp.setPosition(0);
-        }
-
-        if (gamepad2.y) {
-            this.clamp.setPosition(1);
-        }
-
-        if (gamepad2.b) {
-            robot.openServo();
-        }
-
-        if (gamepad2.a) {
-            robot.closeServo();
-        }
-
-        telemetry.addLine("G2X: Close Clamp");
-        telemetry.addLine("G2Y: Open Clamp");
-        telemetry.addLine("G2B: Open Servo");
-        telemetry.addLine("G2A: Close Servo");
-
- //       telemetry.addData("MagSwitch State", robot.magSwitch.getState());
-    }
-
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-
-
-    @Override
-    public void stop() {
-    }
-
 }
