@@ -76,8 +76,7 @@ public class BlueFoundation extends OpMode {
             case 0:
                 this.clamp.setPosition(1);
                 robot.openServo();
-                robot.runToTarget(Movement.FORWARD, 32
-                        , false);
+                robot.runToTarget(Movement.FORWARD, 31, false);
                 break;
 
             case 1:
@@ -85,7 +84,7 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 74,  true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 71,  true);
                 break;
 
             case 3:
@@ -97,46 +96,42 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 5:
-                robot.encoderReset();
+                robot.gyroTurn(90);
                 break;
 
             case 6:
-                robot.turn(Movement.RIGHTTURN , 100,  0.25);
-                break;
-
-            case 7:
                 robot.openServoAuton();
                 break;
 
-            case 8:
+            case 7:
                 robot.runToTarget(Movement.RIGHTSTRAFE , 40,  true);
                 break;
 
-            case 9:
+            case 8:
                 robot.encoderReset();
                 break;
 
-            case 10:
+            case 9:
                 robot.runToTarget(Movement.FORWARD , 50,  false);
                 break;
 
-            case 11:
+            case 10:
                 robot.encoderReset();
+                break;
+
+            case 11:
+                robot.runToTarget(Movement.BACKWARD , 10,  false);
                 break;
 
             case 12:
-                robot.runToTarget(Movement.BACKWARD , 20,  false);
-                break;
-
-            case 13:
                 robot.encoderReset();
                 break;
 
-            case 14:
+            case 13:
                 robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
                 break;
 
-            case 15:
+            case 14:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
