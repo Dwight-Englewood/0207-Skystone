@@ -58,11 +58,11 @@ public class FlywheelsTele extends OpMode {
         }
 
         if (gamepad2.a) {
-            robot.hinge.setPosition(0.7);
+            robot.hinge.setPosition(0);
         }
 
         if (gamepad2.b) {
-            robot.hinge.setPosition(0);
+            robot.hinge.setPosition(0.9);
         }
 
         if (gamepad2.x) {

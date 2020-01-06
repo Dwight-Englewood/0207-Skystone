@@ -56,9 +56,9 @@ public class AJTeleOld extends OpMode {
             robot.tape.setPower(0);
         }
 
-        if (gamepad1.a) {
+        if (gamepad1.b) {
                 speed = 0.5;
-            } else if (gamepad1.b) {
+            } else if (gamepad1.a) {
                 speed = 1;
             }
 

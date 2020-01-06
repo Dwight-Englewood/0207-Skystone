@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Active;
+package org.firstinspires.ftc.teamcode.Autonomous.OldActiveAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
-@Autonomous(name = "Blue Foundation", group = "Autonomous")
-public class BlueFoundation extends OpMode {
+@Autonomous(name = "Red Foundation", group = "Autonomous")
+public class RedFoundation extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
@@ -50,6 +50,8 @@ public class BlueFoundation extends OpMode {
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.LSERV.setDirection(Servo.Direction.REVERSE);
+        robot.tape.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.openServo();
     }
 
     /*
@@ -75,7 +77,7 @@ public class BlueFoundation extends OpMode {
         switch (robot.command) {
             case 0:
                 this.clamp.setPosition(1);
-                robot.runToTarget(Movement.FORWARD, 31, false);
+                robot.runToTarget(Movement.BACKWARD, 30, false);
                 break;
 
             case 1:
@@ -84,7 +86,7 @@ public class BlueFoundation extends OpMode {
 
             case 2:
                 runtime.reset();
-                robot.runToTarget(Movement.RIGHTSTRAFE, 71,  true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 73,  true);
                 break;
 
             case 3:
@@ -100,7 +102,7 @@ public class BlueFoundation extends OpMode {
 
             case 5:
                 runtime.reset();
-                robot.gyroTurn(90);
+                robot.gyroTurn(-90);
                 break;
 
             case 6:
@@ -119,7 +121,7 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 9:
-                robot.runToTarget(Movement.FORWARD , 50,  false);
+                robot.runToTarget(Movement. BACKWARD , 35,  false);
                 break;
 
             case 10:
@@ -127,7 +129,7 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 11:
-                robot.runToTarget(Movement.BACKWARD , 10,  false);
+                robot.runToTarget(Movement. FORWARD , 10,  false);
                 break;
 
             case 12:
@@ -143,6 +145,7 @@ public class BlueFoundation extends OpMode {
                 break;
         }
         telemetry.addData("Case:", robot.command);
+        telemetry.addData("runtime", robot.runtime.milliseconds());
         telemetry.update();
     }
 }
