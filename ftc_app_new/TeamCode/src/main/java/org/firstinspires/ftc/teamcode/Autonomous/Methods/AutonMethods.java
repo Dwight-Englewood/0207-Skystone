@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Test.FindSkystone;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 public class AutonMethods {
-    public static DcMotor BL, BR, FL, FR, lift;
+    public static DcMotor BL, BR, FL, FR, lift, tape;
     public static Servo LSERV, RSERV, clamp;
     HardwareMap map;
     Telemetry tele;
@@ -50,6 +50,7 @@ public class AutonMethods {
         BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
+        tape = this.map.get(DcMotor.class, "tape");
         lift = this.map.get(DcMotor.class, "Lift");
 
         clamp = this.map.get(Servo.class, "clamp");
@@ -231,35 +232,12 @@ public class AutonMethods {
         this.scalePower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-//        if ((Math.abs(FL.getCurrentPosition() + 25) >= Math.abs(FL.getTargetPosi
-//        tion()) &&
-//                Math.abs(FL.getCurrentPosition() - 25) <= Math.abs(FL.getTargetPosition()))) {
-        tele.addData("Delta", Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()));
         if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 25) ||
                 (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 25)) {
             autonDrive(movementEnum.STOP, 0);
+            this.runtime.reset();
             tele.update();
             this.command++;
-        }
-    }
-
-    public void controlledTarget(Movement movementEnum, double target, boolean strafe) {
-        if (strafe) {
-            this.autonDrive(movementEnum, cmDistance(strafeVal(target)));
-        } else {
-            this.autonDrive(movementEnum, cmDistance(target));
-        }
-        this.scalePower();
-        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-//        if ((Math.abs(FL.getCurrentPosition() + 25) >= Math.abs(FL.getTargetPosi
-//        tion()) &&
-//                Math.abs(FL.getCurrentPosition() - 25) <= Math.abs(FL.getTargetPosition()))) {
-        tele.addData("Delta", Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()));
-        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 25) ||
-                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 25)) {
-            autonDrive(movementEnum.STOP, 0);
-            tele.update();
         }
     }
 
@@ -291,14 +269,10 @@ public class AutonMethods {
 
     public void closeClampAuton() {
         this.clamp.setPosition(0);
-        this.sleepFunc(1000);
-        this.encoderReset();
     }
 
     public void openClampAuton() {
         this.clamp.setPosition(1);
-        this.sleepFunc(1000);
-        this.encoderReset();
     }
 
     public void openServo() {
@@ -315,16 +289,12 @@ public class AutonMethods {
     public void openServoAuton() {
         this.LSERV.setPosition(1);
         this.RSERV.setPosition(1);
-        this.sleepFunc(1000);
-        this.encoderReset();
     }
 
     public void closeServoAuton() {
         this.LSERV.setDirection(Servo.Direction.REVERSE);
         this.LSERV.setPosition(0);
         this.RSERV.setPosition(0.15);
-        this.sleepFunc(1000);
-        this.encoderReset();
     }
 
     public void raiseLift(double height) {
@@ -332,13 +302,6 @@ public class AutonMethods {
         this.lift.setTargetPosition(cmDistance(height));
         this.lift.setPower(0.8);
         this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
-            this.lift.setPower(0);
-            this.sleepFunc(1000);
-            tele.update();
-            this.command++;
-        }
     }
 
     public void lowerLift(double height) {
@@ -346,13 +309,6 @@ public class AutonMethods {
         this.lift.setTargetPosition(cmDistance(height));
         this.lift.setPower(-0.8);
         this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
-            this.lift.setPower(0);
-            this.sleepFunc(1000);
-            tele.update();
-            this.command++;
-        }
     }
 
     public void raiseLiftDeux(double height) {
@@ -360,12 +316,6 @@ public class AutonMethods {
         this.lift.setTargetPosition(cmDistance(height));
         this.lift.setPower(0.5);
         this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
-            this.lift.setPower(0);
-            tele.update();
-            this.command++;
-        }
     }
 
     public void lowerLiftDeux(double height) {
@@ -373,19 +323,17 @@ public class AutonMethods {
         this.lift.setTargetPosition(cmDistance(height));
         this.lift.setPower(0.5);
         this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if ((Math.abs(lift.getCurrentPosition() - lift.getTargetPosition()) < 5)) {
-            this.lift.setPower(0);
-            tele.update();
-            this.command++;
-        }
     }
 
-    public void sleepFunc(long time) {
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException E) {
-            tele.addLine("Sleep Failed");
+    public void extendTape(double target){
+        this.tape.setTargetPosition(cmDistance(target));
+        this.tape.setPower(1);
+        this.tape.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if ((Math.abs(this.tape.getCurrentPosition() - this.tape.getTargetPosition()) < 25)) {
+            this.tape.setPower(0);
+            this.tape.setTargetPosition(0);
+            this.command++;
         }
     }
 

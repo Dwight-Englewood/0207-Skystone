@@ -70,6 +70,9 @@ public class BlueBox extends OpMode {
 
             case 1:
                 robot.closeClampAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 2:
@@ -81,11 +84,16 @@ public class BlueBox extends OpMode {
                 break;
 
             case 4:
+                runtime.reset();
+
                 robot.runToTarget(Movement.RIGHTSTRAFE, 152, true);
                 break;
 
             case 5:
                 robot.openClampAuton();
+                if (runtime.milliseconds() > 1000) {
+                    robot.command++;
+                }
                 break;
 
             case 6:
@@ -129,11 +137,16 @@ public class BlueBox extends OpMode {
                 break;
 
             case 16:
+                runtime.reset();
+
                 robot.runToTarget(Movement.RIGHTSTRAFE, 22, true);
                 break;
 
             case 17:
                 robot.closeClampAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 18:
@@ -153,11 +166,16 @@ public class BlueBox extends OpMode {
                 break;
 
             case 22:
+                runtime.reset();
+
                 robot.runToTarget(Movement.FORWARD, 20, false);
                 break;
 
             case 23:
                 robot.openClampAuton();
+                if (runtime.milliseconds() > 1000) {
+                    robot.command++;
+                }
                 break;
 
             case 24:

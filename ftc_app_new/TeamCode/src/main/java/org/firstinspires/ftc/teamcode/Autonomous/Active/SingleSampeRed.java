@@ -51,6 +51,7 @@ public class SingleSampeRed extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -73,10 +74,9 @@ public class SingleSampeRed extends OpMode {
      */
     @Override
     public void loop() {
-        SkystoneDetect.Spot returnedloc = detector.getSkystonePosRed(telemetry);
         switch (robot.command) {
             case 0:
-                robot.runToTarget(Movement.LEFTSTRAFE, 50, false);
+                robot.runToTarget(Movement.BACKWARD, 50, false);
                 break;
 
             case 1:
@@ -84,15 +84,16 @@ public class SingleSampeRed extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.BACKWARD, 20, false);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 10, false);
                 break;
 
             case 3:
                 runtime.reset();
-                robot.command++;
+                robot.encoderReset();
                 break;
 
             case 4:
+                SkystoneDetect.Spot returnedloc = detector.getSkystonePosRed(telemetry);
                 switch (returnedloc) {
                     case LEFT:
                         left++;
@@ -134,40 +135,25 @@ public class SingleSampeRed extends OpMode {
                 break;
 
             case 7:
-                if (block == 1) {
-                    robot.runToTarget(Movement.LEFTSTRAFE, stroll * 2, true);
-
-                } else if (block == 2) {
-                    robot.runToTarget(Movement.LEFTSTRAFE, 0, true);
-
-                } else {
-                    robot.runToTarget(Movement.LEFTSTRAFE, stroll, true);
-                }
+                runtime.reset();
+                robot.runToTarget(Movement.FORWARD, 65, false);
                 break;
 
             case 8:
-                robot.encoderReset();
-                break;
-
-            case 9:
-                robot.runToTarget(Movement.FORWARD, 50, false);
-                break;
-
-            case 10:
                 robot.closeClampAuton();
                 break;
 
-            case 11:
+            case 9:
                 robot.runToTarget(Movement.BACKWARD, 20, false);
                 break;
 
-            case 12:
+            case 10:
                 robot.encoderReset();
                 break;
 
-            case 13:
+            case 11:
                 if (block == 1) {
-                    robot.command = 14;
+                    robot.command = 12;
                 } else if (block == 2) {
                     robot.command = 140;
                 } else {
@@ -175,23 +161,25 @@ public class SingleSampeRed extends OpMode {
                 }
                 break;
 
-            case 14:
+            case 12:
+                runtime.reset();
                 robot.runToTarget(Movement.LEFTSTRAFE, 152, true);
                 break;
 
-            case 15:
+            case 13:
                 robot.openClampAuton();
                 break;
 
-            case 16:
+            case 14:
                 robot.runToTarget(Movement.RIGHTSTRAFE, 132, true);
                 break;
 
-            case 17:
+            case 15:
                 robot.encoderReset();
                 break;
 
             case 140:
+                runtime.reset();
                 robot.runToTarget(Movement.LEFTSTRAFE, 132, true);
                 break;
 
@@ -200,6 +188,7 @@ public class SingleSampeRed extends OpMode {
                 break;
 
             case 142:
+                runtime.reset();
                 robot.runToTarget(Movement.RIGHTSTRAFE, 72, true);
                 break;
 
@@ -208,6 +197,7 @@ public class SingleSampeRed extends OpMode {
                 break;
 
             case 144:
+                runtime.reset();
                 robot.runToTarget(Movement.LEFTSTRAFE, 92, true);
                 break;
 
@@ -224,6 +214,7 @@ public class SingleSampeRed extends OpMode {
                 break;
 
             case 1400:
+                runtime.reset();
                 robot.runToTarget(Movement.LEFTSTRAFE, 112, true);
                 break;
 
@@ -232,6 +223,7 @@ public class SingleSampeRed extends OpMode {
                 break;
 
             case 1402:
+                runtime.reset();
                 robot.runToTarget(Movement.RIGHTSTRAFE, 52, true);
                 break;
 
@@ -240,6 +232,7 @@ public class SingleSampeRed extends OpMode {
                 break;
 
             case 1404:
+                runtime.reset();
                 robot.runToTarget(Movement.LEFTSTRAFE, 72, true);
                 break;
 
@@ -259,6 +252,7 @@ public class SingleSampeRed extends OpMode {
         telemetry.addData("right", right);
         telemetry.addData("middle", middle);
         telemetry.addData("left", left);
+        telemetry.addData("block", block);
         telemetry.update();
     }
 }

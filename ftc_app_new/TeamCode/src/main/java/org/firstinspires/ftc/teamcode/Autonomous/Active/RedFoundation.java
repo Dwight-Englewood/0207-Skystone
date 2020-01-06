@@ -50,6 +50,7 @@ public class RedFoundation extends OpMode {
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.LSERV.setDirection(Servo.Direction.REVERSE);
+        robot.tape.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.openServo();
     }
 
@@ -84,11 +85,15 @@ public class RedFoundation extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 71,  true);
+                runtime.reset();
+                robot.runToTarget(Movement.RIGHTSTRAFE, 73,  true);
                 break;
 
             case 3:
                 robot.closeServoAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 4:
@@ -96,11 +101,15 @@ public class RedFoundation extends OpMode {
                 break;
 
             case 5:
+                runtime.reset();
                 robot.gyroTurn(-90);
                 break;
 
             case 6:
                 robot.openServoAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 7:
@@ -109,6 +118,7 @@ public class RedFoundation extends OpMode {
 
             case 8:
                 robot.encoderReset();
+                break;
 
             case 9:
                 robot.runToTarget(Movement. BACKWARD , 35,  false);
@@ -135,6 +145,7 @@ public class RedFoundation extends OpMode {
                 break;
         }
         telemetry.addData("Case:", robot.command);
+        telemetry.addData("runtime", robot.runtime.milliseconds());
         telemetry.update();
     }
 }

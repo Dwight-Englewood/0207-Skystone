@@ -70,6 +70,9 @@ public class RedBox extends OpMode {
 
             case 1:
                 robot.closeClampAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 2:
@@ -81,11 +84,16 @@ public class RedBox extends OpMode {
                 break;
 
             case 4:
+                runtime.reset();
+
                 robot.runToTarget(Movement.LEFTSTRAFE, 152, true);
                 break;
 
             case 5:
                 robot.openClampAuton();
+                if (runtime.milliseconds() > 1000) {
+                    robot.command++;
+                }
                 break;
 
             case 6:
@@ -129,11 +137,16 @@ public class RedBox extends OpMode {
                 break;
 
             case 16:
+                runtime.reset();
+
                 robot.runToTarget(Movement.LEFTSTRAFE, 19, true);
                 break;
 
             case 17:
                 robot.closeClampAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 18:
@@ -145,11 +158,16 @@ public class RedBox extends OpMode {
                 break;
 
             case 20:
+                runtime.reset();
+
                 robot.runToTarget(Movement.LEFTSTRAFE, 217, true);
                 break;
 
             case 21:
                 robot.openClampAuton();
+                if (runtime.milliseconds() > 1000) {
+                    robot.command++;
+                }
                 break;
 
             case 22:

@@ -75,7 +75,6 @@ public class BlueFoundation extends OpMode {
         switch (robot.command) {
             case 0:
                 this.clamp.setPosition(1);
-                robot.openServo();
                 robot.runToTarget(Movement.FORWARD, 31, false);
                 break;
 
@@ -84,11 +83,15 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 2:
+                runtime.reset();
                 robot.runToTarget(Movement.RIGHTSTRAFE, 71,  true);
                 break;
 
             case 3:
                 robot.closeServoAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 4:
@@ -96,11 +99,15 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 5:
+                runtime.reset();
                 robot.gyroTurn(90);
                 break;
 
             case 6:
                 robot.openServoAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 7:

@@ -8,17 +8,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
-
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Tele-op",group="TeleOp")
-//Disabled
+//@Disabled
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Tele-op ()",group="TeleOp")
 public class AJTeleOld extends OpMode {
     // Declare OpMode members.
     private ElapsedTime timer = new ElapsedTime();
     Boot robot = new Boot();
-    boolean wabbo = false;
-
-    public static DcMotor lift;
-    public static Servo clamp;
     double speed = 1;
 
     @Override
@@ -26,17 +21,14 @@ public class AJTeleOld extends OpMode {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
 
-        lift = this.hardwareMap.get(DcMotor.class, "Lift");
-        clamp = this.hardwareMap.get(Servo.class, "clamp");
-
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        //   robot.color_sensor.enableLed(false);
+        robot.lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.tape.setDirection(DcMotorSimple.Direction.FORWARD);
 
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.openServo();
     }
 
     @Override
@@ -54,35 +46,28 @@ public class AJTeleOld extends OpMode {
     @Override
     public void loop() {
         robot.notKevinDrive(gamepad1.left_stick_y * speed, gamepad1.left_stick_x * speed, gamepad1.left_trigger * speed, gamepad1.right_trigger * speed);
-        /*
-        if (robot.magSwitch.getState()) {
-            this.lift.setPower(gamepad2.right_stick_y);
-        } else if (!robot.magSwitch.getState()) {
-            if (gamepad2.right_stick_y < 0) {
-                this.lift.setPower(gamepad2.right_stick_y);
-            } else {
-                this.lift.setPower(0);
-            }
+        robot.lift.setPower(gamepad2.right_stick_y);
+
+        if (gamepad2.dpad_up) {
+            robot.tape.setPower(-1);
+        } else if (gamepad2.dpad_down){
+            robot.tape.setPower(1);
+        } else {
+            robot.tape.setPower(0);
         }
-*/
-        this.lift.setPower(gamepad2.right_stick_y);
-            //If true, go.
-            //If false, stop and change direction.
-            //If false and gamepad goes up, go up.
-            //If false and gamepad goes down, power = 0
-            // slowmode
-            if (gamepad1.a) {
+
+        if (gamepad1.a) {
                 speed = 0.5;
             } else if (gamepad1.b) {
                 speed = 1;
             }
 
             if (gamepad2.x) {
-                this.clamp.setPosition(0);
+                robot.clamp.setPosition(0);
             }
 
             if (gamepad2.y) {
-                this.clamp.setPosition(1);
+                robot.clamp.setPosition(1);
             }
 
             if (gamepad2.b) {
@@ -97,8 +82,6 @@ public class AJTeleOld extends OpMode {
             telemetry.addLine("G2Y: Open Clamp");
             telemetry.addLine("G2B: Open Servo");
             telemetry.addLine("G2A: Close Servo");
-
-            //       telemetry.addData("MagSwitch State", robot.magSwitch.getState());
         }
 
         /*

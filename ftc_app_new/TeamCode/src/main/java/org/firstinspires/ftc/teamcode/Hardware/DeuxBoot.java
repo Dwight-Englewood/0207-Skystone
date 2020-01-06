@@ -10,12 +10,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-public class Boot {
+public class DeuxBoot {
     public static DcMotor
-            BL, BR, FL, FR, lift, tape;
+            BL,
+            BR,
+            FL,
+            FR,
+            lift,
+            intakeL,
+            intakeR;
 
     public static Servo
-        LSERV, RSERV, clamp;
+            hinge,
+            clamp,
+            foundationLeft,
+            foundationRight;
 
     HardwareMap map;
     Telemetry tele;
@@ -29,7 +38,7 @@ public class Boot {
     BNO055IMU.Parameters parameters;
     Orientation angles;
 
-    public Boot() {
+    public DeuxBoot() {
     }
 
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
@@ -37,21 +46,28 @@ public class Boot {
         this.tele = tele;
 
         BR = this.map.get(DcMotor.class, "BR");
-        BL = this.map.get(DcMotor.class, "BL");
+        BL = this.map.get(DcMotor.class, "FR");
         FL = this.map.get(DcMotor.class, "FL");
-        FR = this.map.get(DcMotor.class, "FR");
+        FR = this.map.get(DcMotor.class, "BL");
+
         lift = this.map.get(DcMotor.class, "Lift");
-        tape = this.map.get(DcMotor.class, "tape");
+        intakeL = this.map.get(DcMotor.class, "intakeL");
+        intakeR = this.map.get(DcMotor.class, "intakeR");
 
-        LSERV = this.map.get(Servo.class, "LSERV");
-        RSERV = this.map.get(Servo.class, "RSERV");
         clamp = this.map.get(Servo.class, "clamp");
+        foundationLeft = this.map.get(Servo.class, "fleft");
+        foundationRight = this.map.get(Servo.class, "fright");
 
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        hinge = this.map.get(Servo.class, "hinge");
+
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FR.setDirection(DcMotorSimple.Direction.FORWARD);
-        tape.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -71,7 +87,7 @@ public class Boot {
         FR.setMode(runMode);
     }
 
-    public void notKevinDrive(double leftStick_y, double leftStick_x, double leftTrigger, double rightTrigger) {
+    public void drive(double leftStick_y, double rightStick_y, double leftTrigger, double rightTrigger) {
         if (leftTrigger > .3) {
             drive(Movement.LEFTSTRAFE, leftTrigger * 0.75);
             return;
@@ -80,39 +96,13 @@ public class Boot {
             drive(Movement.RIGHTSTRAFE, rightTrigger * 0.75);
             return;
         }
-
         FL.setPower(leftStick_y);
         FR.setPower(leftStick_y);
-        BL.setPower(-leftStick_y);
-        BR.setPower(-leftStick_y);
+        BL.setPower(rightStick_y);
+        BR.setPower(rightStick_y);
 
-        FL.setPower(leftStick_x);
-        FR.setPower(-leftStick_x);
-        BL.setPower(-leftStick_x);
-        BR.setPower(leftStick_x);
     }
 
-    public void tankDrive(double leftStick, double rightStick, double leftTrigger, double rightTrigger, boolean invert, boolean brake) {
-        double i = invert ? 0.4 : 0.7;
-        //  double s = sickoMode ? 0.4 : 1;
-
-        if (leftTrigger > .3) {
-            drive(Movement.LEFTSTRAFE, leftTrigger * i);
-            return;
-        }
-
-        if (rightTrigger > .3) {
-            drive(Movement.RIGHTSTRAFE, rightTrigger * i);
-            return;
-        }
-        leftStick *= i;
-        rightStick *= i;
-
-        FL.setPower(rightStick);
-        FR.setPower(leftStick);
-        BL.setPower(-rightStick);
-        BR.setPower(-leftStick);
-    }
     //TODO fix the the driver values and restrict the motor values
     public void drive(Movement movement, double power) {
         switch (movement) {
@@ -133,15 +123,15 @@ public class Boot {
             case LEFTSTRAFE:
                 FL.setPower(power);
                 FR.setPower(-power);
-                BL.setPower(power);
-                BR.setPower(-power);
+                BL.setPower(-power);
+                BR.setPower(power);
                 break;
 
             case RIGHTSTRAFE:
                 FL.setPower(-power);
                 FR.setPower(power);
-                BL.setPower(-power);
-                BR.setPower(power);
+                BL.setPower(power);
+                BR.setPower(-power);
                 break;
 
             case LEFTTURN:
@@ -166,18 +156,6 @@ public class Boot {
                 break;
         }
     }
-
-    public void openServo() {
-        this.LSERV.setPosition(1);
-        this.RSERV.setPosition(1);
-    }
-
-    public void closeServo() {
-        this.LSERV.setDirection(Servo.Direction.REVERSE);
-        this.LSERV.setPosition(0);
-        this.RSERV.setPosition(0.15);
-    }
-
 }
 
 
