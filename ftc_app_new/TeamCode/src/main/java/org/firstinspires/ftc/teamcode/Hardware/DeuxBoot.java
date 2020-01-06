@@ -10,7 +10,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-public class DeuxBoot {
+public class
+DeuxBoot {
     public static DcMotor
             BL,
             BR,
@@ -63,12 +64,12 @@ public class DeuxBoot {
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
         intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
-
+/*
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
-
+*/
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;

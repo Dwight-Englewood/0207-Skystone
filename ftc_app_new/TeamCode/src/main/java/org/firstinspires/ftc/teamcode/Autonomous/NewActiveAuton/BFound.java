@@ -9,10 +9,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
-import org.firstinspires.ftc.teamcode.Hardware.Movement;
+import org.firstinspires.ftc.teamcode.Hardware.*;
 
-@Autonomous(name = "Blue Foundation", group = "Autonomous")
-public class BlueFoundation extends OpMode {
+@Autonomous(name = "BFound", group = "Autonomous")
+public class BFound extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
@@ -28,6 +28,8 @@ public class BlueFoundation extends OpMode {
     int rightBack = 1750;
 
     int curVal = 0;
+
+    public static Servo clamp;
 
     public void init() {
         robot.init(hardwareMap, telemetry, false);
@@ -110,30 +112,17 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 8:
+                robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
             case 9:
-                robot.runToTarget(Movement.FORWARD , 50,  false);
+                if (runtime.milliseconds() > 10000) {
+                    robot.tapeExtend(4500,0.5);
+                }
                 break;
 
             case 10:
-                robot.encoderReset();
-                break;
-
-            case 11:
-                robot.runToTarget(Movement.BACKWARD , 10,  false);
-                break;
-
-            case 12:
-                robot.encoderReset();
-                break;
-
-            case 13:
-                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
-                break;
-
-            case 14:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

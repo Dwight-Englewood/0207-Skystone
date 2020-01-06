@@ -138,7 +138,6 @@ public class RedBox extends OpMode {
 
             case 16:
                 runtime.reset();
-
                 robot.runToTarget(Movement.LEFTSTRAFE, 19, true);
                 break;
 

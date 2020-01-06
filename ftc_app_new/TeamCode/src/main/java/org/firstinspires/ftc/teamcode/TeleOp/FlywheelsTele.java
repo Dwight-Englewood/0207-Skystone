@@ -48,8 +48,8 @@ public class FlywheelsTele extends OpMode {
         robot.drive(gamepad1.left_stick_y * speed, gamepad1.right_stick_y * speed, gamepad1.left_trigger * speed, gamepad1.right_trigger * speed);
         robot.lift.setPower(gamepad2.right_stick_y);
 
-        robot.intakeL.setPower(gamepad2.left_stick_y);
-        robot.intakeR.setPower(gamepad2.left_stick_y);
+        robot.intakeL.setPower(gamepad2.left_stick_y * 0.8);
+        robot.intakeR.setPower(gamepad2.left_stick_y * 0.8);
 
         if (gamepad1.b) {
             speed = 0.5;
@@ -58,11 +58,11 @@ public class FlywheelsTele extends OpMode {
         }
 
         if (gamepad2.a) {
-            robot.hinge.setPosition(0);
+            robot.hinge.setPosition(1);
         }
 
         if (gamepad2.b) {
-            robot.hinge.setPosition(0.9);
+            robot.hinge.setPosition(0);
         }
 
         if (gamepad2.x) {

@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
+package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -11,13 +12,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "Red Foundation", group = "Autonomous")
-public class RedFoundation extends OpMode {
+@Disabled
+@Autonomous(name = "Park Auton [Test!]", group = "Autonomous")
+public class Park extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
     AutonMethods robot = new AutonMethods();
 
-    public int auto = 0;
+    int auto = 0;
 
     int center = 150;
     int left = 600;
@@ -35,7 +37,9 @@ public class RedFoundation extends OpMode {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        
+
+        clamp = this.hardwareMap.get(Servo.class, "clamp");
+
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -47,9 +51,6 @@ public class RedFoundation extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.LSERV.setDirection(Servo.Direction.REVERSE);
-        robot.tape.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.openServo();
     }
 
     /*
@@ -72,78 +73,18 @@ public class RedFoundation extends OpMode {
      */
     @Override
     public void loop() {
-        switch (robot.command) {
+        switch (auto) {
             case 0:
                 this.clamp.setPosition(1);
-                robot.runToTarget(Movement.BACKWARD, 30, false);
+                robot.openServo();
+                robot.runToTarget(Movement.BACKWARD, 10,  false);
                 break;
 
             case 1:
-                robot.encoderReset();
-                break;
-
-            case 2:
-                runtime.reset();
-                robot.runToTarget(Movement.RIGHTSTRAFE, 73,  true);
-                break;
-
-            case 3:
-                robot.closeServoAuton();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-                break;
-
-            case 4:
-                robot.runToTarget(Movement.LEFTSTRAFE, 77,  true);
-                break;
-
-            case 5:
-                runtime.reset();
-                robot.gyroTurn(-90);
-                break;
-
-            case 6:
-                robot.openServoAuton();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-                break;
-
-            case 7:
-                robot.runToTarget(Movement.RIGHTSTRAFE , 40,  true);
-                break;
-
-            case 8:
-                robot.encoderReset();
-                break;
-
-            case 9:
-                robot.runToTarget(Movement. BACKWARD , 35,  false);
-                break;
-
-            case 10:
-                robot.encoderReset();
-                break;
-
-            case 11:
-                robot.runToTarget(Movement. FORWARD , 10,  false);
-                break;
-
-            case 12:
-                robot.encoderReset();
-                break;
-
-            case 13:
-                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
-                break;
-
-            case 14:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
-        telemetry.addData("Case:", robot.command);
-        telemetry.addData("runtime", robot.runtime.milliseconds());
+        telemetry.addData("Case:", auto);
         telemetry.update();
     }
 }

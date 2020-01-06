@@ -117,35 +117,21 @@ public class RedFoundation extends OpMode {
                 break;
 
             case 8:
+                robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
             case 9:
-                robot.runToTarget(Movement. BACKWARD , 35,  false);
+                if (runtime.milliseconds() > 10000) {
+                    robot.tapeExtend(4500,0.5);
+                }
                 break;
 
             case 10:
-                robot.encoderReset();
-                break;
-
-            case 11:
-                robot.runToTarget(Movement. FORWARD , 10,  false);
-                break;
-
-            case 12:
-                robot.encoderReset();
-                break;
-
-            case 13:
-                robot.runToTarget(Movement.LEFTSTRAFE , 100,  true);
-                break;
-
-            case 14:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("runtime", robot.runtime.milliseconds());
         telemetry.update();
     }
 }

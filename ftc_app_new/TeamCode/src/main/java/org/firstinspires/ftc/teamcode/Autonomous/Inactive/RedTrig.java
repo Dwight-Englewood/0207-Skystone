@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 
 @Disabled
-@Autonomous(name = "RedFoundation", group = "Autonomous")
+@Autonomous(name = "Red Foundation", group = "Autonomous")
 public class RedTrig extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;

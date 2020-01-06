@@ -13,9 +13,22 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Autonomous.Test.FindSkystone;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-public class AutonMethods {
-    public static DcMotor BL, BR, FL, FR, lift, tape;
-    public static Servo LSERV, RSERV, clamp;
+public class NewAutonMethods {
+    public static DcMotor
+            BL,
+            BR,
+            FL,
+            FR,
+            lift,
+            intakeL,
+            intakeR,
+            tape;
+
+    public static Servo
+            hinge,
+            clamp,
+            foundationLeft,
+            foundationRight;
     HardwareMap map;
     Telemetry tele;
 
@@ -36,7 +49,7 @@ public class AutonMethods {
     BNO055IMU.Parameters parameters;
     Orientation angles;
 
-    public AutonMethods() {
+    public NewAutonMethods() {
         command = 0;
     }
 
@@ -47,20 +60,24 @@ public class AutonMethods {
         color_sensor = this.map.get(ColorSensor.class, "Col");
 
         BR = this.map.get(DcMotor.class, "BR");
-        BL = this.map.get(DcMotor.class, "BL");
+        BL = this.map.get(DcMotor.class, "FR");
         FL = this.map.get(DcMotor.class, "FL");
-        FR = this.map.get(DcMotor.class, "FR");
+        FR = this.map.get(DcMotor.class, "BL");
+
         tape = this.map.get(DcMotor.class, "tape");
         lift = this.map.get(DcMotor.class, "Lift");
+        intakeL = this.map.get(DcMotor.class, "intakeL");
+        intakeR = this.map.get(DcMotor.class, "intakeR");
 
         clamp = this.map.get(Servo.class, "clamp");
-        LSERV = this.map.get(Servo.class, "LSERV");
-        RSERV = this.map.get(Servo.class, "RSERV");
+        foundationLeft = this.map.get(Servo.class, "fleft");
+        foundationRight = this.map.get(Servo.class, "fright");
 
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        hinge = this.map.get(Servo.class, "hinge");
+
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -241,11 +258,6 @@ public class AutonMethods {
         }
     }
 
-    public boolean extendTape(double target, double power) {
-
-        return true;
-    }
-
     public void turn(Movement movementEnum, double target, double power) {
         this.autonDrive(movementEnum, cmDistance(target));
         this.drive(power);
@@ -273,34 +285,32 @@ public class AutonMethods {
         this.command++;
     }
 
-    public void closeClampAuton() {
+    public void closeHingeAuton() {
         this.clamp.setPosition(0);
     }
 
-    public void openClampAuton() {
+    public void openHingeAuton() {
         this.clamp.setPosition(1);
     }
 
     public void openServo() {
-        this.LSERV.setPosition(1);
-        this.RSERV.setPosition(1);
+        this.foundationLeft.setPosition(0);
+        this.foundationRight.setPosition(1);
     }
 
     public void closeServo() {
-        this.LSERV.setDirection(Servo.Direction.REVERSE);
-        this.LSERV.setPosition(0);
-        this.RSERV.setPosition(0.15);
+        this.foundationLeft.setPosition(1);
+        this.foundationRight.setPosition(0);
     }
 
     public void openServoAuton() {
-        this.LSERV.setPosition(1);
-        this.RSERV.setPosition(1);
+        this.foundationLeft.setPosition(0);
+        this.foundationRight.setPosition(1);
     }
 
     public void closeServoAuton() {
-        this.LSERV.setDirection(Servo.Direction.REVERSE);
-        this.LSERV.setPosition(0);
-        this.RSERV.setPosition(0.15);
+        this.foundationLeft.setPosition(1);
+        this.foundationRight.setPosition(0);
     }
 
     public void raiseLift(double height) {
