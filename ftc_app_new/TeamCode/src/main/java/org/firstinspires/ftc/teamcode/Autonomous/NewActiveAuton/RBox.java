@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.OldActiveAuton;
+package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -10,15 +10,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.*;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Disabled
-@Autonomous(name = "SingleSampeRed", group = "Autonomous")
-public class SingleSampeRed extends OpMode {
+@Autonomous(name = "RBox", group = "Autonomous")
+public class RBox extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
-    AutonMethods robot = new AutonMethods();
+    NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
 
     int stroll = 20;
@@ -37,13 +35,13 @@ public class SingleSampeRed extends OpMode {
         detector.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-        clamp = this.hardwareMap.get(Servo.class, "clamp");
-
+/*
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
+
+ */
 
         robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -51,7 +49,7 @@ public class SingleSampeRed extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    //    robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -136,11 +134,16 @@ public class SingleSampeRed extends OpMode {
 
             case 7:
                 runtime.reset();
+                robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.runToTarget(Movement.FORWARD, 65, false);
                 break;
 
             case 8:
-                robot.closeClampAuton();
+                robot.intakeAuton(2000, 0.8);
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 9:
@@ -163,17 +166,22 @@ public class SingleSampeRed extends OpMode {
 
             case 12:
                 runtime.reset();
+                robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.runToTarget(Movement.LEFTSTRAFE, 152, true);
                 break;
 
             case 13:
-                robot.openClampAuton();
+                robot.intakeAuton(2000, -0.8);
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 14:
                 robot.runToTarget(Movement.RIGHTSTRAFE, 132, true);
                 break;
-
+/*
             case 15:
                 robot.encoderReset();
                 break;
@@ -244,7 +252,9 @@ public class SingleSampeRed extends OpMode {
                 robot.runToTarget(Movement.RIGHTSTRAFE, 10, true);
                 break;
 
-            case 1407:
+ */
+
+            case 15:
                 robot.encoderReset();
                 break;
         }

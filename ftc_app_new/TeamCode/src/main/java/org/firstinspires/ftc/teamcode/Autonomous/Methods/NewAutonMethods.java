@@ -21,12 +21,14 @@ public class NewAutonMethods {
             FR,
             lift,
             intakeL,
-            intakeR,
-            tape;
+            intakeR;
+           /* tape
+
+            */
 
     public static Servo
-            hinge,
-            clamp,
+            closer,
+            hinger,
             foundationLeft,
             foundationRight;
     HardwareMap map;
@@ -64,16 +66,16 @@ public class NewAutonMethods {
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "BL");
 
-        tape = this.map.get(DcMotor.class, "tape");
+     //   tape = this.map.get(DcMotor.class, "tape");
         lift = this.map.get(DcMotor.class, "Lift");
         intakeL = this.map.get(DcMotor.class, "intakeL");
         intakeR = this.map.get(DcMotor.class, "intakeR");
 
-        clamp = this.map.get(Servo.class, "clamp");
+        hinger = this.map.get(Servo.class, "hinger");
         foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
 
-        hinge = this.map.get(Servo.class, "hinge");
+        closer = this.map.get(Servo.class, "closer");
 
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
@@ -286,11 +288,19 @@ public class NewAutonMethods {
     }
 
     public void closeHingeAuton() {
-        this.clamp.setPosition(0);
+        this.hinger.setPosition(0);
     }
 
     public void openHingeAuton() {
-        this.clamp.setPosition(1);
+        this.hinger.setPosition(0.75);
+    }
+
+    public void closeClampAuton() {
+        this.closer.setPosition(0);
+    }
+
+    public void openClampAuton() {
+        this.closer.setPosition(1);
     }
 
     public void openServo() {
@@ -313,11 +323,22 @@ public class NewAutonMethods {
         this.foundationRight.setPosition(0);
     }
 
-    public void raiseLift(double height) {
-        this.lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        this.lift.setTargetPosition(cmDistance(height));
-        this.lift.setPower(0.8);
-        this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    public void intakeAuton(int target, double power) {
+        this.intakeL.setTargetPosition(target);
+        this.intakeR.setTargetPosition(target);
+
+        this.intakeL.setPower(power);
+        this.intakeR.setPower(power);
+
+        this.intakeL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.intakeR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if ((Math.abs(this.intakeL.getCurrentPosition() - this.intakeL.getTargetPosition()) < 25) ||
+                (Math.abs(this.intakeR.getCurrentPosition() - this.intakeR.getTargetPosition()) < 25)) {
+            this.intakeL.setPower(0);
+            this.intakeR.setPower(0);
+            this.command++;
+        }
     }
 
     public void lowerLift(double height) {
@@ -370,7 +391,7 @@ public class NewAutonMethods {
         this.drive(power);
     }
 
-
+/*
     public void tapeExtend(int target, double power) {
         this.tape.setTargetPosition(target);
         this.tape.setPower(power);
@@ -381,6 +402,8 @@ public class NewAutonMethods {
             this.command++;
         }
     }
+
+ */
 
     public void gyroTurn(int turn) {
         if (Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 10) {

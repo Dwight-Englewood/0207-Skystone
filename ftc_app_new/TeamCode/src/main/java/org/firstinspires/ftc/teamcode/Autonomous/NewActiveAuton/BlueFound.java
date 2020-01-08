@@ -8,38 +8,26 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.*;
 
-@Autonomous(name = "RFound", group = "Autonomous")
-public class RFound extends OpMode {
+@Autonomous(name = "BFound", group = "Autonomous")
+public class BlueFound extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
-    AutonMethods robot = new AutonMethods();
-
-    public int auto = 0;
-
-    int center = 150;
-    int left = 600;
-    int right = 350;
-
-    int centerBack = 1100;
-    int leftBack = 800;
-    int rightBack = 1750;
-
-    int curVal = 0;
-
-    public static Servo clamp;
+    NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
+/*
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
+
+ */
 
         robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -47,9 +35,7 @@ public class RFound extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.LSERV.setDirection(Servo.Direction.REVERSE);
-        robot.tape.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.openServo();
+  //      robot.tape.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     /*
@@ -114,13 +100,13 @@ public class RFound extends OpMode {
                 break;
 
             case 8:
-                robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         //       robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
             case 9:
                 if (runtime.milliseconds() > 10000) {
-                    robot.tapeExtend(4500,0.5);
+         //          robot.tapeExtend(4500,0.5);
                 }
                 break;
 

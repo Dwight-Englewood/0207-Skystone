@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
+@Disabled
 @Autonomous(name = "tapeAuton", group = "Autonomous")
 public class tapeAuton extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();

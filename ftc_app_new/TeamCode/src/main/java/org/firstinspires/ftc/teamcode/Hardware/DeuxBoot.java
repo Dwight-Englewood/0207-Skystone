@@ -22,8 +22,8 @@ DeuxBoot {
             intakeR;
 
     public static Servo
-            hinge,
-            clamp,
+            closer,
+            hinger,
             foundationLeft,
             foundationRight;
 
@@ -47,29 +47,29 @@ DeuxBoot {
         this.tele = tele;
 
         BR = this.map.get(DcMotor.class, "BR");
-        BL = this.map.get(DcMotor.class, "FR");
+        BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
-        FR = this.map.get(DcMotor.class, "BL");
+        FR = this.map.get(DcMotor.class, "FR");
 
         lift = this.map.get(DcMotor.class, "Lift");
         intakeL = this.map.get(DcMotor.class, "intakeL");
         intakeR = this.map.get(DcMotor.class, "intakeR");
 
-        clamp = this.map.get(Servo.class, "clamp");
+        hinger = this.map.get(Servo.class, "hinger");
         foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
 
-        hinge = this.map.get(Servo.class, "hinge");
+        closer = this.map.get(Servo.class, "closer");
 
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
         intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
-/*
+
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
-*/
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -98,10 +98,30 @@ DeuxBoot {
             return;
         }
         FL.setPower(leftStick_y);
-        FR.setPower(leftStick_y);
-        BL.setPower(rightStick_y);
+        FR.setPower(rightStick_y);
+        BL.setPower(leftStick_y);
         BR.setPower(rightStick_y);
+    }
 
+    public void notKevinDrive(double leftStick_y, double leftStick_x, double leftTrigger, double rightTrigger) {
+        if (leftTrigger > .3) {
+            drive(Movement.LEFTSTRAFE, leftTrigger * 0.75);
+            return;
+        }
+        if (rightTrigger > .3) {
+            drive(Movement.RIGHTSTRAFE, rightTrigger * 0.75);
+            return;
+        }
+
+        FL.setPower(leftStick_y);
+        FR.setPower(leftStick_y);
+        BL.setPower(leftStick_y);
+        BR.setPower(leftStick_y);
+
+        FL.setPower(-leftStick_x);
+        FR.setPower(leftStick_x);
+        BL.setPower(-leftStick_x);
+        BR.setPower(leftStick_x);
     }
 
     //TODO fix the the driver values and restrict the motor values

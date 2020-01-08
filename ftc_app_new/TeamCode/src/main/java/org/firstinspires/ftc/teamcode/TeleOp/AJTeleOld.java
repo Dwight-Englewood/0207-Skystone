@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Boot;
-//@Disabled
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Tele-op ()",group="TeleOp")
+@Disabled
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Tele-op",group="TeleOp")
 public class AJTeleOld extends OpMode {
     // Declare OpMode members.
     private ElapsedTime timer = new ElapsedTime();
