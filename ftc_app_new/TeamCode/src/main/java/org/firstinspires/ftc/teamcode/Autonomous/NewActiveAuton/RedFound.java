@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
-import org.firstinspires.ftc.teamcode.Hardware.*;
+import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 @Autonomous(name = "RFound", group = "Autonomous")
 public class RedFound extends OpMode {
@@ -21,13 +21,6 @@ public class RedFound extends OpMode {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-/*
-        robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
-
- */
 
         robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -35,7 +28,8 @@ public class RedFound extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-  //      robot.tape.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.openServoAuton();
+        //      robot.tape.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     /*
@@ -69,7 +63,7 @@ public class RedFound extends OpMode {
 
             case 2:
                 runtime.reset();
-                robot.runToTarget(Movement.RIGHTSTRAFE, 71,  true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 71,  true);
                 break;
 
             case 3:
@@ -80,12 +74,12 @@ public class RedFound extends OpMode {
                 break;
 
             case 4:
-                robot.runToTarget(Movement.LEFTSTRAFE, 77,  true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 72,  true);
                 break;
 
             case 5:
                 runtime.reset();
-                robot.gyroTurn(90);
+                robot.gyroTurn(-90);
                 break;
 
             case 6:
@@ -96,21 +90,34 @@ public class RedFound extends OpMode {
                 break;
 
             case 7:
-                robot.runToTarget(Movement.RIGHTSTRAFE , 40,  true);
+                robot.encoderReset();
                 break;
 
             case 8:
+                robot.runToTarget(Movement.LEFTSTRAFE , 15,  true);
+                break;
+
+            case 9:
          //       robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
-            case 9:
-                if (runtime.milliseconds() > 10000) {
+            case 10:
+                /*if (runtime.milliseconds() > 10000) {
          //           robot.tapeExtend(4500,0.5);
-                }
+                }*/
+                robot.runToTarget(Movement.FORWARD,20, true);
                 break;
 
-            case 10:
+            case 11:
+                robot.encoderReset();
+                break;
+
+            case 12:
+                robot.runToTarget(Movement.RIGHTSTRAFE,110, true);
+                break;
+
+            case 13:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

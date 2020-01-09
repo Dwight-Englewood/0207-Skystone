@@ -26,7 +26,6 @@ public class FlywheelsTele extends OpMode {
         robot.BL.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FR.setDirection(DcMotorSimple.Direction.REVERSE);
-
          */
 
         robot.lift.setDirection(DcMotorSimple.Direction.FORWARD);

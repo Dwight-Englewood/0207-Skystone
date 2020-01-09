@@ -22,24 +22,19 @@ public class NewAutonMethods {
             lift,
             intakeL,
             intakeR;
-           /* tape
-
-            */
+           /* tape */
 
     public static Servo
             closer,
             hinger,
             foundationLeft,
             foundationRight;
+
     HardwareMap map;
     Telemetry tele;
 
-    public ColorSensor color_sensor;
-
     public ElapsedTime runtime = new ElapsedTime();
-    FindSkystone skystoneFind = new FindSkystone();
 
-    final double proportionalValue = 0.000005;
     public int command;
     private int originTick;
     int curVal = 0;
@@ -56,10 +51,9 @@ public class NewAutonMethods {
     }
 
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
+
         this.map = map;
         this.tele = tele;
-
-        color_sensor = this.map.get(ColorSensor.class, "Col");
 
         BR = this.map.get(DcMotor.class, "BR");
         BL = this.map.get(DcMotor.class, "FR");
@@ -81,6 +75,11 @@ public class NewAutonMethods {
         intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
         intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
 
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -88,7 +87,7 @@ public class NewAutonMethods {
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         gyro = this.map.get(BNO055IMU.class, "gyro");
         gyro.initialize(parameters);
-        tele.addData(">", "Gyro Calibrating. Do Not Move!");
+        tele.addData(">", "Gyro Calibrating. Do Not Move! (Real Test)");
         tele.update();
     }
 
@@ -104,12 +103,6 @@ public class NewAutonMethods {
         BR.setPower(in);
         FR.setPower(in);
         FL.setPower(in);
-    }
-
-    public double motorSpeed() {
-        if (Math.abs(FL.getCurrentPosition()) < Math.abs(FL.getTargetPosition())) {
-        }
-        return Math.abs(FL.getTargetPosition()) - Math.abs(FL.getCurrentPosition() * proportionalValue);
     }
 
     public void autonDrive(Movement movement, int target) {
@@ -144,15 +137,15 @@ public class NewAutonMethods {
 
             case LEFTTURN:
                 FL.setTargetPosition(-target);
-                FR.setTargetPosition(target);
-                BL.setTargetPosition(-target);
+                FR.setTargetPosition(-target);
+                BL.setTargetPosition(target);
                 BR.setTargetPosition(target);
                 break;
 
             case RIGHTTURN:
                 FL.setTargetPosition(target);
-                FR.setTargetPosition(-target);
-                BL.setTargetPosition(target);
+                FR.setTargetPosition(target);
+                BL.setTargetPosition(-target);
                 BR.setTargetPosition(-target);
                 break;
 
@@ -184,28 +177,28 @@ public class NewAutonMethods {
             case LEFTSTRAFE:
                 FL.setPower(power);
                 FR.setPower(-power);
-                BL.setPower(power);
-                BR.setPower(-power);
+                BL.setPower(-power);
+                BR.setPower(power);
                 break;
 
             case RIGHTSTRAFE:
                 FL.setPower(-power);
                 FR.setPower(power);
-                BL.setPower(-power);
-                BR.setPower(power);
+                BL.setPower(power);
+                BR.setPower(-power);
                 break;
 
             case LEFTTURN:
                 FL.setPower(-power);
-                FR.setPower(power);
-                BL.setPower(-power);
+                FR.setPower(-power);
+                BL.setPower(power);
                 BR.setPower(power);
                 break;
 
             case RIGHTTURN:
                 FL.setPower(power);
-                FR.setPower(-power);
-                BL.setPower(power);
+                FR.setPower(power);
+                BL.setPower(-power);
                 BR.setPower(-power);
                 break;
 
@@ -230,10 +223,10 @@ public class NewAutonMethods {
             driveScale = .25;
         else {
             driveScale = 0;
-            this.drive(Movement.RIGHTTURN, driveScale);
+            this.drive(Movement.LEFTTURN, driveScale);
             return true;
         }
-        this.drive(Movement.RIGHTTURN, driveScale);
+        this.drive(Movement.LEFTTURN, driveScale);
         return false;
     }
     //Positive is left turn, negative is right turn.
@@ -309,8 +302,8 @@ public class NewAutonMethods {
     }
 
     public void closeServo() {
-        this.foundationLeft.setPosition(1);
-        this.foundationRight.setPosition(0);
+        this.foundationLeft.setPosition(0.9);
+        this.foundationRight.setPosition(0.1);
     }
 
     public void openServoAuton() {
@@ -319,8 +312,8 @@ public class NewAutonMethods {
     }
 
     public void closeServoAuton() {
-        this.foundationLeft.setPosition(1);
-        this.foundationRight.setPosition(0);
+        this.foundationLeft.setPosition(0.9);
+        this.foundationRight.setPosition(0.1);
     }
 
     public void intakeAuton(int target, double power) {
@@ -380,13 +373,13 @@ public class NewAutonMethods {
         }
 
         if (diff < 100) {
-            power = .25;
+            power = .3;
         } else if (diff < 300) {
-            power = .35;
-        } else if (diff < 500) {
             power = .4;
+        } else if (diff < 500) {
+            power = .45;
         } else if (diff < 750) {
-            power = .5;
+            power = .55;
         }
         this.drive(power);
     }

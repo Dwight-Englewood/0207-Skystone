@@ -8,7 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.Autonomous.Methods.*;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
 
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
@@ -32,6 +33,8 @@ public class BBox extends OpMode {
 
     public void init() {
         robot.init(hardwareMap, telemetry, false);
+        telemetry.addData(">", "Init Vuforia.");
+        telemetry.update();
         detector.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -40,7 +43,6 @@ public class BBox extends OpMode {
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
-
  */
 
         robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -82,7 +84,7 @@ public class BBox extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 10, false);
+                robot.runToTarget(Movement.LEFTSTRAFE, 50, false);
                 break;
 
             case 3:
@@ -91,7 +93,7 @@ public class BBox extends OpMode {
                 break;
 
             case 4:
-                SkystoneDetect.Spot returnedloc = detector.getSkystonePosRed(telemetry);
+                SkystoneDetect.Spot returnedloc = detector.getSkystonePosBlue(telemetry);
                 switch (returnedloc) {
                     case LEFT:
                         left++;
@@ -111,6 +113,8 @@ public class BBox extends OpMode {
                 }
 
                 if (runtime.milliseconds() > 2000) {
+                    robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.command++;
                 }
                 break;
@@ -118,13 +122,12 @@ public class BBox extends OpMode {
             case 5:
                 if (left > right && left > middle) {
                     block = 3; //LEFT
-                    robot.gyroTurn(90);
+                    robot.runToTarget(Movement.LEFTSTRAFE, 20, true);
                 } else if (right > left && right > middle) {
                     block = 1; //RIGHT
-                    robot.gyroTurn(90);
+                    robot.runToTarget(Movement.RIGHTSTRAFE, 30, true);
                 } else if (middle > right && middle > left) {
                     block = 2; //MIDDLE
-                    robot.gyroTurn(90);
                 }
                 break;
 
@@ -133,17 +136,15 @@ public class BBox extends OpMode {
                 break;
 
             case 7:
-                runtime.reset();
-                robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.runToTarget(Movement.FORWARD, 65, false);
+                robot.intakeAuton(2000, 0.8);
+                if (runtime.milliseconds() > 1000) {
+                    runtime.reset();
+                    robot.runToTarget(Movement.FORWARD, 35, false);
+                }
                 break;
 
             case 8:
-                robot.intakeAuton(2000, 0.8);
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
+                robot.encoderReset();
                 break;
 
             case 9:
@@ -153,7 +154,7 @@ public class BBox extends OpMode {
             case 10:
                 robot.encoderReset();
                 break;
-
+/*
             case 11:
                 if (block == 1) {
                     robot.command = 12;
@@ -168,7 +169,7 @@ public class BBox extends OpMode {
                 runtime.reset();
                 robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.runToTarget(Movement.LEFTSTRAFE, 152, true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 152, true);
                 break;
 
             case 13:
@@ -181,7 +182,7 @@ public class BBox extends OpMode {
             case 14:
                 robot.runToTarget(Movement.RIGHTSTRAFE, 132, true);
                 break;
-/*
+
             case 15:
                 robot.encoderReset();
                 break;

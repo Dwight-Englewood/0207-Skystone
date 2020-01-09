@@ -77,7 +77,7 @@ DeuxBoot {
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         gyro = this.map.get(BNO055IMU.class, "gyro");
         gyro.initialize(parameters);
-        tele.addData(">", "Gyro Calibrating. Do Not Move!");
+        tele.addData(">", "Gyro Calibrating. Do Not Move! (test)");
         tele.update();
     }
 

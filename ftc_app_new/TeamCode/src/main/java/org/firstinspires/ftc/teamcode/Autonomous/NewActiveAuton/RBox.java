@@ -8,7 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.Autonomous.Methods.*;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
 
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
@@ -40,7 +41,6 @@ public class RBox extends OpMode {
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
-
  */
 
         robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
