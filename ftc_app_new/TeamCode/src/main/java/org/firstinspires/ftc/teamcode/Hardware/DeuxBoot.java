@@ -10,6 +10,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+
 public class
 DeuxBoot {
     public static DcMotor
@@ -25,6 +27,8 @@ DeuxBoot {
             closer,
             hinger,
             foundationLeft,
+            flippy,
+            grabby,
             foundationRight;
 
     HardwareMap map;
@@ -35,6 +39,7 @@ DeuxBoot {
     //double error = 180 - gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     //Double turnSpeed = 0.5;
     //Integer angle = -45;
+    public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
     BNO055IMU.Parameters parameters;
     Orientation angles;
@@ -58,6 +63,8 @@ DeuxBoot {
         hinger = this.map.get(Servo.class, "hinger");
         foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
+        flippy = this.map.get(Servo.class, "flippy");
+        grabby = this.map.get(Servo.class, "grabby");
 
         closer = this.map.get(Servo.class, "closer");
 

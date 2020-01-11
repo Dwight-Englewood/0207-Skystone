@@ -13,6 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Autonomous.Test.FindSkystone;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+
 public class NewAutonMethods {
     public static DcMotor
             BL,
@@ -28,6 +30,8 @@ public class NewAutonMethods {
             closer,
             hinger,
             foundationLeft,
+            grabby,
+            flippy,
             foundationRight;
 
     HardwareMap map;
@@ -42,6 +46,7 @@ public class NewAutonMethods {
     //double error = 180 - gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     //Double turnSpeed = 0.5;
     //Integer angle = -45;
+    public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
     BNO055IMU.Parameters parameters;
     Orientation angles;
@@ -56,9 +61,9 @@ public class NewAutonMethods {
         this.tele = tele;
 
         BR = this.map.get(DcMotor.class, "BR");
-        BL = this.map.get(DcMotor.class, "FR");
+            BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
-        FR = this.map.get(DcMotor.class, "BL");
+        FR = this.map.get(DcMotor.class, "FR");
 
      //   tape = this.map.get(DcMotor.class, "tape");
         lift = this.map.get(DcMotor.class, "Lift");
@@ -68,6 +73,8 @@ public class NewAutonMethods {
         hinger = this.map.get(Servo.class, "hinger");
         foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
+        flippy = this.map.get(Servo.class, "flippy");
+        grabby = this.map.get(Servo.class, "grabby");
 
         closer = this.map.get(Servo.class, "closer");
 
@@ -76,9 +83,9 @@ public class NewAutonMethods {
         intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
-        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -290,6 +297,16 @@ public class NewAutonMethods {
 
     public void closeClampAuton() {
         this.closer.setPosition(0);
+    }
+
+    public void skystoneGrab() {
+        this.flippy.setPosition(0);
+        this.grabby.setPosition(0);
+    }
+
+    public void skystoneRelease() {
+        this.flippy.setPosition(1);
+        this.grabby.setPosition(1);
     }
 
     public void openClampAuton() {

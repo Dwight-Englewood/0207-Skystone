@@ -6,8 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.Hardware.DeuxBoot;
+
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="New Tele-op",group="TeleOp")
 public class FlywheelsTele extends OpMode {
@@ -15,7 +17,10 @@ public class FlywheelsTele extends OpMode {
     private ElapsedTime timer = new ElapsedTime();
     DeuxBoot robot = new DeuxBoot();
     double speed = 1;
-    boolean valo = true;
+    boolean buttonAheld = false;
+    boolean closerClosed = true;
+    boolean buttonBheld = false;
+    boolean hingedClosed = true;
 
     @Override
     public void init() {
@@ -64,24 +69,51 @@ public class FlywheelsTele extends OpMode {
             robot.closer.setPosition(1);
         }
 
-        if (gamepad2.b) { //close
+        if (gamepad2.b) { //close˚
             robot.closer.setPosition(0);
         }
      */
-        if (gamepad2.a && valo == true) {
-            robot.closer.setPosition(1);
-            valo = false;
-        } else if (gamepad2.a && valo == false) {
-            robot.closer.setPosition(0);
-            valo = true;
-        }
 
+/*
         if (gamepad2.x) { //open
             robot.hinger.setPosition(0.75);
         }
 
         if (gamepad2.y) { //close
             robot.hinger.setPosition(0);
+        }
+
+ */
+
+        if (gamepad2.a && !buttonAheld) {
+            buttonAheld = true;
+            if (closerClosed) {
+                closerClosed = false;
+                robot.closer.setPosition(1);
+                robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE);
+            } else {
+                closerClosed = true;
+                robot.closer.setPosition(0);
+            }
+        }
+
+        if (!gamepad2.a) {
+            buttonAheld = false;
+        }
+
+        if (gamepad2.b && !buttonBheld) {
+            buttonBheld = true;
+            if (hingedClosed) {
+                hingedClosed = false;
+                robot.hinger.setPosition(0.75);
+            } else {
+                hingedClosed = true;
+                robot.hinger.setPosition(0);
+            }
+        }
+
+        if (!gamepad2.b) {
+            buttonBheld = false;
         }
 
         if (gamepad2.dpad_up) {
@@ -92,6 +124,10 @@ public class FlywheelsTele extends OpMode {
         if (gamepad2.dpad_down) {
             robot.foundationLeft.setPosition(1);
             robot.foundationRight.setPosition(0);
+        }
+
+        if (timer.milliseconds() <= 80000){
+            robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED);
         }
     }
 

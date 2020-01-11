@@ -7,9 +7,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.*;
+
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 @Autonomous(name = "BFound", group = "Autonomous")
 public class BlueFound extends OpMode {
@@ -50,6 +51,7 @@ public class BlueFound extends OpMode {
      */
     @Override
     public void start() {
+        robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE);
         runtime.reset();
     }
 

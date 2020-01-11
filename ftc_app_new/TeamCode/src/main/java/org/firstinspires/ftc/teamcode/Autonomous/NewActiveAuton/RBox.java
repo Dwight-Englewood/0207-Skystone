@@ -10,8 +10,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
-
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
+
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 @Autonomous(name = "RBox", group = "Autonomous")
 public class RBox extends OpMode {
@@ -64,6 +65,7 @@ public class RBox extends OpMode {
      */
     @Override
     public void start() {
+        robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BREATH_RED);
         detector.start();
         runtime.reset();
     }
@@ -82,7 +84,7 @@ public class RBox extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 10, false);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20, false);
                 break;
 
             case 3:
