@@ -57,7 +57,7 @@ public class SkystoneDetect {
     }*/
 
     // Created for looking at RIGHTMOST 2 BLOCKS (next to wall)
-    public Spot getSkystonePosBlue(Telemetry telemetry) {
+    public Spot getSkystonePosRed(Telemetry telemetry) {
         if (tfod != null) {
             // Make this a var since this is a constantly changing thing and we want to check 1 instance
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
@@ -85,7 +85,7 @@ public class SkystoneDetect {
     }
 
     // Created for looking at RIGHTMOST 2 BLOCKS (next to wall)
-    public Spot getSkystonePosRed(Telemetry telemetry) {
+    public Spot getSkystonePosBlue(Telemetry telemetry) {
         if (tfod != null) {
             // Make this a var since this is a constantly changing thing and we want to check 1 instance
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();

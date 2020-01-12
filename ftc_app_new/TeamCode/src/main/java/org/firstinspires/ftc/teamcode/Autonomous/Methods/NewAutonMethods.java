@@ -70,6 +70,9 @@ public class NewAutonMethods {
         intakeL = this.map.get(DcMotor.class, "intakeL");
         intakeR = this.map.get(DcMotor.class, "intakeR");
 
+        blinkin = this.map.get(RevBlinkinLedDriver.class, "rgbReady");
+
+
         hinger = this.map.get(Servo.class, "hinger");
         foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
@@ -196,17 +199,17 @@ public class NewAutonMethods {
                 break;
 
             case LEFTTURN:
-                FL.setPower(-power);
+                FL.setPower(power);
                 FR.setPower(-power);
                 BL.setPower(power);
-                BR.setPower(power);
+                BR.setPower(-power);
                 break;
 
             case RIGHTTURN:
-                FL.setPower(power);
+                FL.setPower(-power);
                 FR.setPower(power);
                 BL.setPower(-power);
-                BR.setPower(-power);
+                BR.setPower(power);
                 break;
 
             case STOP:
@@ -230,10 +233,10 @@ public class NewAutonMethods {
             driveScale = .25;
         else {
             driveScale = 0;
-            this.drive(Movement.LEFTTURN, driveScale);
+            this.drive(Movement.RIGHTTURN, driveScale);
             return true;
         }
-        this.drive(Movement.LEFTTURN, driveScale);
+        this.drive(Movement.RIGHTTURN, driveScale);
         return false;
     }
     //Positive is left turn, negative is right turn.
@@ -295,32 +298,28 @@ public class NewAutonMethods {
         this.hinger.setPosition(0.75);
     }
 
+    public void openClampAuton() {
+        this.closer.setPosition(1);
+    }
+
     public void closeClampAuton() {
         this.closer.setPosition(0);
     }
 
     public void skystoneGrab() {
-        this.flippy.setPosition(0);
         this.grabby.setPosition(0);
     }
 
     public void skystoneRelease() {
-        this.flippy.setPosition(1);
         this.grabby.setPosition(1);
     }
 
-    public void openClampAuton() {
-        this.closer.setPosition(1);
+    public void skystoneFall() {
+        this.flippy.setPosition(1);
     }
 
-    public void openServo() {
-        this.foundationLeft.setPosition(0);
-        this.foundationRight.setPosition(1);
-    }
-
-    public void closeServo() {
-        this.foundationLeft.setPosition(0.9);
-        this.foundationRight.setPosition(0.1);
+    public void skystoneRaise() {
+        this.flippy.setPosition(0);
     }
 
     public void openServoAuton() {
@@ -329,8 +328,8 @@ public class NewAutonMethods {
     }
 
     public void closeServoAuton() {
-        this.foundationLeft.setPosition(0.9);
-        this.foundationRight.setPosition(0.1);
+        this.foundationLeft.setPosition(0.55);
+        this.foundationRight.setPosition(0.35);
     }
 
     public void intakeAuton(int target, double power) {

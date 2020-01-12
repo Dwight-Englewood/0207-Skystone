@@ -36,7 +36,7 @@ public class FindSkystone extends OpMode
 
     @Override
     public void loop() {
-        SkystoneDetect.Spot returnedloc = detector.getSkystonePosBlue(telemetry);
+        SkystoneDetect.Spot returnedloc = detector.getSkystonePosRed(telemetry);
         //SkystoneDetector.Spot returnedloc = detector.getSkystonePosRed(telemetry);
 
         switch (returnedloc) {

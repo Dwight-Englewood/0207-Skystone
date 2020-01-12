@@ -66,6 +66,8 @@ DeuxBoot {
         flippy = this.map.get(Servo.class, "flippy");
         grabby = this.map.get(Servo.class, "grabby");
 
+        blinkin = this.map.get(RevBlinkinLedDriver.class, "rgbReady");
+
         closer = this.map.get(Servo.class, "closer");
 
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -82,8 +84,6 @@ DeuxBoot {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        gyro = this.map.get(BNO055IMU.class, "gyro");
-        gyro.initialize(parameters);
         tele.addData(">", "Gyro Calibrating. Do Not Move! (test)");
         tele.update();
     }

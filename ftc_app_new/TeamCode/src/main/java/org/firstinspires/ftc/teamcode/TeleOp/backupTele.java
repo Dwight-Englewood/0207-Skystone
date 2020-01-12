@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.Hardware.DeuxBoot;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Tele-op",group="TeleOp")
-public class FlywheelsTele extends OpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Backup Tele-op",group="TeleOp")
+public class backupTele extends OpMode {
     // Declare OpMode members.
     private ElapsedTime timer = new ElapsedTime();
     DeuxBoot robot = new DeuxBoot();
@@ -55,7 +55,7 @@ public class FlywheelsTele extends OpMode {
      */
     @Override
     public void loop() {
-        robot.notKevinDrive(gamepad1.left_stick_y * speed, gamepad1.left_stick_x * speed, gamepad1.left_trigger * speed, gamepad1.right_trigger * speed);
+        robot.drive(gamepad1.left_stick_y * speed, gamepad1.left_stick_x * speed, gamepad1.left_trigger * speed, gamepad1.right_trigger * speed);
         robot.lift.setPower(gamepad2.right_stick_y);
         robot.intakeL.setPower(gamepad2.left_stick_y * 0.8);
         robot.intakeR.setPower(gamepad2.left_stick_y * 0.8);

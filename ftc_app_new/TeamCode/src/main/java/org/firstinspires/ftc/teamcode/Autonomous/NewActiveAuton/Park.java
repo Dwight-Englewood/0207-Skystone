@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Inactive;
+package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -9,15 +9,14 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Methods.AutonMethods;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Disabled
-@Autonomous(name = "Park Auton [Test!]", group = "Autonomous")
+@Autonomous(name = "Park Auton", group = "Autonomous")
 public class Park extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DigitalChannel DigChannel;
-    AutonMethods robot = new AutonMethods();
+    NewAutonMethods robot = new NewAutonMethods();
 
     int auto = 0;
 
@@ -37,8 +36,6 @@ public class Park extends OpMode {
         robot.init(hardwareMap, telemetry, false);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-        clamp = this.hardwareMap.get(Servo.class, "clamp");
 
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -75,8 +72,6 @@ public class Park extends OpMode {
     public void loop() {
         switch (auto) {
             case 0:
-                this.clamp.setPosition(1);
-                robot.openServo();
                 robot.runToTarget(Movement.BACKWARD, 10,  false);
                 break;
 

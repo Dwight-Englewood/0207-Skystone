@@ -76,9 +76,10 @@ public class BBox extends OpMode {
      */
     @Override
     public void loop() {
+        telemetry.addData("Case:", robot.command);
         switch (robot.command) {
             case 0:
-                robot.runToTarget(Movement.FORWARD, 50, false);
+                robot.runToTarget(Movement.FORWARD, 20, false);
                 break;
 
             case 1:
@@ -86,7 +87,7 @@ public class BBox extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.LEFTSTRAFE, 60, false);
+                robot.runToTarget(Movement.LEFTSTRAFE, 64, false);
                 break;
 
             case 3:
@@ -114,26 +115,30 @@ public class BBox extends OpMode {
                         break;
                 }
 
-                if (runtime.milliseconds() > 2000) {
+                if (runtime.milliseconds() > 1500) {
                     robot.command++;
                 }
                 break;
 
             case 5:
-                robot.gyroTurn(180);
+                robot.gyroTurn(178);
                 break;
 
             case 6:
-                robot.runToTarget(Movement.BACKWARD, 20, false);
-                break;
-
-            case 7:
                 robot.encoderReset();
                 break;
 
+            case 7:
+                robot.runToTarget(Movement.BACKWARD, 47, false);
+                break;
+
             case 8:
+                robot.encoderReset();
+                break;
+
+            case 9:
                 if (left > right && left > middle) { //LEFT
-                    robot.command = 9;
+                    robot.command = 10;
                 } else if (right > left && right > middle) { //RIGHT
                     robot.command = 101;
                 } else if (middle > right && middle > left) { //MIDDLE
@@ -141,46 +146,56 @@ public class BBox extends OpMode {
                 }
                 break;
 
-            case 9:
-                robot.runToTarget(Movement.LEFTSTRAFE, 40, false);
-                break;
-
             case 10:
-                robot.encoderReset();
+                runtime.reset();
+                robot.runToTarget(Movement.LEFTSTRAFE, 40, true);
                 break;
-
             case 11:
+                robot.skystoneFall();
                 robot.skystoneGrab();
-                robot.encoderReset();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 12:
-                robot.runToTarget(Movement.FORWARD, 30, false);
+                robot.encoderReset();
                 break;
 
             case 13:
-                robot.encoderReset();
+                robot.runToTarget(Movement.FORWARD, 30, false);
                 break;
 
             case 14:
-                robot.runToTarget(Movement.LEFTSTRAFE, 140, false);
-                break;
-
-            case 15:
-                robot.skystoneRelease();
                 robot.encoderReset();
                 break;
 
+            case 15:
+                robot.runToTarget(Movement.LEFTSTRAFE, 140, true);
+                break;
+
             case 16:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20, false);
+                robot.skystoneRaise();
+                robot.skystoneRelease();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 17:
                 robot.encoderReset();
                 break;
 
+            case 18:
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20, true);
+                break;
+
+            case 19:
+                robot.encoderReset();
+                break;
+
             case 101:
-                robot.runToTarget(Movement.LEFTSTRAFE, 20, false);
+                robot.runToTarget(Movement.LEFTSTRAFE, 20, true);
                 break;
 
             case 102:
@@ -188,37 +203,51 @@ public class BBox extends OpMode {
                 break;
 
             case 103:
+                robot.skystoneFall();
                 robot.skystoneGrab();
-                robot.encoderReset();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 104:
-                robot.runToTarget(Movement.FORWARD, 30, false);
+                robot.encoderReset();
                 break;
 
             case 105:
-                robot.encoderReset();
+                robot.runToTarget(Movement.FORWARD, 30, false);
                 break;
 
             case 106:
-                robot.runToTarget(Movement.LEFTSTRAFE, 160, false);
-                break;
-
-            case 107:
-                robot.skystoneRelease();
                 robot.encoderReset();
                 break;
 
+            case 107:
+                robot.runToTarget(Movement.LEFTSTRAFE, 160, true);
+                break;
+
             case 108:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20, false);
+                robot.skystoneRaise();
+                robot.skystoneRelease();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 109:
                 robot.encoderReset();
                 break;
 
+            case 110:
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20, true);
+                break;
+
+            case 111:
+                robot.encoderReset();
+                break;
+
             case 1001:
-                robot.runToTarget(Movement.LEFTSTRAFE, 2, false);
+                robot.runToTarget(Movement.LEFTSTRAFE, 2, true);
                 break;
 
             case 1002:
@@ -226,32 +255,46 @@ public class BBox extends OpMode {
                 break;
 
             case 1003:
+                robot.skystoneFall();
                 robot.skystoneGrab();
-                robot.encoderReset();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 1004:
-                robot.runToTarget(Movement.FORWARD, 30, false);
+                robot.encoderReset();
                 break;
 
             case 1005:
-                robot.encoderReset();
+                robot.runToTarget(Movement.FORWARD, 30, false);
                 break;
 
             case 1006:
-                robot.runToTarget(Movement.LEFTSTRAFE, 180, false);
-                break;
-
-            case 1007:
-                robot.skystoneRelease();
                 robot.encoderReset();
                 break;
 
+            case 1007:
+                robot.runToTarget(Movement.LEFTSTRAFE, 180, true);
+                break;
+
             case 1008:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20, false);
+                robot.skystoneRaise();
+                robot.skystoneRelease();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 break;
 
             case 1009:
+                robot.encoderReset();
+                break;
+
+            case 1010:
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20, true);
+                break;
+
+            case 1011:
                 robot.encoderReset();
                 break;
         }
