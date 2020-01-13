@@ -1,48 +1,21 @@
 package org.firstinspires.ftc.teamcode.Hardware;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
-
 import com.qualcomm.robotcore.hardware.*;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Hardware.Movement;
-
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 public class
 DeuxBoot {
     public static DcMotor
-            BL,
-            BR,
-            FL,
-            FR,
-            lift,
-            intakeL,
-            intakeR;
+            BL, BR, FL, FR, lift, intakeL, intakeR;
 
     public static Servo
-            closer,
-            hinger,
-            foundationLeft,
-            flippy,
-            grabby,
-            foundationRight;
+            closer, hinger, foundationLeft, flippy, grabby, foundationRight;
 
     HardwareMap map;
     Telemetry tele;
 
-    final double proportionalValue = 0.000005;
-
-    //double error = 180 - gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-    //Double turnSpeed = 0.5;
-    //Integer angle = -45;
     public RevBlinkinLedDriver blinkin;
-    public static BNO055IMU gyro;
-    BNO055IMU.Parameters parameters;
-    Orientation angles;
 
     public DeuxBoot() {
     }
@@ -84,7 +57,6 @@ DeuxBoot {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        tele.addData(">", "Gyro Calibrating. Do Not Move! (test)");
         tele.update();
     }
 

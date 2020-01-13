@@ -10,29 +10,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Autonomous.Test.FindSkystone;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 public class NewAutonMethods {
     public static DcMotor
-            BL,
-            BR,
-            FL,
-            FR,
-            lift,
-            intakeL,
-            intakeR;
-           /* tape */
+            BL, BR, FL, FR, lift, intakeL, intakeR;
 
     public static Servo
-            closer,
-            hinger,
-            foundationLeft,
-            grabby,
-            flippy,
-            foundationRight;
+            closer, hinger, foundationLeft, grabby, flippy, foundationRight;
 
     HardwareMap map;
     Telemetry tele;
@@ -43,35 +31,30 @@ public class NewAutonMethods {
     private int originTick;
     int curVal = 0;
 
-    //double error = 180 - gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-    //Double turnSpeed = 0.5;
-    //Integer angle = -45;
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
-    BNO055IMU.Parameters parameters;
-    Orientation angles;
+
+    public double oldX = 0;
+    public double oldY = 0;
 
     public NewAutonMethods() {
         command = 0;
     }
 
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
-
         this.map = map;
         this.tele = tele;
 
         BR = this.map.get(DcMotor.class, "BR");
-            BL = this.map.get(DcMotor.class, "BL");
+        BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
 
-     //   tape = this.map.get(DcMotor.class, "tape");
         lift = this.map.get(DcMotor.class, "Lift");
         intakeL = this.map.get(DcMotor.class, "intakeL");
         intakeR = this.map.get(DcMotor.class, "intakeR");
 
         blinkin = this.map.get(RevBlinkinLedDriver.class, "rgbReady");
-
 
         hinger = this.map.get(Servo.class, "hinger");
         foundationLeft = this.map.get(Servo.class, "fleft");
@@ -438,6 +421,66 @@ public class NewAutonMethods {
         //1:1 gear ratio so no need for multiplier
         return (int) (gearMotorTick * (distance / wheelCirc));
         //rate = x(0.05937236104)
+    }
+
+    private int conversionFac(double distance){
+        return (int) (distance);
+    }
+
+    public void setTarget(double newX, double newY) {
+        double xDifference = newX - this.oldX;
+        double yDifference = newY - this.oldY;
+        double xSquared = Math.pow((xDifference), 2);
+        double ySquared = Math.pow((yDifference),2);
+        double trueDistance = Math.sqrt((xSquared+ySquared));
+        double trueAngle = Math.atan(yDifference/xDifference);
+
+        if (oldY > newY && oldX == newX) {
+            FL.setTargetPosition(conversionFac(newY));
+            FR.setTargetPosition(conversionFac(newY));
+            BL.setTargetPosition(conversionFac(newY));
+            BR.setTargetPosition(conversionFac(newY));
+        } else if (oldY < newY && oldX == newX) {
+            FL.setTargetPosition(conversionFac(-newY));
+            FR.setTargetPosition(conversionFac(-newY));
+            BL.setTargetPosition(conversionFac(-newY));
+            BR.setTargetPosition(conversionFac(-newY));
+        } else if (oldX > newX && oldY == newY) {
+            FL.setTargetPosition(conversionFac(newY));
+            FR.setTargetPosition(conversionFac(-newY));
+            BL.setTargetPosition(conversionFac(-newY));
+            BR.setTargetPosition(conversionFac(newY));
+        } else if (oldX < newX && oldY == newY) {
+            FL.setTargetPosition(conversionFac(-newY));
+            FR.setTargetPosition(conversionFac(newY));
+            BL.setTargetPosition(conversionFac(newY));
+            BR.setTargetPosition(conversionFac(-newY));
+
+        } else if (oldX < newX && oldY < newY) {
+            FL.setTargetPosition(conversionFac(25));
+            BR.setTargetPosition(conversionFac(25));
+        } else if (oldX > newX && oldY < newY) {
+            FR.setTargetPosition(conversionFac(trueDistance));
+            BL.setTargetPosition(conversionFac(trueDistance));
+        } else if (oldX > newX && oldY > newY) {
+            FL.setTargetPosition(conversionFac(-trueDistance));
+            BR.setTargetPosition(conversionFac(-trueDistance));
+        } else if (oldX < newX && oldY > newY) {
+            FR.setTargetPosition(conversionFac(-trueDistance));
+            BL.setTargetPosition(conversionFac(-trueDistance));
+        }
+
+        this.scalePower();
+        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if ((Math.abs(cmDistance(FL.getCurrentPosition()) - cmDistance(FL.getTargetPosition())) < 3) ||
+                (Math.abs(cmDistance(FR.getCurrentPosition()) - cmDistance(FR.getTargetPosition())) < 3) ||
+                (Math.abs(cmDistance(BL.getCurrentPosition()) - cmDistance(BL.getTargetPosition())) < 3) ||
+                (Math.abs(cmDistance(BR.getCurrentPosition()) - cmDistance(BR.getTargetPosition())) < 3)) {
+            this.runtime.reset();
+            tele.update();
+            this.command++;
+        }
     }
 }
 

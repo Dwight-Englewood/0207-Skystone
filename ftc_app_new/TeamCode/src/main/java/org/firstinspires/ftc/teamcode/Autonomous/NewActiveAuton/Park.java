@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
@@ -19,18 +17,6 @@ public class Park extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
     int auto = 0;
-
-    int center = 150;
-    int left = 600;
-    int right = 350;
-
-    int centerBack = 1100;
-    int leftBack = 800;
-    int rightBack = 1750;
-
-    int curVal = 0;
-
-    public static Servo clamp;
 
     public void init() {
         robot.init(hardwareMap, telemetry, false);
