@@ -57,8 +57,8 @@ public class FlywheelsTele extends OpMode {
     public void loop() {
         robot.notKevinDrive(gamepad1.left_stick_y * speed, gamepad1.left_stick_x * speed, gamepad1.left_trigger * speed, gamepad1.right_trigger * speed);
         robot.lift.setPower(gamepad2.right_stick_y);
-        robot.intakeL.setPower(gamepad2.left_stick_y * 0.8);
-        robot.intakeR.setPower(gamepad2.left_stick_y * 0.8);
+        robot.intakeL.setPower(gamepad2.left_stick_y * 1);
+        robot.intakeR.setPower(gamepad2.left_stick_y * 1);
 
         if (robot.intakeL.getPower() != 0) {
             robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_OCEAN_PALETTE);

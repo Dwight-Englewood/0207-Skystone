@@ -39,6 +39,7 @@ public class BBox extends OpMode {
         detector.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
 /*
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -52,7 +53,6 @@ public class BBox extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //    robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*

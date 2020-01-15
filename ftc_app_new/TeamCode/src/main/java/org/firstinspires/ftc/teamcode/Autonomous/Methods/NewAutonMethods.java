@@ -362,24 +362,25 @@ public class NewAutonMethods {
         double power;
 
         if (originDiff < 75) {
-            power = .3;
+            power = .7;
         } else if (originDiff < 250) {
-            power = .45;
+            power = .7;
         } else if (originDiff < 400) {
-            power = .55;
+            power = .7;
         } else {
-            power = .65;
+            power = 1;
         }
 
         if (diff < 100) {
-            power = .3;
+            power = .1;
         } else if (diff < 300) {
-            power = .4;
+            power = .3;
         } else if (diff < 500) {
-            power = .45;
+            power = .7;
         } else if (diff < 750) {
-            power = .55;
+            power = .7;
         }
+
         this.drive(power);
     }
 

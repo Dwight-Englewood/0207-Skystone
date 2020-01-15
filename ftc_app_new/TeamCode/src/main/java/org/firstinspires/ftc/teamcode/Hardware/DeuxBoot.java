@@ -17,8 +17,7 @@ DeuxBoot {
 
     public RevBlinkinLedDriver blinkin;
 
-    public DeuxBoot() {
-    }
+    public DeuxBoot() {}
 
     public void init(HardwareMap map, Telemetry tele, boolean auton) {
         this.map = map;
