@@ -41,7 +41,14 @@ public class NewAutonMethods {
         command = 0;
     }
 
-    public void init(HardwareMap map, Telemetry tele, boolean auton) {
+    /**
+     *
+     * inits hardware
+     *
+     * @param map creates object on phones config
+     * @param tele displays data on phone
+     */
+    public void init(HardwareMap map, Telemetry tele) {
         this.map = map;
         this.tele = tele;
 
@@ -84,6 +91,12 @@ public class NewAutonMethods {
         tele.update();
     }
 
+    /**
+     *
+     * Changes the encoder state of all four motors.
+     *
+     * @param runMode a dc motor run mode.
+     */
     public static void changeRunMode(DcMotor.RunMode runMode) {
         BL.setMode(runMode);
         BR.setMode(runMode);
@@ -91,6 +104,12 @@ public class NewAutonMethods {
         FR.setMode(runMode);
     }
 
+    /**
+     *
+     *
+     *
+     * @param in powerlevel
+     */
     public void drive(double in) {
         BL.setPower(in);
         BR.setPower(in);

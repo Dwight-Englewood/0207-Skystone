@@ -33,7 +33,7 @@ public class BBox extends OpMode {
     public static Servo clamp;
 
     public void init() {
-        robot.init(hardwareMap, telemetry, false);
+        robot.init(hardwareMap, telemetry);
         telemetry.addData(">", "Init Vuforia.");
         telemetry.update();
         detector.init(hardwareMap);
@@ -152,10 +152,14 @@ public class BBox extends OpMode {
                 break;
             case 11:
                 robot.skystoneFall();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 robot.skystoneGrab();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
                 }
+
                 break;
 
             case 12:
@@ -176,6 +180,9 @@ public class BBox extends OpMode {
 
             case 16:
                 robot.skystoneRaise();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 robot.skystoneRelease();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
@@ -204,6 +211,9 @@ public class BBox extends OpMode {
 
             case 103:
                 robot.skystoneFall();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 robot.skystoneGrab();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
@@ -228,6 +238,9 @@ public class BBox extends OpMode {
 
             case 108:
                 robot.skystoneRaise();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 robot.skystoneRelease();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
@@ -256,6 +269,9 @@ public class BBox extends OpMode {
 
             case 1003:
                 robot.skystoneFall();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 robot.skystoneGrab();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
@@ -280,6 +296,9 @@ public class BBox extends OpMode {
 
             case 1008:
                 robot.skystoneRaise();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
                 robot.skystoneRelease();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
