@@ -33,7 +33,7 @@ public class RBox extends OpMode {
     public static Servo clamp;
 
     public void init() {
-        robot.init(hardwareMap, telemetry, false);
+        robot.init(hardwareMap, telemetry);
         detector.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();

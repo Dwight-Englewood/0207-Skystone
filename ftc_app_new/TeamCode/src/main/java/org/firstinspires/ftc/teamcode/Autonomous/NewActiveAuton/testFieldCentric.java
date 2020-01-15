@@ -17,7 +17,7 @@ public class testFieldCentric extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
-        robot.init(hardwareMap, telemetry, false);
+        robot.init(hardwareMap, telemetry);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 

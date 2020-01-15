@@ -452,7 +452,7 @@ public class NewAutonMethods {
         double yDifference = newY - this.oldY;
         double xSquared = Math.pow((xDifference), 2);
         double ySquared = Math.pow((yDifference),2);
-        double trueDistance = Math.sqrt((xSquared+ySquared));
+        double trueDistance = Math.sqrt(xSquared+ySquared);
         double trueAngle = Math.atan(yDifference/xDifference);
 
         if (oldY > newY && oldX == newX) {

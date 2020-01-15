@@ -21,6 +21,8 @@ public class FlywheelsTele extends OpMode {
     boolean closerClosed = true;
     boolean buttonBheld = false;
     boolean hingedClosed = true;
+    boolean intakeHeld = false;
+    boolean clampClosed = true;
 
     @Override
     public void init() {
@@ -57,8 +59,8 @@ public class FlywheelsTele extends OpMode {
     public void loop() {
         robot.notKevinDrive(gamepad1.left_stick_y * speed, gamepad1.left_stick_x * speed, gamepad1.left_trigger * speed, gamepad1.right_trigger * speed);
         robot.lift.setPower(gamepad2.right_stick_y);
-        robot.intakeL.setPower(gamepad2.left_stick_y * 1);
-        robot.intakeR.setPower(gamepad2.left_stick_y * 1);
+ //       robot.intakeL.setPower(gamepad2.left_stick_y * 1);
+ //       robot.intakeR.setPower(gamepad2.left_stick_y * 1);
 
         if (robot.intakeL.getPower() != 0) {
             robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_OCEAN_PALETTE);
@@ -76,6 +78,43 @@ public class FlywheelsTele extends OpMode {
             robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }
 
+        if (gamepad1.left_bumper && !intakeHeld) {
+            intakeHeld = true;
+            timer.reset();
+            if (clampClosed) {
+                clampClosed = false;
+                robot.intakeL.setPower(1);
+                robot.intakeR.setPower(1);
+                if (timer.milliseconds() > 3000 && robot.intakeL.getPower() == 0 && robot.intakeR.getPower() == 0) {
+                    robot.closer.setPosition(0);
+                }
+            } else {
+                closerClosed = true;
+                robot.intakeL.setPower(-1);
+                robot.intakeR.setPower(-1);
+            }
+        }
+
+        if (!gamepad1.left_bumper) {
+            robot.intakeL.setPower(0);
+            robot.intakeR.setPower(0);
+            robot.closer.setPosition(1);
+            intakeHeld = false;
+        }
+/*
+        if (gamepad1.left_bumper) {
+            robot.intakeL.setPower(1);
+            robot.intakeL.setPower(1);
+        } else if (gamepad1.right_bumper) {
+            robot.intakeL.setPower(-1);
+            robot.intakeL.setPower(-1);
+        } else {
+            robot.intakeL.setPower(0);
+            robot.intakeL.setPower(0);
+        }
+
+ */
+/*
         if (gamepad2.a && !buttonAheld) {
             buttonAheld = true;
             if (closerClosed) {
@@ -90,6 +129,8 @@ public class FlywheelsTele extends OpMode {
         if (!gamepad2.a) {
             buttonAheld = false;
         }
+
+ */
 
         if (gamepad2.b && !buttonBheld) {
             buttonBheld = true;

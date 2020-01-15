@@ -19,7 +19,7 @@ public class Park extends OpMode {
     int auto = 0;
 
     public void init() {
-        robot.init(hardwareMap, telemetry, false);
+        robot.init(hardwareMap, telemetry);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
