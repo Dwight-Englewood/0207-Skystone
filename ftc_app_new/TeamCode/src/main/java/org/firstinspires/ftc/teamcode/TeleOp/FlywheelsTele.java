@@ -77,7 +77,7 @@ public class FlywheelsTele extends OpMode {
             speed = -1;
             robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }
-
+/*
         if (gamepad1.left_bumper && !intakeHeld) {
             intakeHeld = true;
             timer.reset();
@@ -101,20 +101,20 @@ public class FlywheelsTele extends OpMode {
             robot.closer.setPosition(1);
             intakeHeld = false;
         }
-/*
-        if (gamepad1.left_bumper) {
-            robot.intakeL.setPower(1);
-            robot.intakeL.setPower(1);
-        } else if (gamepad1.right_bumper) {
-            robot.intakeL.setPower(-1);
-            robot.intakeL.setPower(-1);
-        } else {
-            robot.intakeL.setPower(0);
-            robot.intakeL.setPower(0);
-        }
 
  */
-/*
+
+        if (gamepad2.left_bumper) {
+            robot.intakeL.setPower(1);
+            robot.intakeR.setPower(1);
+        } else if (gamepad2.right_bumper) {
+            robot.intakeL.setPower(-1);
+            robot.intakeR.setPower(-1);
+        } else {
+            robot.intakeL.setPower(0);
+            robot.intakeR.setPower(0);
+        }
+
         if (gamepad2.a && !buttonAheld) {
             buttonAheld = true;
             if (closerClosed) {
@@ -129,8 +129,6 @@ public class FlywheelsTele extends OpMode {
         if (!gamepad2.a) {
             buttonAheld = false;
         }
-
- */
 
         if (gamepad2.b && !buttonBheld) {
             buttonBheld = true;
