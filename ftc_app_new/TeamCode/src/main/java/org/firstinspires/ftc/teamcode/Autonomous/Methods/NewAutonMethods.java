@@ -335,8 +335,8 @@ public class NewAutonMethods {
     }
 
     public void intakeAuton(int target, double power) {
-        this.intakeL.setTargetPosition(target);
-        this.intakeR.setTargetPosition(target);
+        this.intakeL.setTargetPosition(cmDistance(target));
+        this.intakeR.setTargetPosition(cmDistance(target));
 
         this.intakeL.setPower(power);
         this.intakeR.setPower(power);
@@ -376,11 +376,21 @@ public class NewAutonMethods {
     public void scalePower() {
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
-        int diff = Math.abs(target - current);
-        int originDiff = Math.abs(this.originTick - current);
-        double power;
+        int diff = Math.abs(target - current); //Distance from current position to end position
+        int originDiff = Math.abs(this.originTick - current);  //Distance from current position to start position
+        double power, powerDeux;
+        double pVal = 0.0005;
 
-        if (originDiff < 75) {
+        if (originDiff < diff) {
+            powerDeux = originTick * pVal;
+            this.drive(powerDeux);
+        } else {
+            power = diff * pVal;
+            this.drive(power);
+        }
+    }
+/*
+        if (originDiff < 75) { //Distance from current position to start position
             power = .7;
         } else if (originDiff < 250) {
             power = .7;
@@ -390,7 +400,11 @@ public class NewAutonMethods {
             power = 1;
         }
 
-        if (diff < 100) {
+        if (diff < 50) {
+            power = .02;
+        } else if (diff < 100) { //Distance from current position to end position
+            power = .05;
+        } else if (diff < 200) { //Distance from current position to end position
             power = .1;
         } else if (diff < 300) {
             power = .3;
@@ -400,8 +414,8 @@ public class NewAutonMethods {
             power = .7;
         }
 
-        this.drive(power);
-    }
+ */
+
 
 /*
     public void tapeExtend(int target, double power) {
