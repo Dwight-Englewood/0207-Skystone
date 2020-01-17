@@ -376,13 +376,13 @@ public class NewAutonMethods {
     public void scalePower() {
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
-        int diff = Math.abs(target - current); //Distance from current position to end position
-        int originDiff = Math.abs(this.originTick - current);  //Distance from current position to start position
+        int diff = cmDistance(Math.abs(target - current)); //Distance from current position to end position
+        int originDiff = cmDistance(Math.abs(this.originTick - current));  //Distance from current position to start position
         double power, powerDeux;
-        double pVal = 0.0005;
+        double pVal = 0.005;
 
         if (originDiff < diff) {
-            powerDeux = originTick * pVal;
+            powerDeux = originDiff * pVal;
             this.drive(powerDeux);
         } else {
             power = diff * pVal;
