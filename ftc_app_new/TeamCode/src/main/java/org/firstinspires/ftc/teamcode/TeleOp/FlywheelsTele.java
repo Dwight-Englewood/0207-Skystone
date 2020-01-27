@@ -136,10 +136,10 @@ public class FlywheelsTele extends OpMode {
             buttonBheld = true;
             if (hingedClosed) {
                 hingedClosed = false;
-                robot.hinger.setPosition(0.75);
+                robot.hinger.setPosition(1);
             } else {
                 hingedClosed = true;
-                robot.hinger.setPosition(0);
+                robot.hinger.setPosition(0.6);
             }
         }
 

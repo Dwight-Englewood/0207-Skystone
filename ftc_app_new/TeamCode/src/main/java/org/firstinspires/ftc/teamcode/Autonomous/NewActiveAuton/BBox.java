@@ -107,7 +107,7 @@ public class BBox extends OpMode {
     @Override
     public void loop() {
         switch (robot.command) {
-            case 0:
+            /*case 0:
                 robot.runToTarget(Movement.FORWARD, 20);
                 break;
 
@@ -117,14 +117,6 @@ public class BBox extends OpMode {
 
             case 2:
                 robot.runToTarget(Movement.LEFTSTRAFE, 64);
-                break;
-
-            case 3:
-                robot.encoderReset();
-                break;
-
-            case 4:
-                robot.gyroTurn(178);
                 break;
 
             case 5:
@@ -153,7 +145,7 @@ public class BBox extends OpMode {
 
             case 9:
                 runtime.reset();
-                robot.runToTarget(Movement.LEFTSTRAFE, 40);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 40);
                 break;
 
             case 10:
@@ -161,6 +153,7 @@ public class BBox extends OpMode {
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
                 }
+
                 robot.skystoneGrab();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
@@ -207,7 +200,7 @@ public class BBox extends OpMode {
                 break;
 
             case 101:
-                robot.runToTarget(Movement.LEFTSTRAFE, 20);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
                 break;
 
             case 102:
@@ -265,7 +258,7 @@ public class BBox extends OpMode {
                 break;
 
             case 1001:
-                robot.runToTarget(Movement.LEFTSTRAFE, 2);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 2);
                 break;
 
             case 1002:
@@ -321,7 +314,11 @@ public class BBox extends OpMode {
             case 1011:
                 robot.encoderReset();
                 break;
+                
+             */
         }
+
+
         telemetry.addData("Case:", robot.command);
         telemetry.addData("right", right);
         telemetry.addData("middle", middle);

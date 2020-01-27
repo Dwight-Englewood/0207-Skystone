@@ -31,6 +31,7 @@ public class NewAutonMethods {
     public int command;
     private int originTick;
     int curVal = 0;
+    double pVal = 0.0005;
 
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
@@ -265,23 +266,6 @@ public class NewAutonMethods {
         if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 25) ||
                 (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 25)) {
             autonDrive(movementEnum.STOP, 0);
-            this.runtime.reset();
-            tele.update();
-            this.command++;
-        }
-    }
-
-    public void turn(Movement movementEnum, double target, double power) {
-        this.autonDrive(movementEnum, cmDistance(target));
-        this.drive(power);
-        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-//        if ((Math.abs(FL.getCurrentPosition() + 25) >= Math.abs(FL.getTargetPosition()) &&
-//                Math.abs(FL.getCurrentPosition() - 25) <= Math.abs(FL.getTargetPosition()))) {
-        tele.addData("Delta", Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()));
-        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 25) ||
-                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 25)) {
-            autonDrive(movementEnum.STOP, 0);
             tele.update();
             this.command++;
         }
@@ -314,22 +298,6 @@ public class NewAutonMethods {
         this.closer.setPosition(0);
     }
 
-    public void skystoneGrab() {
-        this.grabby.setPosition(0);
-    }
-
-    public void skystoneRelease() {
-        this.grabby.setPosition(1);
-    }
-
-    public void skystoneFall() {
-        this.flippy.setPosition(1);
-    }
-
-    public void skystoneRaise() {
-        this.flippy.setPosition(0);
-    }
-
     public void openServoAuton() {
         this.foundationLeft.setPosition(0);
         this.foundationRight.setPosition(1);
@@ -341,8 +309,8 @@ public class NewAutonMethods {
     }
 
     public void intakeAuton(int target, double power) {
-        this.intakeL.setTargetPosition(cmDistance(target));
-        this.intakeR.setTargetPosition(cmDistance(target));
+        this.intakeL.setTargetPosition(target);
+        this.intakeR.setTargetPosition(target);
 
         this.intakeL.setPower(power);
         this.intakeR.setPower(power);
@@ -350,8 +318,7 @@ public class NewAutonMethods {
         this.intakeL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.intakeR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if ((Math.abs(this.intakeL.getCurrentPosition() - this.intakeL.getTargetPosition()) < 25) ||
-                (Math.abs(this.intakeR.getCurrentPosition() - this.intakeR.getTargetPosition()) < 25)) {
+        if ((Math.abs(this.intakeL.getCurrentPosition() - this.intakeL.getTargetPosition()) < 25)) {
             this.intakeL.setPower(0);
             this.intakeR.setPower(0);
             this.command++;
@@ -380,22 +347,29 @@ public class NewAutonMethods {
     }
 
     public void scalePower() {
+        double power;
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
-        int diff = cmDistance(Math.abs(target - current)); //Distance from current position to end position
-        int originDiff = cmDistance(Math.abs(this.originTick - current));  //Distance from current position to start position
-        double power, powerDeux;
-        double pVal = 0.005;
+        int diff = (Math.abs(target - current)); //Distance from current position to end position
+        int originDiff = (Math.abs(this.originTick - current));  //Distance from current position to start position
 
         if (originDiff < diff) {
-            powerDeux = originDiff * pVal;
-            this.drive(powerDeux);
+            if (originDiff == 0){
+                power = 0.02;
+            } else {
+                power = originDiff * pVal;
+            }
         } else {
             power = diff * pVal;
-            this.drive(power);
         }
+
+        tele.addData("diff", diff);
+        tele.addData("originDiff", originDiff);
+        tele.addData("power", power);
+        this.drive(power);
     }
-/*
+    /*
+
         if (originDiff < 75) { //Distance from current position to start position
             power = .7;
         } else if (originDiff < 250) {
@@ -406,11 +380,11 @@ public class NewAutonMethods {
             power = 1;
         }
 
-        if (diff < 50) {
+        if (diff < 50) { //Distance from current position to end position
             power = .02;
-        } else if (diff < 100) { //Distance from current position to end position
+        } else if (diff < 100) {
             power = .05;
-        } else if (diff < 200) { //Distance from current position to end position
+        } else if (diff < 200) {
             power = .1;
         } else if (diff < 300) {
             power = .3;
@@ -419,9 +393,10 @@ public class NewAutonMethods {
         } else if (diff < 750) {
             power = .7;
         }
+        this.drive(power);
+    }
 
- */
-
+     */
 
 /*
     public void tapeExtend(int target, double power) {
@@ -434,7 +409,6 @@ public class NewAutonMethods {
             this.command++;
         }
     }
-
  */
 
     public void gyroTurn(int turn) {
@@ -463,7 +437,7 @@ public class NewAutonMethods {
         //rate = x(0.05937236104)
     }
 
-    public static double wrapAng(double angle){
+    /*public static double wrapAng(double angle){
         while (angle < -Math.PI){
             angle += 2*Math.PI;
         }
@@ -473,6 +447,7 @@ public class NewAutonMethods {
         }
         return angle;
     }
+     */
 
     public void setTarget(double oldX, double oldY, double pow, double prefAngle, double turnSpeed) {
         /*double distance = Math.hypot(newX-oldX, newY-oldY);
