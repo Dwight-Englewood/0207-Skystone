@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.util.Range;
 
 public class NewAutonMethods {
     public static DcMotor
@@ -36,6 +37,9 @@ public class NewAutonMethods {
 
     public double oldX = 0;
     public double oldY = 0;
+    public double oldAng = 0;
+    public double deltaRight, deltaLeft, newX, newY, newTheta, wheelLength;
+    public boolean strafe;
 
     public NewAutonMethods() {
         command = 0;
@@ -191,6 +195,7 @@ public class NewAutonMethods {
                 FR.setPower(-power);
                 BL.setPower(-power);
                 BR.setPower(power);
+                strafe = true;
                 break;
 
             case RIGHTSTRAFE:
@@ -198,6 +203,7 @@ public class NewAutonMethods {
                 FR.setPower(power);
                 BL.setPower(power);
                 BR.setPower(-power);
+                strafe = true;
                 break;
 
             case LEFTTURN:
@@ -230,9 +236,9 @@ public class NewAutonMethods {
         double driveScale = headingError;
         this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if (headingError < -0.3)
-            driveScale = -.25;
+            driveScale = -.5;
         else if (headingError > 0.3)
-            driveScale = .25;
+            driveScale = .5;
         else {
             driveScale = 0;
             this.drive(Movement.RIGHTTURN, driveScale);
@@ -247,7 +253,7 @@ public class NewAutonMethods {
         return (target * 1.2);
     }
 
-    public void runToTarget(Movement movementEnum, double target, boolean strafe) {
+    public void runToTarget(Movement movementEnum, double target) {
         if (strafe) {
             this.autonDrive(movementEnum, cmDistance(strafeVal(target)));
         } else {
@@ -457,54 +463,48 @@ public class NewAutonMethods {
         //rate = x(0.05937236104)
     }
 
-    private int conversionFac(double distance){
-        return (int) (distance);
-    }
-
-    public void setTarget(double newX, double newY) {
-        double xDifference = newX - this.oldX;
-        double yDifference = newY - this.oldY;
-        double xSquared = Math.pow((xDifference), 2);
-        double ySquared = Math.pow((yDifference),2);
-        double trueDistance = Math.sqrt(xSquared+ySquared);
-        double trueAngle = Math.atan(yDifference/xDifference);
-
-        if (oldY > newY && oldX == newX) {
-            FL.setTargetPosition(conversionFac(newY));
-            FR.setTargetPosition(conversionFac(newY));
-            BL.setTargetPosition(conversionFac(newY));
-            BR.setTargetPosition(conversionFac(newY));
-        } else if (oldY < newY && oldX == newX) {
-            FL.setTargetPosition(conversionFac(-newY));
-            FR.setTargetPosition(conversionFac(-newY));
-            BL.setTargetPosition(conversionFac(-newY));
-            BR.setTargetPosition(conversionFac(-newY));
-        } else if (oldX > newX && oldY == newY) {
-            FL.setTargetPosition(conversionFac(newY));
-            FR.setTargetPosition(conversionFac(-newY));
-            BL.setTargetPosition(conversionFac(-newY));
-            BR.setTargetPosition(conversionFac(newY));
-        } else if (oldX < newX && oldY == newY) {
-            FL.setTargetPosition(conversionFac(-newY));
-            FR.setTargetPosition(conversionFac(newY));
-            BL.setTargetPosition(conversionFac(newY));
-            BR.setTargetPosition(conversionFac(-newY));
-
-        } else if (oldX < newX && oldY < newY) {
-            FL.setTargetPosition(conversionFac(25));
-            BR.setTargetPosition(conversionFac(25));
-        } else if (oldX > newX && oldY < newY) {
-            FR.setTargetPosition(conversionFac(trueDistance));
-            BL.setTargetPosition(conversionFac(trueDistance));
-        } else if (oldX > newX && oldY > newY) {
-            FL.setTargetPosition(conversionFac(-trueDistance));
-            BR.setTargetPosition(conversionFac(-trueDistance));
-        } else if (oldX < newX && oldY > newY) {
-            FR.setTargetPosition(conversionFac(-trueDistance));
-            BL.setTargetPosition(conversionFac(-trueDistance));
+    public static double wrapAng(double angle){
+        while (angle < -Math.PI){
+            angle += 2*Math.PI;
         }
 
-        this.scalePower();
+        while (angle > -Math.PI){
+            angle -= 2*Math.PI;
+        }
+        return angle;
+    }
+
+    public void setTarget(double oldX, double oldY, double pow, double prefAngle, double turnSpeed) {
+        /*double distance = Math.hypot(newX-oldX, newY-oldY);
+        double absAngle = Math.atan2(newY-oldY, newX-oldX);
+        double relAngle = wrapAng(absAngle - (oldAng - Math.toRadians(90)));
+        double xPos = Math.cos(relAngle + distance);
+        double yPos = Math.sin(relAngle + distance);
+        double xPow = xPos / (Math.abs(xPos) + Math.abs(yPos));
+        double yPow = yPos / (Math.abs(xPos) + Math.abs(yPos));
+
+        double xMovement = xPow * pow;
+        double yMovement = yPow * pow;
+
+        double relTurnAngle = relAngle - Math.toRadians(180) + prefAngle;
+
+        double turnMovement = Range.clip(relTurnAngle/Math.toRadians(30),-1,1) * turnSpeed;
+
+        if (distance < 5){
+            turnMovement = 0;
+        }
+
+         */
+        double curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        double deltaDistance = (deltaRight + deltaLeft) / 2;
+        double deltaY = deltaDistance * Math.sin(curHeading);
+        double deltaX = deltaDistance * Math.cos(curHeading);
+        double newX = oldX + deltaDistance * Math.cos(newTheta);
+        double newY = oldY + deltaDistance * Math.sin(newTheta);
+        double newTheta = curHeading + ((deltaRight + deltaLeft) / wheelLength);
+
+
+        //      this.scalePower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if ((Math.abs(cmDistance(FL.getCurrentPosition()) - cmDistance(FL.getTargetPosition())) < 3) ||

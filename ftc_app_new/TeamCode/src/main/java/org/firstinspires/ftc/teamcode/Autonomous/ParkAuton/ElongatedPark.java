@@ -59,7 +59,7 @@ public class ElongatedPark extends OpMode {
         switch (auto) {
             case 0:
                 if (runtime.milliseconds() >= 26000) {
-                    robot.runToTarget(Movement.BACKWARD, 25, false);
+              //      robot.runToTarget(Movement.BACKWARD, 25);
                 }
                 break;
 

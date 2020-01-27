@@ -69,12 +69,12 @@ public class SuperBlocks extends OpMode {
      */
     @Override
     public void loop() {
-        telemetry.addData("Case:", robot.command);
+       /* telemetry.addData("Case:", robot.command);
         switch (robot.command) {
             case 0:
                 robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.runToTarget(Movement.FORWARD, 90, false);
+                robot.runToTarget(Movement.FORWARD, 90);
                 break;
 
             case 1:
@@ -87,7 +87,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 3:
-                robot.runToTarget(Movement.BACKWARD, 35, false);
+                robot.runToTarget(Movement.BACKWARD, 35);
                 break;
 
             case 4:
@@ -104,7 +104,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 7:
-                robot.runToTarget(Movement.BACKWARD, 47, false);
+                robot.runToTarget(Movement.BACKWARD, 47);
                 break;
 
             case 8:
@@ -123,7 +123,7 @@ public class SuperBlocks extends OpMode {
 
             case 10:
                 runtime.reset();
-                robot.runToTarget(Movement.LEFTSTRAFE, 40, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 40);
                 break;
             case 11:
                 robot.skystoneFall();
@@ -142,7 +142,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 13:
-                robot.runToTarget(Movement.FORWARD, 30, false);
+                robot.runToTarget(Movement.FORWARD, 30);
                 break;
 
             case 14:
@@ -150,7 +150,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 15:
-                robot.runToTarget(Movement.LEFTSTRAFE, 140, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 140);
                 break;
 
             case 16:
@@ -169,7 +169,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 18:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20, true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
                 break;
 
             case 19:
@@ -177,7 +177,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 101:
-                robot.runToTarget(Movement.LEFTSTRAFE, 20, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 20);
                 break;
 
             case 102:
@@ -200,7 +200,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 105:
-                robot.runToTarget(Movement.FORWARD, 30, false);
+                robot.runToTarget(Movement.FORWARD, 30);
                 break;
 
             case 106:
@@ -208,7 +208,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 107:
-                robot.runToTarget(Movement.LEFTSTRAFE, 160, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 160);
                 break;
 
             case 108:
@@ -227,7 +227,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 110:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20, true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
                 break;
 
             case 111:
@@ -235,7 +235,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 1001:
-                robot.runToTarget(Movement.LEFTSTRAFE, 2, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 2);
                 break;
 
             case 1002:
@@ -258,7 +258,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 1005:
-                robot.runToTarget(Movement.FORWARD, 30, false);
+                robot.runToTarget(Movement.FORWARD, 30);
                 break;
 
             case 1006:
@@ -266,7 +266,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 1007:
-                robot.runToTarget(Movement.LEFTSTRAFE, 180, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 180);
                 break;
 
             case 1008:
@@ -285,7 +285,7 @@ public class SuperBlocks extends OpMode {
                 break;
 
             case 1010:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20, true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
                 break;
 
             case 1011:
@@ -299,5 +299,8 @@ public class SuperBlocks extends OpMode {
         telemetry.addData("intakeL Tar",robot.intakeL.getTargetPosition());
         telemetry.addData("intakR Tar",robot.intakeR.getTargetPosition());
         telemetry.update();
+
+        */
     }
 }
+

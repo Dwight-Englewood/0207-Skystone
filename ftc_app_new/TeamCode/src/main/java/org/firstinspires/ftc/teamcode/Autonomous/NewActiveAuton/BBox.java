@@ -21,8 +21,8 @@ public class BBox extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
 
+    int current;
     int stroll = 20;
-    int count = 0;
     int block;
 
     public int left = 0;
@@ -30,16 +30,15 @@ public class BBox extends OpMode {
     public int middle = 0;
     public int notvis = 0;
 
-    public static Servo clamp;
+    public boolean leftBrick, rightBrick, middleBrick, blockBrick;
+
+    public boolean blue, red;
 
     public void init() {
         robot.init(hardwareMap, telemetry);
-        telemetry.addData(">", "Init Vuforia.");
-        telemetry.update();
         detector.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
 /*
         robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -53,6 +52,37 @@ public class BBox extends OpMode {
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //    robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        runtime.reset();
+
+        SkystoneDetect.Spot returnedloc = detector.getSkystonePos(telemetry, blue);
+        switch (returnedloc) {
+            case LEFT:
+                left++;
+                break;
+
+            case RIGHT:
+                right++;
+                break;
+
+            case MIDDLE:
+                middle++;
+                break;
+
+            case NOTVISIBLE:
+                notvis++;
+                break;
+        }
+        if (runtime.milliseconds() > 1500) {
+            if (left > 1000) { //LEFT
+                blockBrick = leftBrick;
+            } else if (right > 1000) { //RIGHT
+                blockBrick = rightBrick;
+            } else if (middle > 1000) { //MIDDLE
+                blockBrick = middleBrick;
+            }
+        }
     }
 
     /*
@@ -76,10 +106,9 @@ public class BBox extends OpMode {
      */
     @Override
     public void loop() {
-        telemetry.addData("Case:", robot.command);
         switch (robot.command) {
             case 0:
-                robot.runToTarget(Movement.FORWARD, 20, false);
+                robot.runToTarget(Movement.FORWARD, 20,0);
                 break;
 
             case 1:
@@ -87,70 +116,40 @@ public class BBox extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.LEFTSTRAFE, 64, false);
+                robot.runToTarget(Movement.LEFTSTRAFE, 64,178);
                 break;
 
             case 3:
-                runtime.reset();
+                current = 178;
                 robot.encoderReset();
                 break;
 
             case 4:
-                SkystoneDetect.Spot returnedloc = detector.getSkystonePosBlue(telemetry);
-                switch (returnedloc) {
-                    case LEFT:
-                        left++;
-                        break;
-
-                    case RIGHT:
-                        right++;
-                        break;
-
-                    case MIDDLE:
-                        middle++;
-                        break;
-
-                    case NOTVISIBLE:
-                        notvis++;
-                        break;
-                }
-
-                if (runtime.milliseconds() > 1500) {
-                    robot.command++;
-                }
+                robot.runToTarget(Movement.BACKWARD, 47,current);
                 break;
 
             case 5:
-                robot.gyroTurn(178);
+                robot.encoderReset();
                 break;
 
             case 6:
-                robot.encoderReset();
-                break;
-
-            case 7:
-                robot.runToTarget(Movement.BACKWARD, 47, false);
-                break;
-
-            case 8:
-                robot.encoderReset();
-                break;
-
-            case 9:
-                if (left > right && left > middle) { //LEFT
-                    robot.command = 10;
-                } else if (right > left && right > middle) { //RIGHT
-                    robot.command = 101;
-                } else if (middle > right && middle > left) { //MIDDLE
-                    robot.command = 1001;
+                if (runtime.milliseconds() > 1500) {
+                    if (blockBrick = leftBrick) { //LEFT
+                        robot.command++;
+                    } else if (blockBrick = rightBrick) { //RIGHT
+                        robot.command = 101;
+                    } else if (blockBrick = middleBrick) { //MIDDLE
+                        robot.command = 1001;
+                    }
                 }
                 break;
 
-            case 10:
+            case 7:
                 runtime.reset();
-                robot.runToTarget(Movement.LEFTSTRAFE, 40, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 40,current);
                 break;
-            case 11:
+
+            case 8:
                 robot.skystoneFall();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
@@ -159,26 +158,25 @@ public class BBox extends OpMode {
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
                 }
+                break;
 
+            case 9:
+                robot.encoderReset();
+                break;
+
+            case 10:
+                robot.runToTarget(Movement.FORWARD, 30,current);
+                break;
+
+            case 11:
+                robot.encoderReset();
                 break;
 
             case 12:
-                robot.encoderReset();
+                robot.runToTarget(Movement.LEFTSTRAFE, 140,current);
                 break;
 
             case 13:
-                robot.runToTarget(Movement.FORWARD, 30, false);
-                break;
-
-            case 14:
-                robot.encoderReset();
-                break;
-
-            case 15:
-                robot.runToTarget(Movement.LEFTSTRAFE, 140, true);
-                break;
-
-            case 16:
                 robot.skystoneRaise();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
@@ -189,20 +187,20 @@ public class BBox extends OpMode {
                 }
                 break;
 
-            case 17:
+            case 14:
                 robot.encoderReset();
                 break;
 
-            case 18:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20, true);
+            case 15:
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20,current);
                 break;
 
-            case 19:
+            case 16:
                 robot.encoderReset();
                 break;
 
             case 101:
-                robot.runToTarget(Movement.LEFTSTRAFE, 20, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 20,current);
                 break;
 
             case 102:
@@ -225,7 +223,7 @@ public class BBox extends OpMode {
                 break;
 
             case 105:
-                robot.runToTarget(Movement.FORWARD, 30, false);
+                robot.runToTarget(Movement.FORWARD, 30,current);
                 break;
 
             case 106:
@@ -233,7 +231,7 @@ public class BBox extends OpMode {
                 break;
 
             case 107:
-                robot.runToTarget(Movement.LEFTSTRAFE, 160, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 160,current);
                 break;
 
             case 108:
@@ -252,7 +250,7 @@ public class BBox extends OpMode {
                 break;
 
             case 110:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20, true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20,current);
                 break;
 
             case 111:
@@ -260,7 +258,7 @@ public class BBox extends OpMode {
                 break;
 
             case 1001:
-                robot.runToTarget(Movement.LEFTSTRAFE, 2, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 2,current);
                 break;
 
             case 1002:
@@ -283,7 +281,7 @@ public class BBox extends OpMode {
                 break;
 
             case 1005:
-                robot.runToTarget(Movement.FORWARD, 30, false);
+                robot.runToTarget(Movement.FORWARD, 30,current);
                 break;
 
             case 1006:
@@ -291,7 +289,7 @@ public class BBox extends OpMode {
                 break;
 
             case 1007:
-                robot.runToTarget(Movement.LEFTSTRAFE, 180, true);
+                robot.runToTarget(Movement.LEFTSTRAFE, 180,current);
                 break;
 
             case 1008:
@@ -310,7 +308,7 @@ public class BBox extends OpMode {
                 break;
 
             case 1010:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20, true);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20,current);
                 break;
 
             case 1011:
