@@ -108,7 +108,7 @@ public class RBox extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.runToTarget(Movement.FORWARD, 20,0);
+                robot.runToTarget(Movement.FORWARD, 20);
                 break;
 
             case 1:
@@ -116,16 +116,15 @@ public class RBox extends OpMode {
                 break;
 
             case 2:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 64,178);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 64);
                 break;
 
             case 3:
-                current = 178;
                 robot.encoderReset();
                 break;
 
             case 4:
-                robot.runToTarget(Movement.BACKWARD, 47,current);
+                robot.gyroTurn(178);
                 break;
 
             case 5:
@@ -133,6 +132,14 @@ public class RBox extends OpMode {
                 break;
 
             case 6:
+                robot.runToTarget(Movement.BACKWARD, 47);
+                break;
+
+            case 7:
+                robot.encoderReset();
+                break;
+
+            case 8:
                 if (runtime.milliseconds() > 1500) {
                     if (blockBrick = leftBrick) { //LEFT
                         runtime.reset();
@@ -147,12 +154,12 @@ public class RBox extends OpMode {
                 }
                 break;
 
-            case 7:
+            case 9:
                 runtime.reset();
-                robot.runToTarget(Movement.RIGHTSTRAFE, 40,current);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 40);
                 break;
 
-            case 8:
+            case 10:
                 robot.skystoneFall();
                 if (runtime.milliseconds() > 1500) {
                     robot.command++;
@@ -163,23 +170,23 @@ public class RBox extends OpMode {
                 }
                 break;
 
-            case 9:
-                robot.encoderReset();
-                break;
-
-            case 10:
-                robot.runToTarget(Movement.FORWARD, 30,current);
-                break;
-
             case 11:
                 robot.encoderReset();
                 break;
 
             case 12:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 140,current);
+                robot.runToTarget(Movement.FORWARD, 30);
                 break;
 
             case 13:
+                robot.encoderReset();
+                break;
+
+            case 14:
+                robot.runToTarget(Movement.RIGHTSTRAFE, 140);
+                break;
+
+            case 15:
                 robot.skystoneRaise();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
@@ -190,20 +197,20 @@ public class RBox extends OpMode {
                 }
                 break;
 
-            case 14:
-                robot.encoderReset();
-                break;
-
-            case 15:
-                robot.runToTarget(Movement.LEFTSTRAFE, 20,current);
-                break;
-
             case 16:
                 robot.encoderReset();
                 break;
 
+            case 17:
+                robot.runToTarget(Movement.LEFTSTRAFE, 20);
+                break;
+
+            case 18:
+                robot.encoderReset();
+                break;
+
             case 101:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20,current);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
                 break;
 
             case 102:
@@ -223,7 +230,7 @@ public class RBox extends OpMode {
                 break;
 
             case 105:
-                robot.runToTarget(Movement.FORWARD, 30,current);
+                robot.runToTarget(Movement.FORWARD, 30);
                 break;
 
             case 106:
@@ -231,7 +238,7 @@ public class RBox extends OpMode {
                 break;
 
             case 107:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 160,current);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 160);
                 break;
 
             case 108:
@@ -247,7 +254,7 @@ public class RBox extends OpMode {
                 break;
 
             case 110:
-                robot.runToTarget(Movement.LEFTSTRAFE, 20,current);
+                robot.runToTarget(Movement.LEFTSTRAFE, 20);
                 break;
 
             case 111:
@@ -255,7 +262,7 @@ public class RBox extends OpMode {
                 break;
 
             case 1001:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 2,current);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 2);
                 break;
 
             case 1002:
@@ -275,7 +282,7 @@ public class RBox extends OpMode {
                 break;
 
             case 1005:
-                robot.runToTarget(Movement.FORWARD, 30,current);
+                robot.runToTarget(Movement.FORWARD, 30);
                 break;
 
             case 1006:
@@ -283,7 +290,7 @@ public class RBox extends OpMode {
                 break;
 
             case 1007:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 180,current);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 180);
                 break;
 
             case 1008:
@@ -299,7 +306,7 @@ public class RBox extends OpMode {
                 break;
 
             case 1010:
-                robot.runToTarget(Movement.LEFTSTRAFE, 20,current);
+                robot.runToTarget(Movement.LEFTSTRAFE, 20);
                 break;
 
             case 1011:
