@@ -36,7 +36,6 @@ public class BBox extends OpMode {
 
     public void init() {
         robot.init(hardwareMap, telemetry);
-        detector.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 /*
@@ -55,7 +54,7 @@ public class BBox extends OpMode {
         //    robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         runtime.reset();
-
+/*
         SkystoneDetect.Spot returnedloc = detector.getSkystonePos(telemetry, blue);
         switch (returnedloc) {
             case LEFT:
@@ -83,6 +82,8 @@ public class BBox extends OpMode {
                 blockBrick = middleBrick;
             }
         }
+
+ */
     }
 
     /*
@@ -97,6 +98,7 @@ public class BBox extends OpMode {
      */
     @Override
     public void start() {
+        detector.init(hardwareMap);
         robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE);
         detector.start();
         runtime.reset();

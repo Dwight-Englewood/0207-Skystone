@@ -124,7 +124,7 @@ public class BlueFound extends OpMode {
                 /*if (runtime.milliseconds() > 10000) {
          //           robot.tapeExtend(4500,0.5);
                 }*/
-                robot.runToTarget(Movement.BACKWARD,20);
+                robot.runToTarget(Movement.BACKWARD,20*2);
                 break;
 
             case 13:

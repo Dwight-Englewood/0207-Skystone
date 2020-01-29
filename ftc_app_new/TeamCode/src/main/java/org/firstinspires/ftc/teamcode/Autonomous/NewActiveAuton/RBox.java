@@ -36,7 +36,6 @@ public class RBox extends OpMode {
 
     public void init() {
         robot.init(hardwareMap, telemetry);
-        detector.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 /*
@@ -55,8 +54,22 @@ public class RBox extends OpMode {
         //    robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         runtime.reset();
+    }
 
-        SkystoneDetect.Spot returnedloc = detector.getSkystonePos(telemetry, red);
+    /*
+     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+     */
+    @Override
+    public void init_loop() {
+    }
+
+    /*
+     * Code to run ONCE when the driver hits PLAY
+     */
+    @Override
+    public void start() {
+        detector.init(hardwareMap);
+        /*SkystoneDetect.Spot returnedloc = detector.getSkystonePos(telemetry, red);
         switch (returnedloc) {
             case LEFT:
                 left++;
@@ -83,20 +96,8 @@ public class RBox extends OpMode {
                 blockBrick = middleBrick;
             }
         }
-    }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
-    @Override
-    public void init_loop() {
-    }
-
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
-    @Override
-    public void start() {
+         */
         robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BREATH_RED);
         detector.start();
         runtime.reset();

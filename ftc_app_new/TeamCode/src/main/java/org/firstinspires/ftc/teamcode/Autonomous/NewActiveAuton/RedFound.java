@@ -86,7 +86,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 6:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 72*1.5);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 72*1.125);
                 break;
 
             case 7:
@@ -114,7 +114,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 12:
-                robot.runToTarget(Movement.LEFTSTRAFE , 15);
+                robot.runToTarget(Movement.LEFTSTRAFE , 15*2);
                 break;
 
             case 13:
@@ -126,7 +126,7 @@ public class RedFound extends OpMode {
                 /*if (runtime.milliseconds() > 10000) {
          //           robot.tapeExtend(4500,0.5);
                 }*/
-                robot.runToTarget(Movement.BACKWARD,20);
+                robot.runToTarget(Movement.FORWARD,20*2);
                 break;
 
             case 15:
@@ -134,7 +134,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 16:
-                robot.runToTarget(Movement.RIGHTSTRAFE,110*1.375);
+                robot.runToTarget(Movement.RIGHTSTRAFE,110*1.25);
                 break;
 
             case 17:

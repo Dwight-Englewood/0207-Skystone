@@ -237,10 +237,10 @@ public class NewAutonMethods {
             driveScale = .5;
         else {
             driveScale = 0;
-            this.drive(Movement.RIGHTTURN, driveScale * 0.4);
+            this.drive(Movement.RIGHTTURN, driveScale * 0.65);
             return true;
         }
-        this.drive(Movement.RIGHTTURN, driveScale * 0.4);
+        this.drive(Movement.RIGHTTURN, driveScale * 0.65);
         return false;
     }
     //Positive is left turn, negative is right turn.
