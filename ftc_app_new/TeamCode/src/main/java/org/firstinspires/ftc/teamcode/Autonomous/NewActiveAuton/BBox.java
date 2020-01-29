@@ -314,7 +314,7 @@ public class BBox extends OpMode {
             case 1011:
                 robot.encoderReset();
                 break;
-                
+
              */
         }
 

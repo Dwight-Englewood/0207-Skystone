@@ -31,7 +31,7 @@ public class NewAutonMethods {
     public int command;
     private int originTick;
     int curVal = 0;
-    double pVal = 0.0005;
+    double pVal = 0.0000045;
 
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
@@ -47,10 +47,9 @@ public class NewAutonMethods {
     }
 
     /**
-     *
      * inits hardware
      *
-     * @param map creates object on phones config
+     * @param map  creates object on phones config
      * @param tele displays data on phone
      */
     public void init(HardwareMap map, Telemetry tele) {
@@ -97,7 +96,6 @@ public class NewAutonMethods {
     }
 
     /**
-     *
      * Changes the encoder state of all four motors.
      *
      * @param runMode a dc motor run mode.
@@ -110,9 +108,6 @@ public class NewAutonMethods {
     }
 
     /**
-     *
-     *
-     *
      * @param in powerlevel
      */
     public void drive(double in) {
@@ -242,10 +237,10 @@ public class NewAutonMethods {
             driveScale = .5;
         else {
             driveScale = 0;
-            this.drive(Movement.RIGHTTURN, driveScale);
+            this.drive(Movement.RIGHTTURN, driveScale * 0.4);
             return true;
         }
-        this.drive(Movement.RIGHTTURN, driveScale);
+        this.drive(Movement.RIGHTTURN, driveScale * 0.4);
         return false;
     }
     //Positive is left turn, negative is right turn.
@@ -263,8 +258,8 @@ public class NewAutonMethods {
         this.scalePower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 25) ||
-                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 25)) {
+        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 50) ||
+                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 50)) {
             autonDrive(movementEnum.STOP, 0);
             tele.update();
             this.command++;
@@ -350,17 +345,33 @@ public class NewAutonMethods {
         double power;
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
-        int diff = (Math.abs(target - current)); //Distance from current position to end position
-        int originDiff = (Math.abs(this.originTick - current));  //Distance from current position to start position
+        int diff = cmDistance(Math.abs(target - current)); //Distance from current position to end position
+        int originDiff = cmDistance(Math.abs(this.originTick - current));  //Distance from current position to start position
 
-        if (originDiff < diff) {
-            if (originDiff == 0){
-                power = 0.02;
-            } else {
+        if (originDiff < diff) { //Startpoint to Midpoint
+            if (originDiff == 0) { //Startpoint
+                power = 0.05;
+            } else if (diff - originDiff < 0.5 * Math.abs(diff + originDiff)) { //Quarter to Midpoint
+                power = diff * pVal;
+                if (Math.abs(diff - originDiff) < 0.2 * Math.abs(diff + originDiff)) { // 0.4 to 0.6 point
+                    power = 1;
+                }
+            }  else { //Startpoint to Quarter
                 power = originDiff * pVal;
             }
-        } else {
-            power = diff * pVal;
+        }
+
+        if (originDiff > diff) { //Midpoint to Endpoint
+            if (originDiff - diff < 0.5 * Math.abs(diff + originDiff)) { //Midpoint to Three Quarter
+                power = diff * pVal;
+                if (Math.abs(diff - originDiff) < 0.2 * Math.abs(diff + originDiff)) { // 0.4 to 0.6 point
+                    power = 1;
+                }
+            } else { //Quarter to final
+                power = diff * pVal * 30;
+            }
+        } else { //Midpoint
+            power = 1;
         }
 
         tele.addData("diff", diff);

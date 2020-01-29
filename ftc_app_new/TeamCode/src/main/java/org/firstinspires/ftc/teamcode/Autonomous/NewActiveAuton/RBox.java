@@ -156,12 +156,57 @@ public class RBox extends OpMode {
                 break;
 
             case 10:
-                robot.runToTarget(Movement.BACKWARD, 200);
+                robot.runToTarget(Movement.BACKWARD, 100);
                 break;
 
             case 11:
                 robot.encoderReset();
                 break;
+
+            case 12:
+                runtime.reset();
+                robot.runToTarget(Movement.RIGHTSTRAFE, 2);
+                break;
+
+            case 13:
+                robot.closeServoAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
+                break;
+
+            case 14:
+                robot.encoderReset();
+                break;
+
+            case 15:
+                robot.gyroTurn(0);
+                break;
+
+            case 16:
+                runtime.reset();
+                robot.encoderReset();
+                break;
+
+            case 17:
+                robot.openServoAuton();
+                if (runtime.milliseconds() > 2000) {
+                    robot.command++;
+                }
+                break;
+
+            case 18:
+                robot.gyroTurn(88);
+                break;
+
+            case 19:
+                robot.encoderReset();
+                break;
+
+                //runs back
+                // clips the block
+            // raises it
+            //
 
             case 101:
                 robot.runToTarget(Movement.LEFTSTRAFE, 2);

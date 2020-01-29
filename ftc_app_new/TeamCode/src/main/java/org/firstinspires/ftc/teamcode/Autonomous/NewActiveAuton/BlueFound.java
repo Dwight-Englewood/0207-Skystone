@@ -68,23 +68,24 @@ public class BlueFound extends OpMode {
                 break;
 
             case 1:
-                robot.runToTarget(Movement.BACKWARD, 31);
+                runtime.reset();
+                robot.runToTarget(Movement.LEFTSTRAFE, 71*1.5);
                 break;
 
             case 2:
-                robot.encoderReset();
-                break;
-
-            case 3:
-                runtime.reset();
-                robot.runToTarget(Movement.LEFTSTRAFE, 71);
-                break;
-
-            case 4:
                 robot.closeServoAuton();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
                 }
+                break;
+
+            case 3:
+                robot.encoderReset();
+                break;
+
+            case 4:
+                runtime.reset();
+                robot.runToTarget(Movement.FORWARD, 50);
                 break;
 
             case 5:
@@ -92,7 +93,7 @@ public class BlueFound extends OpMode {
                 break;
 
             case 6:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 72);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 72*1.5);
                 break;
 
             case 7:
@@ -140,7 +141,7 @@ public class BlueFound extends OpMode {
                 break;
 
             case 16:
-                robot.runToTarget(Movement.RIGHTSTRAFE,110);
+                robot.runToTarget(Movement.RIGHTSTRAFE,110*1.375);
                 break;
 
             case 17:
