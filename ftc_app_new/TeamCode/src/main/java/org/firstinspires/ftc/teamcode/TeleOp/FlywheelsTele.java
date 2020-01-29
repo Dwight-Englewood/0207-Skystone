@@ -153,8 +153,8 @@ public class FlywheelsTele extends OpMode {
         }
 
         if (gamepad2.dpad_down) {
-            robot.foundationLeft.setPosition(0.55);
-            robot.foundationRight.setPosition(0.35);
+            robot.foundationLeft.setPosition(0.57); //0.55 //right
+            robot.foundationRight.setPosition(0.32); //0.35 //left
         }
     }
 

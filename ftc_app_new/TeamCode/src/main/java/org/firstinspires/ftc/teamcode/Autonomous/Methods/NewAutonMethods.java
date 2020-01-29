@@ -299,8 +299,8 @@ public class NewAutonMethods {
     }
 
     public void closeServoAuton() {
-        this.foundationLeft.setPosition(0.55);
-        this.foundationRight.setPosition(0.35);
+        this.foundationLeft.setPosition(0.57); //0.55 //right
+        this.foundationRight.setPosition(0.32); //0.35 //left
     }
 
     public void intakeAuton(int target, double power) {
@@ -353,25 +353,46 @@ public class NewAutonMethods {
                 power = 0.05;
             } else if (diff - originDiff < 0.5 * Math.abs(diff + originDiff)) { //Quarter to Midpoint
                 power = diff * pVal;
+                if (power > .8){
+                    power = .8;
+                }
+                if (power < .09){
+                    power = .09;
+                }
                 if (Math.abs(diff - originDiff) < 0.2 * Math.abs(diff + originDiff)) { // 0.4 to 0.6 point
-                    power = 1;
+                    power = .8;
                 }
             }  else { //Startpoint to Quarter
                 power = originDiff * pVal;
+                if (power > .8){
+                    power = .8;
+                }
+                if (power < .09){
+                    power = .09;
+                }
             }
         }
 
         if (originDiff > diff) { //Midpoint to Endpoint
             if (originDiff - diff < 0.5 * Math.abs(diff + originDiff)) { //Midpoint to Three Quarter
                 power = diff * pVal;
+                if (power > .8){
+                    power = .8;
+                }
+                if (power < .09){
+                    power = .09;
+                }
                 if (Math.abs(diff - originDiff) < 0.2 * Math.abs(diff + originDiff)) { // 0.4 to 0.6 point
-                    power = 1;
+                    power = .8;
                 }
             } else { //Quarter to final
                 power = diff * pVal * 30;
+                if (power < .09){
+                    power = .09;
+                }
             }
         } else { //Midpoint
-            power = 1;
+            power = .8;
         }
 
         tele.addData("diff", diff);
