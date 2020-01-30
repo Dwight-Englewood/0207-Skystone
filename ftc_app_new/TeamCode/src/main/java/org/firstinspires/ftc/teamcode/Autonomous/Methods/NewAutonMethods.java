@@ -32,6 +32,7 @@ public class NewAutonMethods {
     private int originTick;
     int curVal = 0;
     double pVal = 0.0000045;
+    double worldXPosition, worldYPosition, worldAngle_rad;
 
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
@@ -44,6 +45,9 @@ public class NewAutonMethods {
 
     public NewAutonMethods() {
         command = 0;
+        worldXPosition = 50;
+        worldYPosition = 70;
+        worldAngle_rad = Math.toRadians(-180);
     }
 
     /**
@@ -266,6 +270,56 @@ public class NewAutonMethods {
         }
     }
 
+    public void setTarget(double x, double y, double movementSpeed, double preferredAngle, double turnSpeed) {
+        double distance = Math.hypot(x-worldXPosition, y-worldYPosition);
+        double absoluteAngleToTarget = Math.atan2(y-worldYPosition, x-worldXPosition);
+        double relativeAngleToPoint = this.AngleWrap(absoluteAngleToTarget - (worldAngle_rad - Math.toRadians(90)));
+        double relativeXToPoint = Math.cos(relativeAngleToPoint) * distance;
+        double relativeYToPoint = Math.sin(relativeAngleToPoint) * distance;
+
+        worldXPosition = relativeXToPoint;
+        worldYPosition = relativeYToPoint;
+
+        double movementXPower = relativeXToPoint / (Math.abs(relativeXToPoint) + Math.abs(relativeYToPoint));
+        double movementYPower = relativeYToPoint / (Math.abs(relativeXToPoint) + Math.abs(relativeYToPoint));
+
+        double movement_x = movementXPower * movementSpeed;
+        double movement_y = movementYPower * movementSpeed;
+
+        double relativeTurnAngle = relativeAngleToPoint - Math.toRadians(180) + preferredAngle;
+
+        double movement_turn = Range.clip(relativeTurnAngle/Math.toRadians(30),-1,1) * turnSpeed;
+
+        this.FL.setPower(movement_y + movement_x - movement_turn);
+        this.FR.setPower(movement_y - movement_x + movement_turn);
+        this.BL.setPower(movement_y - movement_x - movement_turn);
+        this.BR.setPower(movement_y + movement_x + movement_turn);
+
+        if (Math.abs(x-worldXPosition) < 5|| Math.abs(y-worldYPosition) < 5){
+            movementSpeed = 0;
+            movement_turn = 0;
+            this.command++;
+
+        }
+
+        if (distance < 8){
+            movement_turn = 0;
+            this.command++;
+        }
+
+        tele.addData("movement_y", movement_y);
+        tele.addData("movement_x", movement_x);
+        tele.addData("movement_turn", movement_turn);
+
+        tele.addData("x", x);
+        tele.addData("y", y);
+
+        tele.addData("relativeXToPoint", relativeXToPoint);
+        tele.addData("relativeYToPoint", relativeYToPoint);
+
+        tele.addData("movement_turn", movement_turn);
+    }
+
     public void encoderReset() {
         this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.runtime.reset();
@@ -353,21 +407,19 @@ public class NewAutonMethods {
                 power = 0.05;
             } else if (diff - originDiff < 0.5 * Math.abs(diff + originDiff)) { //Quarter to Midpoint
                 power = diff * pVal;
-                if (power > .8){
-                    power = .8;
-                }
-                if (power < .09){
-                    power = .09;
-                }
                 if (Math.abs(diff - originDiff) < 0.2 * Math.abs(diff + originDiff)) { // 0.4 to 0.6 point
                     power = .8;
+                }
+                if (power > .8){
+                    power = .8;
+                } else if (power < .09){
+                    power = .09;
                 }
             }  else { //Startpoint to Quarter
                 power = originDiff * pVal;
                 if (power > .8){
                     power = .8;
-                }
-                if (power < .09){
+                }else if (power < .09){
                     power = .09;
                 }
             }
@@ -376,18 +428,19 @@ public class NewAutonMethods {
         if (originDiff > diff) { //Midpoint to Endpoint
             if (originDiff - diff < 0.5 * Math.abs(diff + originDiff)) { //Midpoint to Three Quarter
                 power = diff * pVal;
-                if (power > .8){
-                    power = .8;
-                }
-                if (power < .09){
-                    power = .09;
-                }
                 if (Math.abs(diff - originDiff) < 0.2 * Math.abs(diff + originDiff)) { // 0.4 to 0.6 point
                     power = .8;
                 }
+                if (power > .8){
+                    power = .8;
+                } else if (power < .09){
+                    power = .09;
+                }
             } else { //Quarter to final
                 power = diff * pVal * 30;
-                if (power < .09){
+                if (power > .8){
+                    power = .8;
+                } else if (power < .09){
                     power = .09;
                 }
             }
@@ -468,61 +521,18 @@ public class NewAutonMethods {
         return (int) (gearMotorTick * (distance / wheelCirc));
         //rate = x(0.05937236104)
     }
-
-    /*public static double wrapAng(double angle){
-        while (angle < -Math.PI){
+//double relativeAngleToPoint = this.AngleWrap(absoluteAngleToTarget - (worldAngle_rad - Math.toRadians(90)));
+    public static double AngleWrap(double angle){
+        while (angle > -Math.PI){
             angle += 2*Math.PI;
         }
 
-        while (angle > -Math.PI){
+        while (angle < -Math.PI){
             angle -= 2*Math.PI;
         }
         return angle;
     }
-     */
 
-    public void setTarget(double oldX, double oldY, double pow, double prefAngle, double turnSpeed) {
-        /*double distance = Math.hypot(newX-oldX, newY-oldY);
-        double absAngle = Math.atan2(newY-oldY, newX-oldX);
-        double relAngle = wrapAng(absAngle - (oldAng - Math.toRadians(90)));
-        double xPos = Math.cos(relAngle + distance);
-        double yPos = Math.sin(relAngle + distance);
-        double xPow = xPos / (Math.abs(xPos) + Math.abs(yPos));
-        double yPow = yPos / (Math.abs(xPos) + Math.abs(yPos));
-
-        double xMovement = xPow * pow;
-        double yMovement = yPow * pow;
-
-        double relTurnAngle = relAngle - Math.toRadians(180) + prefAngle;
-
-        double turnMovement = Range.clip(relTurnAngle/Math.toRadians(30),-1,1) * turnSpeed;
-
-        if (distance < 5){
-            turnMovement = 0;
-        }
-
-         */
-        double curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        double deltaDistance = (deltaRight + deltaLeft) / 2;
-        double deltaY = deltaDistance * Math.sin(curHeading);
-        double deltaX = deltaDistance * Math.cos(curHeading);
-        double newX = oldX + deltaDistance * Math.cos(newTheta);
-        double newY = oldY + deltaDistance * Math.sin(newTheta);
-        double newTheta = curHeading + ((deltaRight + deltaLeft) / wheelLength);
-
-
-        //      this.scalePower();
-        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if ((Math.abs(cmDistance(FL.getCurrentPosition()) - cmDistance(FL.getTargetPosition())) < 3) ||
-                (Math.abs(cmDistance(FR.getCurrentPosition()) - cmDistance(FR.getTargetPosition())) < 3) ||
-                (Math.abs(cmDistance(BL.getCurrentPosition()) - cmDistance(BL.getTargetPosition())) < 3) ||
-                (Math.abs(cmDistance(BR.getCurrentPosition()) - cmDistance(BR.getTargetPosition())) < 3)) {
-            this.runtime.reset();
-            tele.update();
-            this.command++;
-        }
-    }
 }
 
 

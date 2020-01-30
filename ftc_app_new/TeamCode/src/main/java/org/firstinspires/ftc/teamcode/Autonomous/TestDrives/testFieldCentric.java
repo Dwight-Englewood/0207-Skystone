@@ -30,8 +30,6 @@ public class testFieldCentric extends OpMode {
         robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -56,7 +54,7 @@ public class testFieldCentric extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.setTarget(25,25,0.5, Math.toRadians(90), 0.3);
+                robot.setTarget(100,200,0.5, Math.toRadians(90), 0.3);
                 break;
 
             case 1:
@@ -64,6 +62,10 @@ public class testFieldCentric extends OpMode {
                 break;
         }
         telemetry.addData("Case:", robot.command);
+        telemetry.addData("FL Power", robot.FL.getPower());
+        telemetry.addData("FR Power", robot.FR.getPower());
+        telemetry.addData("BL Power", robot.BL.getPower());
+        telemetry.addData("BR Power", robot.BR.getPower());
         telemetry.update();
     }
 }
