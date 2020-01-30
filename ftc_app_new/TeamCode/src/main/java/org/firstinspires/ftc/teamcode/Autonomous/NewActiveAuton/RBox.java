@@ -69,35 +69,6 @@ public class RBox extends OpMode {
     @Override
     public void start() {
         detector.init(hardwareMap);
-        /*SkystoneDetect.Spot returnedloc = detector.getSkystonePos(telemetry, red);
-        switch (returnedloc) {
-            case LEFT:
-                left++;
-                break;
-
-            case RIGHT:
-                right++;
-                break;
-
-            case MIDDLE:
-                middle++;
-                break;
-
-            case NOTVISIBLE:
-                notvis++;
-                break;
-        }
-        if (runtime.milliseconds() > 1500) {
-            if (left > 1000) { //LEFT
-                blockBrick = leftBrick;
-            } else if (right > 1000) { //RIGHT
-                blockBrick = rightBrick;
-            } else if (middle > 1000) { //MIDDLE
-                blockBrick = middleBrick;
-            }
-        }
-
-         */
         robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BREATH_RED);
         detector.start();
         runtime.reset();
@@ -109,6 +80,35 @@ public class RBox extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
+                SkystoneDetect.Spot returnedloc = detector.getSkystonePos(telemetry, red);
+                switch (returnedloc) {
+                    case LEFT:
+                        left++;
+                        break;
+
+                    case RIGHT:
+                        right++;
+                        break;
+
+                    case MIDDLE:
+                        middle++;
+                        break;
+
+                    case NOTVISIBLE:
+                        notvis++;
+                        break;
+                }
+                if (runtime.milliseconds() > 1500) {
+                    if (left > 1000) { //LEFT
+                        blockBrick = leftBrick;
+                    } else if (right > 1000) { //RIGHT
+                        blockBrick = rightBrick;
+                    } else if (middle > 1000) { //MIDDLE
+                        blockBrick = middleBrick;
+                    }
+                }
+
+            case 1:
                 if (blockBrick = leftBrick) { //LEFT
                     robot.command++;
                 } else if (blockBrick = rightBrick) { //RIGHT
@@ -118,89 +118,89 @@ public class RBox extends OpMode {
                 }
                 break;
 
-            case 1:
+            case 2:
                 robot.runToTarget(Movement.LEFTSTRAFE, 25);
                 break;
 
-            case 2:
+            case 3:
                 robot.encoderReset();
                 break;
 
-            case 3:
+            case 4:
                 robot.runToTarget(Movement.FORWARD, 20);
                 break;
 
-            case 4:
+            case 5:
                 robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
-            case 5:
+            case 6:
                 robot.intakeAuton(500, 1);
                 break;
 
-            case 6:
+            case 7:
                 robot.runToTarget(Movement.BACKWARD, 30);
                 break;
 
-            case 7:
-                robot.encoderReset();
-                break;
-
             case 8:
-                robot.gyroTurn(88);
+                robot.encoderReset();
                 break;
 
             case 9:
-                robot.encoderReset();
+                robot.gyroTurn(88);
                 break;
 
             case 10:
-                robot.runToTarget(Movement.BACKWARD, 100);
-                break;
-
-            case 11:
                 robot.encoderReset();
                 break;
 
+            case 11:
+                robot.runToTarget(Movement.BACKWARD, 100);
+                break;
+
             case 12:
+                robot.encoderReset();
+                break;
+
+            case 13:
                 runtime.reset();
                 robot.runToTarget(Movement.RIGHTSTRAFE, 2);
                 break;
 
-            case 13:
+            case 14:
                 robot.closeServoAuton();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
                 }
                 break;
 
-            case 14:
+            case 15:
                 robot.encoderReset();
                 break;
 
-            case 15:
+            case 16:
                 robot.gyroTurn(0);
                 break;
 
-            case 16:
+            case 17:
                 runtime.reset();
                 robot.encoderReset();
                 break;
 
-            case 17:
+            case 18:
                 robot.openServoAuton();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
                 }
                 break;
 
-            case 18:
+            case 19:
                 robot.gyroTurn(88);
                 break;
 
-            case 19:
+            case 20:
                 robot.encoderReset();
                 break;
 
