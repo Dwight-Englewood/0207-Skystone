@@ -262,8 +262,8 @@ public class NewAutonMethods {
         this.scalePower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 50) ||
-                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 50)) {
+        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 5) ||
+                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 5)) {
             autonDrive(movementEnum.STOP, 0);
             tele.update();
             this.command++;
@@ -358,8 +358,8 @@ public class NewAutonMethods {
     }
 
     public void intakeAuton(int target, double power) {
-        this.intakeL.setTargetPosition(target);
-        this.intakeR.setTargetPosition(target);
+        this.intakeL.setTargetPosition(cmDistance(target));
+        this.intakeR.setTargetPosition(cmDistance(target));
 
         this.intakeL.setPower(power);
         this.intakeR.setPower(power);
@@ -367,7 +367,7 @@ public class NewAutonMethods {
         this.intakeL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.intakeR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if ((Math.abs(this.intakeL.getCurrentPosition() - this.intakeL.getTargetPosition()) < 25)) {
+        if ((Math.abs(this.intakeL.getCurrentPosition() - this.intakeL.getTargetPosition()) < 5) || (Math.abs(this.intakeR.getCurrentPosition() - this.intakeR.getTargetPosition()) < 5)) {
             this.intakeL.setPower(0);
             this.intakeR.setPower(0);
             this.command++;

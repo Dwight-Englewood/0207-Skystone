@@ -21,8 +21,6 @@ public class RBox extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
 
-    int current;
-    int stroll = 20;
     int block;
 
     public int left = 0;
@@ -30,9 +28,7 @@ public class RBox extends OpMode {
     public int middle = 0;
     public int notvis = 0;
 
-    public boolean leftBrick, rightBrick, middleBrick, blockBrick;
-
-    public boolean blue, red;
+    public int blockBrick;
 
     public void init() {
         robot.init(hardwareMap, telemetry);
@@ -80,7 +76,7 @@ public class RBox extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                SkystoneDetect.Spot returnedloc = detector.getSkystonePos(telemetry, red);
+                SkystoneDetect.Spot returnedloc = detector.getSkystonePosRed(telemetry);
                 switch (returnedloc) {
                     case LEFT:
                         left++;
@@ -98,28 +94,32 @@ public class RBox extends OpMode {
                         notvis++;
                         break;
                 }
+
                 if (runtime.milliseconds() > 1500) {
-                    if (left > 1000) { //LEFT
-                        blockBrick = leftBrick;
-                    } else if (right > 1000) { //RIGHT
-                        blockBrick = rightBrick;
-                    } else if (middle > 1000) { //MIDDLE
-                        blockBrick = middleBrick;
+                    if (left > right || left > middle) { //LEFT
+                        blockBrick = 1;
+                        robot.encoderReset();
+                    } else if (right > middle || right > left) { //RIGHT
+                        blockBrick = 2;
+                        robot.encoderReset();
+                    } else if (middle > left || middle > right) { //MIDDLE
+                        blockBrick = 3;
+                        robot.encoderReset();
                     }
                 }
 
             case 1:
-                if (blockBrick = leftBrick) { //LEFT
-                    robot.command++;
-                } else if (blockBrick = rightBrick) { //RIGHT
-                    robot.command = 101;
-                } else if (blockBrick = middleBrick) { //MIDDLE
+                if (blockBrick == 1) { //LEFT
+                    robot.command= 4;
+                } else if (blockBrick == 2) { //RIGHT
+                    robot.command = 103;
+                } else if (blockBrick == 3) { //MIDDLE
                     robot.command = 1001;
                 }
                 break;
 
             case 2:
-                robot.runToTarget(Movement.LEFTSTRAFE, 25);
+                robot.runToTarget(Movement.LEFTSTRAFE, 20);
                 break;
 
             case 3:
@@ -127,98 +127,55 @@ public class RBox extends OpMode {
                 break;
 
             case 4:
-                robot.runToTarget(Movement.FORWARD, 20);
+                robot.intakeL.setPower(1);
+                robot.intakeR.setPower(1);
+                robot.runToTarget(Movement.FORWARD, 20*6);
                 break;
 
             case 5:
-                robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
             case 6:
-                robot.intakeAuton(500, 1);
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                robot.runToTarget(Movement.BACKWARD, 30*1.5);
                 break;
 
             case 7:
-                robot.runToTarget(Movement.BACKWARD, 30);
+                robot.encoderReset();
                 break;
 
             case 8:
-                robot.encoderReset();
+                robot.gyroTurn(88);
                 break;
 
             case 9:
-                robot.gyroTurn(88);
+                robot.encoderReset();
                 break;
 
             case 10:
-                robot.encoderReset();
+                robot.runToTarget(Movement.FORWARD, 100);
                 break;
 
             case 11:
-                robot.runToTarget(Movement.BACKWARD, 100);
+                robot.encoderReset();
                 break;
 
             case 12:
-                robot.encoderReset();
-                break;
-
-            case 13:
-                runtime.reset();
-                robot.runToTarget(Movement.RIGHTSTRAFE, 2);
-                break;
-
-            case 14:
-                robot.closeServoAuton();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-                break;
-
-            case 15:
-                robot.encoderReset();
-                break;
-
-            case 16:
-                robot.gyroTurn(0);
-                break;
-
-            case 17:
-                runtime.reset();
-                robot.encoderReset();
-                break;
-
-            case 18:
-                robot.openServoAuton();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-                break;
-
-            case 19:
+                robot.intakeL.setPower(-1);
+                robot.intakeR.setPower(-1);
                 robot.gyroTurn(88);
                 break;
 
-            case 20:
+            case 14:
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
                 robot.encoderReset();
                 break;
-
-                //runs back
-                // clips the block
-            // raises it
-            //
-
-            case 101:
-                robot.runToTarget(Movement.LEFTSTRAFE, 2);
-                break;
-
-            case 102:
-                robot.encoderReset();
-                break;
-
+                
             case 103:
-                robot.runToTarget(Movement.FORWARD, 20);
+                robot.runToTarget(Movement.FORWARD, 20*5.2);
                 break;
 
             case 104:
@@ -240,7 +197,7 @@ public class RBox extends OpMode {
                 break;
 
             case 108:
-                robot.gyroTurn(88);
+                robot.gyroTurn(-88);
                 break;
 
             case 109:
@@ -264,7 +221,7 @@ public class RBox extends OpMode {
                 break;
 
             case 1003:
-                robot.runToTarget(Movement.FORWARD, 20);
+                robot.runToTarget(Movement.FORWARD, 20*5.2);
                 break;
 
             case 1004:
@@ -306,6 +263,8 @@ public class RBox extends OpMode {
         telemetry.addData("middle", middle);
         telemetry.addData("left", left);
         telemetry.addData("block", block);
+        telemetry.addData("intakeL current", robot.intakeL.getCurrentPosition());
+        telemetry.addData("intakeL target", robot.intakeL.getTargetPosition());
         telemetry.update();
     }
 }

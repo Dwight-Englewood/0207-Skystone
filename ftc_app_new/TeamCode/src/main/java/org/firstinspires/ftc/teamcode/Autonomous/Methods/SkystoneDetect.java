@@ -61,7 +61,7 @@ public class SkystoneDetect {
     }*/
 
     // Created for looking at RIGHTMOST 2 BLOCKS (next to wall)
-    public Spot getSkystonePosRed(Telemetry telemetry) {
+    public Spot getSkystonePosBlue(Telemetry telemetry) {
         if (tfod != null) {
             // Make this a var since this is a constantly changing thing and we want to check 1 instance
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
@@ -88,64 +88,8 @@ public class SkystoneDetect {
         return Spot.NOTVISIBLE;
     }
 
-    public Spot getSkystonePos(Telemetry telemetry, boolean position) {
-        if (position = blue) {
-            if (tfod != null) {
-                // Make this a var since this is a constantly changing thing and we want to check 1 instance
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-
-                if (updatedRecognitions != null) {
-                    //telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    for (Recognition recognition : updatedRecognitions) {
-                        // is skystone visible?
-                        if (recognition.getLabel().equals(LABEL_SECOND_ELEMENT)) {
-                            // is skystone on left side of screen?
-                            //TODO: Might need to change this to something else
-                            if ((recognition.getRight() - recognition.getLeft()) / 2 + recognition.getLeft() < recognition.getImageWidth() / 2) {
-                                return Spot.LEFT;
-                            } else {
-                                return Spot.MIDDLE;
-                            }
-                        }
-                    }
-                    // Things visible, but no skystone, then must be right.
-                    return Spot.RIGHT;
-                }
-            }
-            // Nothing visible:
-            return Spot.NOTVISIBLE;
-
-        } else if (position = red) {
-            if (tfod != null) {
-                // Make this a var since this is a constantly changing thing and we want to check 1 instance
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-
-                if (updatedRecognitions != null) {
-                    //telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    for (Recognition recognition : updatedRecognitions) {
-                        // is skystone visible?
-                        if (recognition.getLabel().equals(LABEL_SECOND_ELEMENT)) {
-                            // is skystone on left side of screen?
-                            //TODO: Might need to change this to something else
-                            if ((recognition.getRight() - recognition.getLeft()) / 2 + recognition.getLeft() < recognition.getImageWidth() / 2) {
-                                return Spot.MIDDLE;
-                            } else {
-                                return Spot.RIGHT;
-                            }
-                        }
-                    }
-                    // Things visible, but no skystone, then must be right.
-                    return Spot.LEFT;
-                }
-            }
-            // Nothing visible:
-            return Spot.NOTVISIBLE;
-        }
-        return Spot.NOTVISIBLE;
-    }
-
         // Created for looking at RIGHTMOST 2 BLOCKS (next to wall)
-    public Spot getSkystonePosBlue(Telemetry telemetry) {
+    public Spot getSkystonePosRed(Telemetry telemetry) {
         if (tfod != null) {
             // Make this a var since this is a constantly changing thing and we want to check 1 instance
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
