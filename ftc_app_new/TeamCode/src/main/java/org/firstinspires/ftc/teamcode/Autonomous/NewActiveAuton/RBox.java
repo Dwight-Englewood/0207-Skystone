@@ -127,18 +127,21 @@ public class RBox extends OpMode {
                 break;
 
             case 4:
-                robot.intakeL.setPower(1);
-                robot.intakeR.setPower(1);
+                robot.intakeL.setPower(.8);
+                robot.intakeR.setPower(.8);
+                runtime.reset();
                 robot.runToTarget(Movement.FORWARD, 20*6);
                 break;
 
             case 5:
-                robot.encoderReset();
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                if (runtime.milliseconds() > 1000) {
+                    robot.encoderReset();
+                }
                 break;
 
             case 6:
-                robot.intakeL.setPower(0);
-                robot.intakeR.setPower(0);
                 robot.runToTarget(Movement.BACKWARD, 30*1.5);
                 break;
 
@@ -163,17 +166,35 @@ public class RBox extends OpMode {
                 break;
 
             case 12:
-                robot.intakeL.setPower(-1);
-                robot.intakeR.setPower(-1);
+                robot.intakeL.setPower(-.8);
+                robot.intakeR.setPower(-.8);
                 robot.gyroTurn(88);
                 break;
 
             case 14:
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
+                if (runtime.milliseconds() > 1000) {
+                    robot.encoderReset();
+                }
+                break;
+
+            case 15:
+                robot.gyroTurn(188);
+                break;
+
+            case 16:
                 robot.encoderReset();
                 break;
-                
+
+            case 17:
+                robot.runToTarget(Movement.FORWARD, 100);
+                break;
+
+            case 18:
+                robot.encoderReset();
+                break;
+
             case 103:
                 robot.runToTarget(Movement.FORWARD, 20*5.2);
                 break;

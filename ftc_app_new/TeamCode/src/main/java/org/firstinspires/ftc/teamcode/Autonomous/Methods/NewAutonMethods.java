@@ -31,7 +31,7 @@ public class NewAutonMethods {
     public int command;
     private int originTick;
     int curVal = 0;
-    double pVal = 0.0000045;
+    double pVal = 0.00000045;
     double worldXPosition, worldYPosition, worldAngle_rad;
 
     public RevBlinkinLedDriver blinkin;
@@ -399,8 +399,8 @@ public class NewAutonMethods {
         double power;
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
-        int diff = cmDistance(Math.abs(target - current)); //Distance from current position to end position
-        int originDiff = cmDistance(Math.abs(this.originTick - current));  //Distance from current position to start position
+        int diff = (Math.abs(cmDistance(target - current))); //Distance from current position to end position
+        int originDiff = (Math.abs(cmDistance(originTick - current)));  //Distance from current position to start position
 
         if (originDiff < diff) { //Startpoint to Midpoint
             if (originDiff == 0) { //Startpoint
@@ -445,13 +445,22 @@ public class NewAutonMethods {
                 }
             }
         } else { //Midpoint
-            power = .8;
+            power = 0;
         }
 
         tele.addData("diff", diff);
         tele.addData("originDiff", originDiff);
         tele.addData("power", power);
         this.drive(power);
+    }
+
+    public void anotherScale(){
+        double power;
+        int target = FL.getTargetPosition();
+        int current = FL.getCurrentPosition();
+        int diff = cmDistance(Math.abs(target - current)); //Distance from current position to end position
+        int originDiff = cmDistance(Math.abs(this.originTick - current));  //Distance from current position to start position
+        power = Math.pow(Math.E, -(diff-3));
     }
     /*
 
@@ -474,7 +483,7 @@ public class NewAutonMethods {
         } else if (diff < 300) {
             power = .3;
         } else if (diff < 500) {
-            power = .7;
+            power = .7;(
         } else if (diff < 750) {
             power = .7;
         }
