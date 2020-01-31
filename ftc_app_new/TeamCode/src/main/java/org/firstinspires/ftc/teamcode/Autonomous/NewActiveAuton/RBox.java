@@ -123,14 +123,15 @@ public class RBox extends OpMode {
                 break;
 
             case 3:
+                runtime.reset();
                 robot.encoderReset();
                 break;
 
             case 4:
-                robot.intakeL.setPower(.8);
-                robot.intakeR.setPower(.8);
                 runtime.reset();
                 robot.runToTarget(Movement.FORWARD, 20*6);
+                robot.intakeL.setPower(.8);
+                robot.intakeR.setPower(.8);
                 break;
 
             case 5:

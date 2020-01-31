@@ -68,23 +68,23 @@ public class BlueFound extends OpMode {
                 break;
 
             case 1:
+                robot.runToTarget(Movement.BACKWARD, 28);
+                break;
+
+            case 2:
+                robot.encoderReset();
+                break;
+
+            case 3:
                 runtime.reset();
                 robot.runToTarget(Movement.LEFTSTRAFE, 71*1.5);
                 break;
 
-            case 2:
+            case 4:
                 robot.closeServoAuton();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
                 }
-                break;
-
-            case 3:
-                robot.encoderReset();
-                break;
-
-            case 4:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 72*1.125);
                 break;
 
             case 5:
@@ -92,50 +92,58 @@ public class BlueFound extends OpMode {
                 break;
 
             case 6:
-                robot.gyroTurn(88);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 72*1.125);
                 break;
 
             case 7:
-                runtime.reset();
                 robot.encoderReset();
                 break;
 
             case 8:
+                robot.gyroTurn(88);
+                break;
+
+            case 9:
+                runtime.reset();
+                robot.encoderReset();
+                break;
+
+            case 10:
                 robot.openServoAuton();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
                 }
                 break;
 
-            case 9:
-                robot.encoderReset();
-                break;
-
-            case 10:
-                robot.runToTarget(Movement.LEFTSTRAFE , 25*2);
-                break;
-
             case 11:
-                //robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
             case 12:
+                robot.runToTarget(Movement.LEFTSTRAFE , 25*2);
+                break;
+
+            case 13:
+                //robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.encoderReset();
+                break;
+
+            case 14:
                 /*if (runtime.milliseconds() > 10000) {
          //           robot.tapeExtend(4500,0.5);
                 }*/
                 robot.runToTarget(Movement.BACKWARD,20*2);
                 break;
 
-            case 13:
+            case 15:
                 robot.encoderReset();
                 break;
 
-            case 14:
+            case 16:
                 robot.runToTarget(Movement.RIGHTSTRAFE,110*1.375);
                 break;
 
-            case 15:
+            case 17:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

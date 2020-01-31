@@ -31,8 +31,9 @@ public class NewAutonMethods {
     public int command;
     private int originTick;
     int curVal = 0;
-    double pVal = 0.00000045;
+    double pVal = 0.00045;
     double worldXPosition, worldYPosition, worldAngle_rad;
+    public double power;
 
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
@@ -79,6 +80,8 @@ public class NewAutonMethods {
 
         closer = this.map.get(Servo.class, "closer");
 
+        gyro = this.map.get(BNO055IMU.class, "gyro");
+
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
         intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
@@ -93,9 +96,9 @@ public class NewAutonMethods {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        gyro = this.map.get(BNO055IMU.class, "gyro");
+        tele.addData(">", "Gyro Calibrating. Do Not Move!");
         gyro.initialize(parameters);
-        tele.addData(">", "Gyro Calibrating. Do Not Move! (Real Test)");
+        tele.addData(">", "Gyro Finished Calibrating.");
         tele.update();
     }
 
@@ -262,8 +265,8 @@ public class NewAutonMethods {
         this.scalePower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 5) ||
-                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 5)) {
+        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 0.1 *(Math.abs(FL.getCurrentPosition() + FL.getTargetPosition())) ||
+                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 0.1 *(Math.abs(BR.getCurrentPosition() + BR.getTargetPosition()))))) {
             autonDrive(movementEnum.STOP, 0);
             tele.update();
             this.command++;
@@ -396,72 +399,63 @@ public class NewAutonMethods {
     }
 
     public void scalePower() {
-        double power;
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
-        int diff = (Math.abs(cmDistance(target - current))); //Distance from current position to end position
-        int originDiff = (Math.abs(cmDistance(originTick - current)));  //Distance from current position to start position
+        int pointToTarget = (Math.abs(cmDistance(target - current))); //Distance from current position to end position
+        int pointToOrigin = (Math.abs(cmDistance(originTick - current)));  //Distance from current position to start position
+        int totalDistance = Math.abs(pointToTarget + pointToOrigin);
 
-        if (originDiff < diff) { //Startpoint to Midpoint
-            if (originDiff == 0) { //Startpoint
-                power = 0.05;
-            } else if (diff - originDiff < 0.5 * Math.abs(diff + originDiff)) { //Quarter to Midpoint
-                power = diff * pVal;
-                if (Math.abs(diff - originDiff) < 0.2 * Math.abs(diff + originDiff)) { // 0.4 to 0.6 point
-                    power = .8;
+        if (pointToOrigin < pointToTarget) { //Startpoint to Midpoint
+            if (pointToOrigin == 0) { //Startpoint
+                power = 0.1;
+            } else if (pointToTarget - pointToOrigin < 0.5 * totalDistance) { //Quarter to Midpoint
+                power = pointToTarget * pVal;
+                if (Math.abs(pointToTarget - pointToOrigin) < 0.2 * totalDistance) { // 0.4 to 0.5 point
+                    power = .5;
                 }
-                if (power > .8){
-                    power = .8;
-                } else if (power < .09){
-                    power = .09;
+
+                if (power < .15){
+                    power = .15;
                 }
-            }  else { //Startpoint to Quarter
-                power = originDiff * pVal;
-                if (power > .8){
-                    power = .8;
-                }else if (power < .09){
-                    power = .09;
+            } else if (pointToTarget - pointToOrigin > 0.2 * totalDistance){ // Startpoint to 0.4
+                power = pointToOrigin * pVal;
+                if (power < .15){
+                    power = .15;
+                } else {
+                    power = pointToOrigin * pVal;
                 }
             }
-        }
-
-        if (originDiff > diff) { //Midpoint to Endpoint
-            if (originDiff - diff < 0.5 * Math.abs(diff + originDiff)) { //Midpoint to Three Quarter
-                power = diff * pVal;
-                if (Math.abs(diff - originDiff) < 0.2 * Math.abs(diff + originDiff)) { // 0.4 to 0.6 point
-                    power = .8;
+        } else if (pointToOrigin > pointToTarget) { //Midpoint to Endpoint
+            if (pointToOrigin - pointToTarget < 0.5 * totalDistance) { //Midpoint to Three Quarter
+                power = pointToTarget * pVal;
+                if (Math.abs(pointToTarget - pointToOrigin) < 0.2 * totalDistance) { // 0.5 to 0.6 point
+                    power = .5;
                 }
-                if (power > .8){
-                    power = .8;
-                } else if (power < .09){
-                    power = .09;
+                if (power > .5){
+                    power = .5;
+                } else if (power < .15){
+                    power = .15;
                 }
-            } else { //Quarter to final
-                power = diff * pVal * 30;
-                if (power > .8){
-                    power = .8;
-                } else if (power < .09){
-                    power = .09;
+            } else if (Math.abs(pointToTarget - pointToOrigin) > 0.2 * totalDistance){ //0.6 to final
+                power = pointToTarget * pVal;
+                if (power > .4){
+                    power = .4;
+                } else if (power < .15){
+                    power = .15;
                 }
+            } else {
+                power = pointToTarget * pVal;
             }
-        } else { //Midpoint
-            power = 0;
+        } else {
+            power = 1;
         }
 
-        tele.addData("diff", diff);
-        tele.addData("originDiff", originDiff);
+        tele.addData("pointToTarget", pointToTarget);
+        tele.addData("pointToOrigin", pointToOrigin);
         tele.addData("power", power);
         this.drive(power);
     }
 
-    public void anotherScale(){
-        double power;
-        int target = FL.getTargetPosition();
-        int current = FL.getCurrentPosition();
-        int diff = cmDistance(Math.abs(target - current)); //Distance from current position to end position
-        int originDiff = cmDistance(Math.abs(this.originTick - current));  //Distance from current position to start position
-        power = Math.pow(Math.E, -(diff-3));
-    }
     /*
 
         if (originDiff < 75) { //Distance from current position to start position
