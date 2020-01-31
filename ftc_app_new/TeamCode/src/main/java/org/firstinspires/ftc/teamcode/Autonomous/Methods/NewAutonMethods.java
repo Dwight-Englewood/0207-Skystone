@@ -414,13 +414,13 @@ public class NewAutonMethods {
                     power = .5;
                 }
 
-                if (power < .15){
-                    power = .15;
+                if (power < .6){
+                    power = .6;
                 }
             } else if (pointToTarget - pointToOrigin > 0.2 * totalDistance){ // Startpoint to 0.4
                 power = pointToOrigin * pVal;
-                if (power < .15){
-                    power = .15;
+                if (power < .3){
+                    power = .3;
                 } else {
                     power = pointToOrigin * pVal;
                 }
@@ -431,17 +431,15 @@ public class NewAutonMethods {
                 if (Math.abs(pointToTarget - pointToOrigin) < 0.2 * totalDistance) { // 0.5 to 0.6 point
                     power = .5;
                 }
-                if (power > .5){
-                    power = .5;
-                } else if (power < .15){
-                    power = .15;
+                if (power < .6){
+                    power = .6;
                 }
             } else if (Math.abs(pointToTarget - pointToOrigin) > 0.2 * totalDistance){ //0.6 to final
                 power = pointToTarget * pVal;
-                if (power > .4){
-                    power = .4;
-                } else if (power < .15){
-                    power = .15;
+                if (power > .2){
+                    power = .2;
+                } else if (power < .1){
+                    power = .1;
                 }
             } else {
                 power = pointToTarget * pVal;
