@@ -29,11 +29,16 @@ public class NewAutonMethods {
     public ElapsedTime runtime = new ElapsedTime();
 
     public int command;
-    private int originTick;
+    public int origin, tar;
     int curVal = 0;
-    double pVal = 0.00045;
+    public int count = 0;
     double worldXPosition, worldYPosition, worldAngle_rad;
+
     public double power;
+    public double kpVal = 0.00045;
+    public double kiVal = 0.00045;
+    public double kdVal = 0.00045;
+    private double error, errorI, errorD;
 
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
@@ -121,6 +126,13 @@ public class NewAutonMethods {
         BL.setPower(in);
         BR.setPower(in);
         FR.setPower(in);
+        FL.setPower(in);
+    }
+
+    public void strafeDrive(double in) { //RightStrafe
+        BL.setPower(-in);
+        BR.setPower(in);
+        FR.setPower(-in);
         FL.setPower(in);
     }
 
@@ -268,59 +280,11 @@ public class NewAutonMethods {
         if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 0.1 *(Math.abs(FL.getCurrentPosition() + FL.getTargetPosition())) ||
                 (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 0.1 *(Math.abs(BR.getCurrentPosition() + BR.getTargetPosition()))))) {
             autonDrive(movementEnum.STOP, 0);
+            this.origin = FL.getCurrentPosition();
+            this.tar = FL.getTargetPosition();
             tele.update();
             this.command++;
         }
-    }
-
-    public void setTarget(double x, double y, double movementSpeed, double preferredAngle, double turnSpeed) {
-        double distance = Math.hypot(x-worldXPosition, y-worldYPosition);
-        double absoluteAngleToTarget = Math.atan2(y-worldYPosition, x-worldXPosition);
-        double relativeAngleToPoint = this.AngleWrap(absoluteAngleToTarget - (worldAngle_rad - Math.toRadians(90)));
-        double relativeXToPoint = Math.cos(relativeAngleToPoint) * distance;
-        double relativeYToPoint = Math.sin(relativeAngleToPoint) * distance;
-
-        worldXPosition = relativeXToPoint;
-        worldYPosition = relativeYToPoint;
-
-        double movementXPower = relativeXToPoint / (Math.abs(relativeXToPoint) + Math.abs(relativeYToPoint));
-        double movementYPower = relativeYToPoint / (Math.abs(relativeXToPoint) + Math.abs(relativeYToPoint));
-
-        double movement_x = movementXPower * movementSpeed;
-        double movement_y = movementYPower * movementSpeed;
-
-        double relativeTurnAngle = relativeAngleToPoint - Math.toRadians(180) + preferredAngle;
-
-        double movement_turn = Range.clip(relativeTurnAngle/Math.toRadians(30),-1,1) * turnSpeed;
-
-        this.FL.setPower(movement_y + movement_x - movement_turn);
-        this.FR.setPower(movement_y - movement_x + movement_turn);
-        this.BL.setPower(movement_y - movement_x - movement_turn);
-        this.BR.setPower(movement_y + movement_x + movement_turn);
-
-        if (Math.abs(x-worldXPosition) < 5|| Math.abs(y-worldYPosition) < 5){
-            movementSpeed = 0;
-            movement_turn = 0;
-            this.command++;
-
-        }
-
-        if (distance < 8){
-            movement_turn = 0;
-            this.command++;
-        }
-
-        tele.addData("movement_y", movement_y);
-        tele.addData("movement_x", movement_x);
-        tele.addData("movement_turn", movement_turn);
-
-        tele.addData("x", x);
-        tele.addData("y", y);
-
-        tele.addData("relativeXToPoint", relativeXToPoint);
-        tele.addData("relativeYToPoint", relativeYToPoint);
-
-        tele.addData("movement_turn", movement_turn);
     }
 
     public void encoderReset() {
@@ -398,60 +362,75 @@ public class NewAutonMethods {
         this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void scalePower() {
+    public void percentagePower() {
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
-        int pointToTarget = (Math.abs(cmDistance(target - current))); //Distance from current position to end position
-        int pointToOrigin = (Math.abs(cmDistance(originTick - current)));  //Distance from current position to start position
-        int totalDistance = Math.abs(pointToTarget + pointToOrigin);
+        this.error = Math.abs(cmDistance(target - current)); //Distance from current position to end position
+        int pointToOrigin = Math.abs(cmDistance(this.origin - current));  //Distance from current position to start position
+        double totalDistance = Math.abs(this.error + pointToOrigin);
 
-        if (pointToOrigin < pointToTarget) { //Startpoint to Midpoint
+        if (pointToOrigin < this.error) { //Startpoint to Midpoint
             if (pointToOrigin == 0) { //Startpoint
                 power = 0.1;
-            } else if (pointToTarget - pointToOrigin < 0.5 * totalDistance) { //Quarter to Midpoint
-                power = pointToTarget * pVal;
-                if (Math.abs(pointToTarget - pointToOrigin) < 0.2 * totalDistance) { // 0.4 to 0.5 point
+            } else if (this.error - pointToOrigin < 0.5 * totalDistance) { //Quarter to Midpoint
+                power = (this.error * kpVal);
+                if (Math.abs(this.error - pointToOrigin) < 0.2 * totalDistance) { // 0.4 to 0.5 point
                     power = .5;
                 }
-
-                if (power < .6){
-                    power = .6;
-                }
-            } else if (pointToTarget - pointToOrigin > 0.2 * totalDistance){ // Startpoint to 0.4
-                power = pointToOrigin * pVal;
-                if (power < .3){
-                    power = .3;
+            } else if (this.error - pointToOrigin > 0.2 * totalDistance){ // Startpoint to 0.4
+                power = (pointToOrigin * kpVal);
+                if (power < .2){
+                    power = .2;
                 } else {
-                    power = pointToOrigin * pVal;
+                    power = (pointToOrigin * kpVal);
                 }
             }
-        } else if (pointToOrigin > pointToTarget) { //Midpoint to Endpoint
-            if (pointToOrigin - pointToTarget < 0.5 * totalDistance) { //Midpoint to Three Quarter
-                power = pointToTarget * pVal;
-                if (Math.abs(pointToTarget - pointToOrigin) < 0.2 * totalDistance) { // 0.5 to 0.6 point
+        } else if (pointToOrigin > this.error) { //Midpoint to Endpoint
+            if (pointToOrigin - this.error < 0.5 * totalDistance) { //Midpoint to Three Quarter
+                power = (this.error * kpVal);
+                if (Math.abs(this.error - pointToOrigin) < 0.2 * totalDistance) { // 0.5 to 0.6 point
                     power = .5;
                 }
-                if (power < .6){
-                    power = .6;
-                }
-            } else if (Math.abs(pointToTarget - pointToOrigin) > 0.2 * totalDistance){ //0.6 to final
-                power = pointToTarget * pVal;
+            } else if (Math.abs(this.error - pointToOrigin) > 0.2 * totalDistance){ //0.6 to final
+                power = (this.error * kpVal);
                 if (power > .2){
                     power = .2;
                 } else if (power < .1){
                     power = .1;
                 }
             } else {
-                power = pointToTarget * pVal;
+                power = (this.error * kpVal);
             }
         } else {
             power = 1;
         }
 
-        tele.addData("pointToTarget", pointToTarget);
+        tele.addData("error", this.error);
         tele.addData("pointToOrigin", pointToOrigin);
         tele.addData("power", power);
         this.drive(power);
+    }
+
+    public void scalePower() {
+        int target = FL.getTargetPosition();
+        int current = FL.getCurrentPosition();
+        this.error = (cmDistance(target - current)); //Distance from current position to end position
+        this.errorI += this.origin;
+        this.errorD -= (this.origin-this.tar);
+
+        power = (error * kpVal) + (errorI * kiVal) - (errorD * kdVal);
+        this.drive(power);
+    }
+
+    public void scaleStrafePower() {
+        int target = FL.getTargetPosition();
+        int current = FL.getCurrentPosition();
+        this.error = (cmDistance(target - current)); //Distance from current position to end position
+        this.errorI += this.origin;
+        this.errorD -= (this.origin-this.tar);
+
+        power = (error * kpVal) + (errorI * kiVal) - (errorD * kdVal);
+        this.strafeDrive(power);
     }
 
     /*
@@ -494,7 +473,7 @@ public class NewAutonMethods {
             this.tape.setPower(0);
             this.command++;
         }
-    }
+
  */
 
     public void gyroTurn(int turn) {
@@ -507,14 +486,6 @@ public class NewAutonMethods {
         }
     }
 
-    public double getCurval() {
-        return this.curVal;
-    }
-
-    public double getAngle() {
-        return this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-    }
-
     private int cmDistance(double distance) {
         final double wheelCirc = 31.9185813;
         final double gearMotorTick = 537.6; //neverrest orbital 20 = 537.6 counts per revolution
@@ -522,18 +493,6 @@ public class NewAutonMethods {
         return (int) (gearMotorTick * (distance / wheelCirc));
         //rate = x(0.05937236104)
     }
-//double relativeAngleToPoint = this.AngleWrap(absoluteAngleToTarget - (worldAngle_rad - Math.toRadians(90)));
-    public static double AngleWrap(double angle){
-        while (angle > -Math.PI){
-            angle += 2*Math.PI;
-        }
-
-        while (angle < -Math.PI){
-            angle -= 2*Math.PI;
-        }
-        return angle;
-    }
-
 }
 
 

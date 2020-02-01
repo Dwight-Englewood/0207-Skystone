@@ -66,6 +66,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 2:
+                robot.count++;
                 robot.encoderReset();
                 break;
 
@@ -75,6 +76,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 4:
+                robot.count++;
                 robot.closeServoAuton();
                 if (runtime.milliseconds() > 2000) {
                     robot.command++;
@@ -90,6 +92,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 7:
+                robot.count++;
                 robot.encoderReset();
                 break;
 
@@ -114,10 +117,11 @@ public class RedFound extends OpMode {
                 break;
 
             case 12:
-                robot.runToTarget(Movement.LEFTSTRAFE , 15*2);
+                robot.runToTarget(Movement.LEFTSTRAFE , 15);
                 break;
 
             case 13:
+                robot.count++;
                 //robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
@@ -130,6 +134,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 15:
+                robot.count++;
                 robot.encoderReset();
                 break;
 
@@ -138,6 +143,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 17:
+                robot.count++;
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
