@@ -287,6 +287,11 @@ public class NewAutonMethods {
         }
     }
 
+    public void resetPID() {
+        this.origin = 0;
+        this.tar = 0;
+    }
+
     public void encoderReset() {
         this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.runtime.reset();
@@ -420,6 +425,7 @@ public class NewAutonMethods {
 
         power = (error * kpVal) + (errorI * kiVal) - (errorD * kdVal);
         this.drive(power);
+        this.resetPID();
     }
 
     public void scaleStrafePower() {
