@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
@@ -15,10 +14,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 @Autonomous(name = "RFound", group = "Autonomous")
 public class RedFound extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private DigitalChannel DigChannel;
     NewAutonMethods robot = new NewAutonMethods();
-
-    int current;
 
     public void init() {
         robot.init(hardwareMap, telemetry);
@@ -62,25 +58,23 @@ public class RedFound extends OpMode {
                 break;
 
             case 1:
-                robot.runToTarget(Movement.FORWARD, 31);
+                runtime.reset();
+                robot.runToTarget(Movement.UPLEFT, 71*2.5);
                 break;
 
             case 2:
-                robot.count++;
-                robot.encoderReset();
+                robot.closeServoAuton();
+                if (runtime.milliseconds() > 750) {
+                    robot.command++;
+                }
                 break;
 
             case 3:
-                runtime.reset();
-                robot.runToTarget(Movement.LEFTSTRAFE, 71*1.5);
+                robot.encoderReset();
                 break;
 
             case 4:
-                robot.count++;
-                robot.closeServoAuton();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
+                robot.runToTarget(Movement.RIGHTSTRAFE, 72*1.125);
                 break;
 
             case 5:
@@ -88,66 +82,56 @@ public class RedFound extends OpMode {
                 break;
 
             case 6:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 72*1.125);
-                break;
-
-            case 7:
-                robot.count++;
-                robot.encoderReset();
-                break;
-
-            case 8:
                 robot.gyroTurn(-88);
                 break;
 
-            case 9:
+             case 7:
                 runtime.reset();
                 robot.encoderReset();
                 break;
 
-            case 10:
+            case 8:
                 robot.openServoAuton();
-                if (runtime.milliseconds() > 2000) {
+                if (runtime.milliseconds() > 750) {
                     robot.command++;
                 }
                 break;
 
-            case 11:
+            case 9:
                 robot.encoderReset();
                 break;
 
-            case 12:
+            case 10:
                 robot.runToTarget(Movement.LEFTSTRAFE , 15);
                 break;
 
-            case 13:
-                robot.count++;
+            case 11:
                 //robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
-            case 14:
+            case 12:
                 /*if (runtime.milliseconds() > 10000) {
          //           robot.tapeExtend(4500,0.5);
                 }*/
                 robot.runToTarget(Movement.FORWARD,20*2);
                 break;
 
-            case 15:
-                robot.count++;
+            case 13:
                 robot.encoderReset();
                 break;
 
-            case 16:
+            case 14:
                 robot.runToTarget(Movement.RIGHTSTRAFE,110*1.25);
                 break;
 
-            case 17:
-                robot.count++;
+            case 15:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", robot.command);
+        telemetry.addData("0.2 threshold", 0.2 *(Math.abs(robot.FL.getCurrentPosition() + robot.FL.getTargetPosition())));
+        telemetry.addData("Total", (Math.abs(robot.FL.getCurrentPosition() - robot.FL.getTargetPosition())));
         telemetry.update();
     }
 }

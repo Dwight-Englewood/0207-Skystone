@@ -54,7 +54,7 @@ public class testFieldCentric extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.setTarget(100,200,0.5, Math.toRadians(90), 0.3);
+           //     robot.setTarget(100,200,0.5, Math.toRadians(90), 0.3);
                 break;
 
             case 1:

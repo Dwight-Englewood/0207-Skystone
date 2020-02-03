@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
@@ -17,18 +15,14 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 @Autonomous(name = "BBox", group = "Autonomous")
 public class BBox extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private DigitalChannel DigChannel;
     NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
 
-    int current;
-    int stroll = 20;
     int block;
 
     public int left = 0;
     public int right = 0;
     public int middle = 0;
-    public int notvis = 0;
 
     public boolean leftBrick, rightBrick, middleBrick, blockBrick;
 

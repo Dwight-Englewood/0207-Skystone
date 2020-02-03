@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
@@ -15,10 +14,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 @Autonomous(name = "BFound", group = "Autonomous")
 public class BlueFound extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private DigitalChannel DigChannel;
     NewAutonMethods robot = new NewAutonMethods();
-
-    int current;
 
     public void init() {
         robot.init(hardwareMap, telemetry);
@@ -82,7 +78,7 @@ public class BlueFound extends OpMode {
 
             case 4:
                 robot.closeServoAuton();
-                if (runtime.milliseconds() > 2000) {
+                if (runtime.milliseconds() > 1000) {
                     robot.command++;
                 }
                 break;
@@ -110,7 +106,7 @@ public class BlueFound extends OpMode {
 
             case 10:
                 robot.openServoAuton();
-                if (runtime.milliseconds() > 2000) {
+                if (runtime.milliseconds() > 1000) {
                     robot.command++;
                 }
                 break;

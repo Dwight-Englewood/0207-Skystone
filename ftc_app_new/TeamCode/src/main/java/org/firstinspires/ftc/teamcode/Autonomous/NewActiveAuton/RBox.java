@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
-import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.*;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -17,7 +14,6 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 @Autonomous(name = "RBox", group = "Autonomous")
 public class RBox extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private DigitalChannel DigChannel;
     NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
 
@@ -95,7 +91,7 @@ public class RBox extends OpMode {
                         break;
                 }
 
-                if (runtime.milliseconds() > 1500) {
+                if (runtime.milliseconds() > 2000) {
                     if (left > right || left > middle) { //LEFT
                         blockBrick = 1;
                         robot.encoderReset();
@@ -129,14 +125,10 @@ public class RBox extends OpMode {
 
             case 4:
                 runtime.reset();
-                robot.runToTarget(Movement.FORWARD, 20*6);
-                robot.intakeL.setPower(.8);
-                robot.intakeR.setPower(.8);
+                robot.runWithIntake(Movement.FORWARD, 20*6,.8);
                 break;
 
             case 5:
-                robot.intakeL.setPower(0);
-                robot.intakeR.setPower(0);
                 if (runtime.milliseconds() > 1000) {
                     robot.encoderReset();
                 }
