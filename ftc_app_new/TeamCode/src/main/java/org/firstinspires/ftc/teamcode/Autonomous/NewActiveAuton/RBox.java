@@ -91,7 +91,7 @@ public class RBox extends OpMode {
                         break;
                 }
 
-                if (runtime.milliseconds() > 2000) {
+                if (runtime.milliseconds() > 2500) {
                     if (left > right || left > middle) { //LEFT
                         blockBrick = 1;
                         robot.encoderReset();
@@ -143,7 +143,7 @@ public class RBox extends OpMode {
                 break;
 
             case 8:
-                robot.gyroTurn(88);
+                robot.gyroTurn(90);
                 break;
 
             case 9:

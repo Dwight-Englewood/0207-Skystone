@@ -23,10 +23,9 @@ public class BBox extends OpMode {
     public int left = 0;
     public int right = 0;
     public int middle = 0;
+    public int notvis = 0;
 
-    public boolean leftBrick, rightBrick, middleBrick, blockBrick;
-
-    public boolean blue, red;
+    public int blockBrick;
 
     public void init() {
         robot.init(hardwareMap, telemetry);
@@ -103,24 +102,62 @@ public class BBox extends OpMode {
     @Override
     public void loop() {
         switch (robot.command) {
-            /*case 0:
-                robot.runToTarget(Movement.FORWARD, 20);
-                break;
+            case 0:
+                SkystoneDetect.Spot returnedloc = detector.getSkystonePosBlue(telemetry);
+                switch (returnedloc) {
+                    case LEFT:
+                        left++;
+                        break;
+
+                    case RIGHT:
+                        right++;
+                        break;
+
+                    case MIDDLE:
+                        middle++;
+                        break;
+
+                    case NOTVISIBLE:
+                        notvis++;
+                        break;
+                }
+
+                if (runtime.milliseconds() > 2500) {
+                    if (left > right || left > middle) { //LEFT
+                        blockBrick = 1;
+                        robot.encoderReset();
+                    } else if (right > middle || right > left) { //RIGHT
+                        blockBrick = 2;
+                        robot.encoderReset();
+                    } else if (middle > left || middle > right) { //MIDDLE
+                        blockBrick = 3;
+                        robot.encoderReset();
+                    }
+                }
 
             case 1:
-                robot.encoderReset();
+                if (blockBrick == 1) { //LEFT
+                    robot.command= 4;
+                } else if (blockBrick == 2) { //RIGHT
+                    robot.command = 103;
+                } else if (blockBrick == 3) { //MIDDLE
+                    robot.command = 1001;
+                }
                 break;
 
-            case 2:
-                robot.runToTarget(Movement.LEFTSTRAFE, 64);
+            case 4:
+                runtime.reset();
+                robot.runWithIntake(Movement.UPLEFT, 20*10,.8);
                 break;
 
             case 5:
-                robot.encoderReset();
+                if (runtime.milliseconds() > 1000) {
+                    robot.encoderReset();
+                }
                 break;
 
             case 6:
-                robot.runToTarget(Movement.BACKWARD, 47);
+                robot.runToTarget(Movement.BACKWARD, 30*1.5);
                 break;
 
             case 7:
@@ -128,32 +165,15 @@ public class BBox extends OpMode {
                 break;
 
             case 8:
-                if (runtime.milliseconds() > 1500) {
-                    if (blockBrick = leftBrick) { //LEFT
-                        robot.command++;
-                    } else if (blockBrick = rightBrick) { //RIGHT
-                        robot.command = 101;
-                    } else if (blockBrick = middleBrick) { //MIDDLE
-                        robot.command = 1001;
-                    }
-                }
+                robot.gyroTurn(-90);
                 break;
 
             case 9:
-                runtime.reset();
-                robot.runToTarget(Movement.RIGHTSTRAFE, 40);
+                robot.encoderReset();
                 break;
 
             case 10:
-                robot.skystoneFall();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-
-                robot.skystoneGrab();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
+                robot.runToTarget(Movement.FORWARD, 100);
                 break;
 
             case 11:
@@ -161,26 +181,21 @@ public class BBox extends OpMode {
                 break;
 
             case 12:
-                robot.runToTarget(Movement.FORWARD, 30);
-                break;
-
-            case 13:
-                robot.encoderReset();
+                robot.intakeL.setPower(-.8);
+                robot.intakeR.setPower(-.8);
+                robot.gyroTurn(-90);
                 break;
 
             case 14:
-                robot.runToTarget(Movement.LEFTSTRAFE, 140);
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                if (runtime.milliseconds() > 1000) {
+                    robot.encoderReset();
+                }
                 break;
 
             case 15:
-                robot.skystoneRaise();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-                robot.skystoneRelease();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
+                robot.gyroTurn(188);
                 break;
 
             case 16:
@@ -188,57 +203,37 @@ public class BBox extends OpMode {
                 break;
 
             case 17:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
+                robot.runToTarget(Movement.FORWARD, 100);
                 break;
 
             case 18:
                 robot.encoderReset();
                 break;
 
-            case 101:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
-                break;
-
-            case 102:
-                robot.encoderReset();
-                break;
-
             case 103:
-                robot.skystoneFall();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-                robot.skystoneGrab();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
+                robot.runToTarget(Movement.FORWARD, 20*5.2);
                 break;
 
             case 104:
+                robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
             case 105:
-                robot.runToTarget(Movement.FORWARD, 30);
+                robot.intakeAuton(500, 1);
                 break;
 
             case 106:
-                robot.encoderReset();
+                robot.runToTarget(Movement.BACKWARD, 30);
                 break;
 
             case 107:
-                robot.runToTarget(Movement.LEFTSTRAFE, 160);
+                robot.encoderReset();
                 break;
 
             case 108:
-                robot.skystoneRaise();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-                robot.skystoneRelease();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
+                robot.gyroTurn(-88);
                 break;
 
             case 109:
@@ -246,7 +241,7 @@ public class BBox extends OpMode {
                 break;
 
             case 110:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
+                robot.runToTarget(Movement.BACKWARD, 200);
                 break;
 
             case 111:
@@ -254,7 +249,7 @@ public class BBox extends OpMode {
                 break;
 
             case 1001:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 2);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
                 break;
 
             case 1002:
@@ -262,41 +257,29 @@ public class BBox extends OpMode {
                 break;
 
             case 1003:
-                robot.skystoneFall();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-                robot.skystoneGrab();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
+                robot.runToTarget(Movement.FORWARD, 20*5.2);
                 break;
 
             case 1004:
+                robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.encoderReset();
                 break;
 
             case 1005:
-                robot.runToTarget(Movement.FORWARD, 30);
+                robot.intakeAuton(500, 1);
                 break;
 
             case 1006:
-                robot.encoderReset();
+                robot.runToTarget(Movement.BACKWARD, 30);
                 break;
 
             case 1007:
-                robot.runToTarget(Movement.LEFTSTRAFE, 180);
+                robot.encoderReset();
                 break;
 
             case 1008:
-                robot.skystoneRaise();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
-                robot.skystoneRelease();
-                if (runtime.milliseconds() > 2000) {
-                    robot.command++;
-                }
+                robot.gyroTurn(-88);
                 break;
 
             case 1009:
@@ -304,17 +287,13 @@ public class BBox extends OpMode {
                 break;
 
             case 1010:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
+                robot.runToTarget(Movement.BACKWARD, 200);
                 break;
 
             case 1011:
                 robot.encoderReset();
                 break;
-
-             */
         }
-
-
         telemetry.addData("Case:", robot.command);
         telemetry.addData("right", right);
         telemetry.addData("middle", middle);

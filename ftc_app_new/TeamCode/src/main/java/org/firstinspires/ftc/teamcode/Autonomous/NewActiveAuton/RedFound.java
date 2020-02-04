@@ -64,7 +64,7 @@ public class RedFound extends OpMode {
 
             case 2:
                 robot.closeServoAuton();
-                if (runtime.milliseconds() > 750) {
+                if (runtime.milliseconds() > 500) {
                     robot.command++;
                 }
                 break;
@@ -82,7 +82,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 6:
-                robot.gyroTurn(-88);
+                robot.gyroTurn(-90);
                 break;
 
              case 7:
@@ -92,7 +92,7 @@ public class RedFound extends OpMode {
 
             case 8:
                 robot.openServoAuton();
-                if (runtime.milliseconds() > 750) {
+                if (runtime.milliseconds() > 500) {
                     robot.command++;
                 }
                 break;
@@ -122,7 +122,7 @@ public class RedFound extends OpMode {
                 break;
 
             case 14:
-                robot.runToTarget(Movement.RIGHTSTRAFE,110*1.25);
+                robot.runToTarget(Movement.RIGHTSTRAFE,110*1.5);
                 break;
 
             case 15:
@@ -130,8 +130,6 @@ public class RedFound extends OpMode {
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("0.2 threshold", 0.2 *(Math.abs(robot.FL.getCurrentPosition() + robot.FL.getTargetPosition())));
-        telemetry.addData("Total", (Math.abs(robot.FL.getCurrentPosition() - robot.FL.getTargetPosition())));
         telemetry.update();
     }
 }

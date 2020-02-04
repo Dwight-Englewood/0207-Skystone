@@ -10,7 +10,7 @@ DeuxBoot {
             BL, BR, FL, FR, lift, intakeL, intakeR;
 
     public static Servo
-            closer, hinger, foundationLeft, flippy, grabby, foundationRight;
+            closer, hinger, foundationLeft, foundationRight;
 
     HardwareMap map;
     Telemetry tele;
@@ -42,8 +42,6 @@ DeuxBoot {
         hinger = this.map.get(Servo.class, "hinger");
         foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
-        flippy = this.map.get(Servo.class, "flippy");
-        grabby = this.map.get(Servo.class, "grabby");
 
         blinkin = this.map.get(RevBlinkinLedDriver.class, "rgbReady");
 

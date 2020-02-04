@@ -21,7 +21,7 @@ public class NewAutonMethods {
             BL, BR, FL, FR, lift, intakeL, intakeR;
 
     public static Servo
-            closer, hinger, foundationLeft, grabby, flippy, foundationRight;
+            closer, hinger, foundationLeft, foundationRight;
 
     HardwareMap map;
     Telemetry tele;
@@ -35,11 +35,11 @@ public class NewAutonMethods {
     double worldXPosition, worldYPosition, worldAngle_rad;
 
     public double power;
-    public double kpVal = 0.00045;
-    public double kiVal = 0.00045;
-    public double kdVal = 0.00045;
-    private double errorFL, errorI, errorD;
-    private double errorBL;
+    public double lastError;
+    public double kpVal = 0.000035;
+    public double kiVal = 0.000000001;
+    public double kdVal = 0.000045;
+    private double error, errorI, errorD;
 
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
@@ -81,8 +81,6 @@ public class NewAutonMethods {
         hinger = this.map.get(Servo.class, "hinger");
         foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
-        flippy = this.map.get(Servo.class, "flippy");
-        grabby = this.map.get(Servo.class, "grabby");
 
         closer = this.map.get(Servo.class, "closer");
 
@@ -321,10 +319,10 @@ public class NewAutonMethods {
             driveScale = .5;
         else {
             driveScale = 0;
-            this.drive(Movement.RIGHTTURN, driveScale * 0.65);
+            this.drive(Movement.RIGHTTURN, driveScale * 0.8);
             return true;
         }
-        this.drive(Movement.RIGHTTURN, driveScale * 0.65);
+        this.drive(Movement.RIGHTTURN, driveScale * 0.8);
         return false;
     }
     //Positive is left turn, negative is right turn.
@@ -341,10 +339,11 @@ public class NewAutonMethods {
         }
         this.percentagePower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.25*(Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
-                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.25*(Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.1*(Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
+                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.1*(Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
             autonDrive(movementEnum.STOP, 0);
+            this.lastError = this.error;
+            this.errorI = 0;
             this.origin = FL.getCurrentPosition();
             this.tar = FL.getTargetPosition();
             tele.update();
@@ -353,29 +352,25 @@ public class NewAutonMethods {
     }
 
     public void runWithIntake(Movement movementEnum, double target, double power) {
+        this.intakeL.setPower(power);
+        this.intakeR.setPower(power);
         if (strafe) {
             this.autonDrive(movementEnum, cmDistance(strafeVal(target)));
         } else {
             this.autonDrive(movementEnum, cmDistance(target));
         }
-        this.scalePower();
-        this.intakeL.setPower(power);
-        this.intakeR.setPower(power);
+        this.percentagePower();
+
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 0.1 *(Math.abs(FL.getCurrentPosition() + FL.getTargetPosition())) ||
-                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 0.1 *(Math.abs(BR.getCurrentPosition() + BR.getTargetPosition()))))) {
+        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 0.15 *(Math.abs(FL.getCurrentPosition() + FL.getTargetPosition())) ||
+                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 0.15 *(Math.abs(BR.getCurrentPosition() + BR.getTargetPosition()))))) {
             autonDrive(movementEnum.STOP, 0);
             this.intakeL.setPower(0);
             this.intakeR.setPower(0);
-            this.origin = FL.getCurrentPosition();
             tele.update();
             this.command++;
         }
-    }
-
-    public void resetPID() {
-        this.origin = 0;
     }
 
     public void encoderReset() {
@@ -454,27 +449,22 @@ public class NewAutonMethods {
     }
 
     public void percentagePower() {
-        int targetFL = FL.getTargetPosition();
-        int currentFL = FL.getCurrentPosition();
-        this.errorFL = Math.abs(cmDistance(targetFL - currentFL)); //Distance from current position to end position
-
-        int targetBL = BL.getTargetPosition();
-        int currentBL = BL.getCurrentPosition();
-        this.errorBL =  Math.abs(cmDistance(targetBL - currentBL));
-
-        int pointToOriginFL = Math.abs(cmDistance(this.origin - currentFL));  //Distance from current position to start position
-        double totalDistanceFL = Math.abs(this.errorFL + pointToOriginFL);
+        int target = FL.getTargetPosition();
+        int current = FL.getCurrentPosition();
+        this.error = Math.abs(cmDistance(target - current)); //Distance from current position to end position
+        int pointToOriginFL = Math.abs(cmDistance(this.origin - current));  //Distance from current position to start position
+        double totalDistanceFL = Math.abs(this.error + pointToOriginFL);
 
 
-        if (pointToOriginFL < errorFL) { //Startpoint to Midpoint
+        if (pointToOriginFL < error) { //Startpoint to Midpoint
             if (pointToOriginFL == 0) { //Startpoint
                 power = 0.1;
-            } else if (errorFL - pointToOriginFL < 0.5 * totalDistanceFL) { //Quarter to Midpoint
-                power = (this.errorFL * kpVal);
-                if (Math.abs(this.errorFL - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.4 to 0.5 point
+            } else if (this.error - pointToOriginFL < 0.5 * totalDistanceFL) { //Quarter to Midpoint
+                power = (this.error * kpVal);
+                if (Math.abs(this.error - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.4 to 0.5 point
                     power = .7;
                 }
-            } else if (this.errorFL - pointToOriginFL > 0.2 * totalDistanceFL){ // Startpoint to 0.4
+            } else if (this.error - pointToOriginFL > 0.2 * totalDistanceFL){ // Startpoint to 0.4
                 power = (pointToOriginFL * kpVal);
                 if (power < .2){
                     power = .2;
@@ -482,27 +472,30 @@ public class NewAutonMethods {
                     power = (pointToOriginFL * kpVal);
                 }
             }
-        } else if (pointToOriginFL > this.errorFL) { //Midpoint to Endpoint
-            if (pointToOriginFL - this.errorFL < 0.5 * totalDistanceFL) { //Midpoint to Three Quarter
-                power = (this.errorFL * kpVal);
-                if (Math.abs(this.errorFL - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.5 to 0.6 point
+        } else if (pointToOriginFL > this.error) { //Midpoint to Endpoint
+            if (pointToOriginFL - this.error < 0.5 * totalDistanceFL) { //Midpoint to Three Quarter
+                power = (this.error * kpVal);
+                if (Math.abs(this.error - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.5 to 0.6 point
                     power = .7;
                 }
-            } else if (Math.abs(this.errorFL - pointToOriginFL) > 0.2 * totalDistanceFL){ //0.6 to final
-                power = (this.errorFL * kpVal);
+            } else if (Math.abs(this.error - pointToOriginFL) > 0.2 * totalDistanceFL){ //0.6 to final
+                power = (this.error * kpVal);
                 if (power > .2){
                     power = .2;
-                } else if (power < .1){
-                    power = .1;
+                } else {
+                    power = (pointToOriginFL * kpVal);
+                    if (power > .2) {
+                        power = .2;
+                    }
                 }
             } else {
-                power = (this.errorFL * kpVal);
+                power = (this.error * kpVal);
             }
         } else {
             power = 1;
         }
 
-        tele.addData("error", this.errorFL);
+        tele.addData("error", this.error);
         tele.addData("pointToOrigin", pointToOriginFL);
         tele.addData("power", power);
         this.drive(power);
@@ -512,18 +505,32 @@ public class NewAutonMethods {
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
 
+        if (target == 0){
+            target = FR.getTargetPosition();
+            current = FR.getCurrentPosition();
+        }
+
         if (power >= 1){
             this.errorI += 0;
         } else {
             this.errorI += this.origin;
         }
 
-        this.errorFL = (cmDistance(target - current)); //Distance from current position to end position
-        this.errorI += (this.errorFL);
-        this.errorD = (this.origin-this.tar);
+        this.error = (cmDistance(target - current)); //Distance from current position to end position
+        this.errorI += (this.error);
+        this.errorD = (this.error - this.lastError);
         this.tar = this.origin;
 
-        power = (errorFL * kpVal) + (errorI * kiVal) - (errorD * kdVal);
+        power = (error * kpVal) + (errorI * kiVal) + (errorD * kdVal);
+        tele.addData("target", target);
+        tele.addData("current", current);
+
+        tele.addData("error", error);
+        tele.addData("errorI", errorI);
+        tele.addData("errorD", errorD);
+        tele.addData("lastError", lastError);
+
+        tele.addData("power", power);
         this.drive(power);
     }
 
@@ -537,44 +544,14 @@ public class NewAutonMethods {
             this.errorI += this.origin;
         }
 
-        this.errorFL = (cmDistance(target - current)); //Distance from current position to end position
-        this.errorI += (this.errorFL);
+        this.error = (cmDistance(target - current)); //Distance from current position to end position
+        this.errorI += (this.error);
         this.errorD = (this.origin-this.tar);
         this.tar = this.origin;
 
-        power = (errorFL * kpVal) + (errorI * kiVal) - (errorD * kdVal);
+        power = (error * kpVal) + (errorI * kiVal) - (errorD * kdVal);
         this.strafeDrive(power);
     }
-
-    /*
-
-        if (originDiff < 75) { //Distance from current position to start position
-            power = .7;
-        } else if (originDiff < 250) {
-            power = .7;
-        } else if (originDiff < 400) {
-            power = .7;
-        } else {
-            power = 1;
-        }
-
-        if (diff < 50) { //Distance from current position to end position
-            power = .02;
-        } else if (diff < 100) {
-            power = .05;
-        } else if (diff < 200) {
-            power = .1;
-        } else if (diff < 300) {
-            power = .3;
-        } else if (diff < 500) {
-            power = .7;(
-        } else if (diff < 750) {
-            power = .7;
-        }
-        this.drive(power);
-    }
-
-     */
 
 /*
     public void tapeExtend(int target, double power) {
