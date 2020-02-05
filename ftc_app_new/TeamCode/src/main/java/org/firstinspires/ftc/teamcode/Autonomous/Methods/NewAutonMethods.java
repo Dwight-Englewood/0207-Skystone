@@ -518,10 +518,10 @@ public class NewAutonMethods {
 
         this.error = (cmDistance(target - current)); //Distance from current position to end position
         this.errorI += (this.error);
-        this.errorD = (this.error - this.lastError);
-        this.tar = this.origin;
+        this.errorD = (current - this.lastError);
+        this.error = current;
 
-        power = (error * kpVal) + (errorI * kiVal) + (errorD * kdVal);
+        power = (error * kpVal) + (errorI * kiVal) - (errorD * kdVal);
         tele.addData("target", target);
         tele.addData("current", current);
 
@@ -534,23 +534,11 @@ public class NewAutonMethods {
         this.drive(power);
     }
 
-    public void scaleStrafePower() {
-        int target = FL.getTargetPosition();
-        int current = FL.getCurrentPosition();
-
-        if (power >= 1){
-            this.errorI += 0;
-        } else {
-            this.errorI += this.origin;
-        }
-
-        this.error = (cmDistance(target - current)); //Distance from current position to end position
-        this.errorI += (this.error);
-        this.errorD = (this.origin-this.tar);
-        this.tar = this.origin;
-
-        power = (error * kpVal) + (errorI * kiVal) - (errorD * kdVal);
-        this.strafeDrive(power);
+    public void PIDreset() {
+        this.error = 0;
+        this.errorI = 0;
+        this.errorD = 0;
+        this.lastError = 0;
     }
 
 /*
