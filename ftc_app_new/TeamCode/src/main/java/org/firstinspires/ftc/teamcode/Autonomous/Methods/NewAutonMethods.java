@@ -36,9 +36,9 @@ public class NewAutonMethods {
 
     public double power;
     public double lastError;
-    public double kpVal = 0.000035;
-    public double kiVal = 0.000000001;
-    public double kdVal = 0.000045;
+    public double kpVal = 0.003;
+    public double kiVal = 0.000005;
+    public double kdVal = 0.0007;
     private double error, errorI, errorD;
 
     public RevBlinkinLedDriver blinkin;
@@ -337,15 +337,14 @@ public class NewAutonMethods {
         } else {
             this.autonDrive(movementEnum, cmDistance(target));
         }
-        this.percentagePower();
+        this.drive(scalePower());
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.1*(Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
-                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.1*(Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05*(Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
+                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05*(Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
             autonDrive(movementEnum.STOP, 0);
             this.lastError = this.error;
             this.errorI = 0;
-            this.origin = FL.getCurrentPosition();
-            this.tar = FL.getTargetPosition();
+            this.error = 0;
             tele.update();
             this.command++;
         }
@@ -359,15 +358,13 @@ public class NewAutonMethods {
         } else {
             this.autonDrive(movementEnum, cmDistance(target));
         }
-        this.percentagePower();
+        this.drive(scalePower());
 
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 0.15 *(Math.abs(FL.getCurrentPosition() + FL.getTargetPosition())) ||
                 (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 0.15 *(Math.abs(BR.getCurrentPosition() + BR.getTargetPosition()))))) {
             autonDrive(movementEnum.STOP, 0);
-            this.intakeL.setPower(0);
-            this.intakeR.setPower(0);
             tele.update();
             this.command++;
         }
@@ -501,37 +498,26 @@ public class NewAutonMethods {
         this.drive(power);
     }
 
-    public void scalePower() {
-        int target = FL.getTargetPosition();
-        int current = FL.getCurrentPosition();
+    public double scalePower() {
+        int target = cmDistance(FL.getTargetPosition());
+        int current = cmDistance(FL.getCurrentPosition());
 
-        if (target == 0){
-            target = FR.getTargetPosition();
-            current = FR.getCurrentPosition();
+        if (target == 0 && current == 0){
+            target = cmDistance(FR.getTargetPosition());
+            current = cmDistance(FR.getCurrentPosition());
         }
 
-        if (power >= 1){
+        if ((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal) >= 1){
             this.errorI += 0;
         } else {
-            this.errorI += this.origin;
+            this.errorI = this.errorI + this.error;
         }
 
-        this.error = (cmDistance(target - current)); //Distance from current position to end position
-        this.errorI += (this.error);
+        this.error = (target - current); //Distance from current position to end position
         this.errorD = (current - this.lastError);
-        this.error = current;
+        this.lastError = current;
 
-        power = (error * kpVal) + (errorI * kiVal) - (errorD * kdVal);
-        tele.addData("target", target);
-        tele.addData("current", current);
-
-        tele.addData("error", error);
-        tele.addData("errorI", errorI);
-        tele.addData("errorD", errorD);
-        tele.addData("lastError", lastError);
-
-        tele.addData("power", power);
-        this.drive(power);
+        return(Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1));
     }
 
     public void PIDreset() {
