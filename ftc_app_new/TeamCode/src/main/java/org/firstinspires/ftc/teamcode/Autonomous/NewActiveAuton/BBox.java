@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
@@ -28,8 +29,21 @@ public class BBox extends OpMode {
     public int blockBrick;
 
     public void init() {
-        robot.isGyroInit();
-        detector.isInit();
+        robot.init(hardwareMap); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
+
+        new Thread()  {
+            public void run() {
+                robot.initGyro();
+                robot.isGyroInit();// whatever ur init gyro method is on robot
+            }
+        }.start();
+
+        new Thread(){
+            public void run() {
+                detector.init(hardwareMap);
+                detector.isInit();// whatever ur vision init method is
+            }
+        }.start();
     }
 
     /*

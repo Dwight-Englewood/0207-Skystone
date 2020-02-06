@@ -10,7 +10,8 @@ import org.firstinspires.ftc.teamcode.Autonomous.Methods.*;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.vuforia.Device;
+
+import java.util.Map;
 
 @Autonomous(name = "RBox", group = "Autonomous")
 public class RBox extends OpMode {
@@ -28,25 +29,21 @@ public class RBox extends OpMode {
     public int blockBrick;
 
     public void init() {
-        robot.init(hardwareMap, telemetry);
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-/*
-       robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
-       robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
-       robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
-       robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
-*/
+        robot.init(hardwareMap); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
 
-        robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        new Thread()  {
+            public void run() {
+                robot.initGyro();
+                robot.isGyroInit();// whatever ur init gyro method is on robot
+            }
+        }.start();
 
-        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //    robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        runtime.reset();
+        new Thread(){
+            public void run() {
+                detector.init(hardwareMap);
+                detector.isInit();// whatever ur vision init method is
+            }
+        }.start();
     }
 
     /*
@@ -61,8 +58,6 @@ public class RBox extends OpMode {
      */
     @Override
     public void start() {
-        detector.init(hardwareMap);
-        robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BREATH_RED);
         detector.start();
         runtime.reset();
     }

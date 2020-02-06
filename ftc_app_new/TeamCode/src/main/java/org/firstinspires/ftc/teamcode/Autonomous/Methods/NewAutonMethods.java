@@ -21,7 +21,7 @@ import com.vuforia.Vuforia;
 import java.util.Map;
 
 public class NewAutonMethods {
-    public static DcMotor
+    public DcMotor
             BL, BR, FL, FR, lift, intakeL, intakeR;
 
     public static Servo
@@ -32,7 +32,6 @@ public class NewAutonMethods {
 
     public ElapsedTime runtime = new ElapsedTime();
     SkystoneDetect detector = new SkystoneDetect();
-    NewAutonMethods robot = new NewAutonMethods();
 
     public int command;
     public int origin;
@@ -57,46 +56,7 @@ public class NewAutonMethods {
      *
      * @param map  creates object on phones config
      */
-    public void init(final HardwareMap map) {
-        robot.init(map, tele);
-
-        new Thread()  {
-            public void run() {
-                robot.initGyro();
-            }
-        }.start();
-
-        new Thread(){
-            public void run() {
-                detector.init(map);
-            }
-        }.start();
-    }
-
-    public void initGyro(){
-        gyro = map.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        gyro.initialize(parameters);
-    }
-
-    public void isGyroInit(){
-        if (gyro.isGyroCalibrated()){
-            tele.addData("Gyro", "Initialized");
-            tele.update();
-        }
-    }
-
-    public void isInit(){
-        if (detector.isInit()){
-            tele.addData("Skystone", "Initialized");
-            tele.update();
-        }
-    }
-
-    public void init(HardwareMap hwmap, Telemetry tele){
+    public void init(HardwareMap map) {
         this.map = map;
         this.tele = tele;
 
@@ -128,13 +88,25 @@ public class NewAutonMethods {
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.openServoAuton();
+        this.openServoAuton();}
+
+    public void initGyro(){
+        gyro = map.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        gyro.initialize(parameters);
+    }
+
+    public boolean isGyroInit(){
+        return gyro.isGyroCalibrated();
     }
 
     /**
@@ -142,7 +114,7 @@ public class NewAutonMethods {
      *
      * @param runMode a dc motor run mode.
      */
-    public static void changeRunMode(DcMotor.RunMode runMode) {
+    public void changeRunMode(DcMotor.RunMode runMode) {
         BL.setMode(runMode);
         BR.setMode(runMode);
         FL.setMode(runMode);

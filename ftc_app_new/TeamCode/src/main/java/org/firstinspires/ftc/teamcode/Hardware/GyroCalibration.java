@@ -15,16 +15,7 @@ public class GyroCalibration implements Subsystem {
 
     @Override
     public void init(HardwareMap hwMap, Telemetry telemetry) {
-        /*gyro = hwMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        gyro.initialize(parameters);
-        telemetry.addData(">", "Gyro Finished Calibrating.");
-        telemetry.update();
-
-         */
+  //      gyro = hwMap.get(BNO055IMU.class, "imu");
     }
 
     @Override

@@ -17,7 +17,14 @@ public class BlueFound extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
-        robot.isGyroInit();
+        robot.init(hardwareMap); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
+
+        new Thread()  {
+            public void run() {
+                robot.initGyro();
+                robot.isGyroInit();// whatever ur init gyro method is on robot
+            }
+        }.start();
     }
 
     /*
@@ -32,7 +39,6 @@ public class BlueFound extends OpMode {
      */
     @Override
     public void start() {
-        robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE);
         runtime.reset();
     }
 

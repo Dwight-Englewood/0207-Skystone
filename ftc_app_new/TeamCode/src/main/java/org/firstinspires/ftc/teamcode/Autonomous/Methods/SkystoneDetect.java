@@ -39,11 +39,7 @@ public class SkystoneDetect {
     }
 
     public boolean isInit(){
-        if (Vuforia.isInitialized()){
-            return true;
-        } else {
-            return false;
-        }
+        return Vuforia.isInitialized();
     }
 
     public void start() {

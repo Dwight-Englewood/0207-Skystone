@@ -19,21 +19,7 @@ public class Park extends OpMode {
     int auto = 0;
 
     public void init() {
-        robot.init(hardwareMap, telemetry);
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-        robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.init(hardwareMap);
     }
 
     /*
