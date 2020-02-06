@@ -28,55 +28,8 @@ public class BBox extends OpMode {
     public int blockBrick;
 
     public void init() {
-        robot.init(hardwareMap, telemetry);
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-/*
-        robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
- */
-
-        robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //    robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        runtime.reset();
-/*
-        SkystoneDetect.Spot returnedloc = detector.getSkystonePos(telemetry, blue);
-        switch (returnedloc) {
-            case LEFT:
-                left++;
-                break;
-
-            case RIGHT:
-                right++;
-                break;
-
-            case MIDDLE:
-                middle++;
-                break;
-
-            case NOTVISIBLE:
-                notvis++;
-                break;
-        }
-        if (runtime.milliseconds() > 1500) {
-            if (left > 1000) { //LEFT
-                blockBrick = leftBrick;
-            } else if (right > 1000) { //RIGHT
-                blockBrick = rightBrick;
-            } else if (middle > 1000) { //MIDDLE
-                blockBrick = middleBrick;
-            }
-        }
-
- */
+        robot.isGyroInit();
+        detector.isInit();
     }
 
     /*

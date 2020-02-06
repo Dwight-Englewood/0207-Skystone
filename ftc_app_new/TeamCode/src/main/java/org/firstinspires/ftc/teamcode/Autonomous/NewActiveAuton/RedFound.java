@@ -17,18 +17,7 @@ public class RedFound extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
-        robot.init(hardwareMap, telemetry);
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-        robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.openServoAuton();
-        //      robot.tape.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.isGyroInit();
     }
 
     /*

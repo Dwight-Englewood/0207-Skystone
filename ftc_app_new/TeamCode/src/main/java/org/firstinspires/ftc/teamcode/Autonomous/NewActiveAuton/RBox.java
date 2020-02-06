@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
+import java.util.Map;
+
 @Autonomous(name = "RBox", group = "Autonomous")
 public class RBox extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -27,25 +29,8 @@ public class RBox extends OpMode {
     public int blockBrick;
 
     public void init() {
-        robot.init(hardwareMap, telemetry);
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-/*
-        robot.BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.FR.setDirection(DcMotorSimple.Direction.FORWARD);
- */
-
-        robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //    robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        runtime.reset();
+        robot.isGyroInit();
+        detector.isInit();
     }
 
     /*

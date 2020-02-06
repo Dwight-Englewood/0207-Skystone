@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Methods;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -34,6 +35,14 @@ public class SkystoneDetect {
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             this.initTfod(hwMap);
+        }
+    }
+
+    public boolean isInit(){
+        if (Vuforia.isInitialized()){
+            return true;
+        } else {
+            return false;
         }
     }
 

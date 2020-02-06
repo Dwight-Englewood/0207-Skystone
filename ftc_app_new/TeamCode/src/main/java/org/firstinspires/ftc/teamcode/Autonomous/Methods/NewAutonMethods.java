@@ -11,10 +11,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
+import org.firstinspires.ftc.teamcode.Hardware.GyroCalibration;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.util.Range;
+import com.vuforia.Vuforia;
+
+import java.util.Map;
 
 public class NewAutonMethods {
     public static DcMotor
@@ -27,43 +31,72 @@ public class NewAutonMethods {
     Telemetry tele;
 
     public ElapsedTime runtime = new ElapsedTime();
+    SkystoneDetect detector = new SkystoneDetect();
+    NewAutonMethods robot = new NewAutonMethods();
 
     public int command;
-    public int origin, tar;
-    int curVal = 0;
-    public int count = 0;
-    double worldXPosition, worldYPosition, worldAngle_rad;
+    public int origin;
 
-    public double power;
-    public double lastError;
-    public double kpVal = 0.003;
-    public double kiVal = 0.000005;
-    public double kdVal = 0.0007;
+    public double power, lastError;
+    final double kpVal = 0.003;
+    final double kiVal = 0.000005;
+    final double kdVal = 0.0007;
     private double error, errorI, errorD;
 
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
 
-    public double oldX = 0;
-    public double oldY = 0;
-    public double oldAng = 0;
-    public double deltaRight, deltaLeft, newX, newY, newTheta, wheelLength;
     public boolean strafe;
 
     public NewAutonMethods() {
         command = 0;
-        worldXPosition = 50;
-        worldYPosition = 70;
-        worldAngle_rad = Math.toRadians(-180);
     }
 
     /**
      * inits hardware
      *
      * @param map  creates object on phones config
-     * @param tele displays data on phone
      */
-    public void init(HardwareMap map, Telemetry tele) {
+    public void init(final HardwareMap map) {
+        robot.init(map, tele);
+
+        new Thread()  {
+            public void run() {
+                robot.initGyro();
+            }
+        }.start();
+
+        new Thread(){
+            public void run() {
+                detector.init(map);
+            }
+        }.start();
+    }
+
+    public void initGyro(){
+        gyro = map.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        gyro.initialize(parameters);
+    }
+
+    public void isGyroInit(){
+        if (gyro.isGyroCalibrated()){
+            tele.addData("Gyro", "Initialized");
+            tele.update();
+        }
+    }
+
+    public void isInit(){
+        if (detector.isInit()){
+            tele.addData("Skystone", "Initialized");
+            tele.update();
+        }
+    }
+
+    public void init(HardwareMap hwmap, Telemetry tele){
         this.map = map;
         this.tele = tele;
 
@@ -95,16 +128,13 @@ public class NewAutonMethods {
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        robot.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        gyro = this.map.get(BNO055IMU.class, "gyro");
-        tele.addData(">", "Gyro Calibrating. Do Not Move!");
-        gyro.initialize(parameters);
-        tele.addData(">", "Gyro Finished Calibrating.");
-        tele.update();
+        robot.openServoAuton();
     }
 
     /**
@@ -340,8 +370,8 @@ public class NewAutonMethods {
         }
         this.drive(scalePower());
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05*(Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
-                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05*(Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
+                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
             autonDrive(movementEnum.STOP, 0);
             this.lastError = this.error;
             this.errorI = 0;
@@ -363,8 +393,8 @@ public class NewAutonMethods {
 
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 0.15 *(Math.abs(FL.getCurrentPosition() + FL.getTargetPosition())) ||
-                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 0.15 *(Math.abs(BR.getCurrentPosition() + BR.getTargetPosition()))))) {
+        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 0.15 * (Math.abs(FL.getCurrentPosition() + FL.getTargetPosition())) ||
+                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 0.15 * (Math.abs(BR.getCurrentPosition() + BR.getTargetPosition()))))) {
             autonDrive(movementEnum.STOP, 0);
             tele.update();
             this.command++;
@@ -462,9 +492,9 @@ public class NewAutonMethods {
                 if (Math.abs(this.error - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.4 to 0.5 point
                     power = .7;
                 }
-            } else if (this.error - pointToOriginFL > 0.2 * totalDistanceFL){ // Startpoint to 0.4
+            } else if (this.error - pointToOriginFL > 0.2 * totalDistanceFL) { // Startpoint to 0.4
                 power = (pointToOriginFL * kpVal);
-                if (power < .2){
+                if (power < .2) {
                     power = .2;
                 } else {
                     power = (pointToOriginFL * kpVal);
@@ -476,9 +506,9 @@ public class NewAutonMethods {
                 if (Math.abs(this.error - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.5 to 0.6 point
                     power = .7;
                 }
-            } else if (Math.abs(this.error - pointToOriginFL) > 0.2 * totalDistanceFL){ //0.6 to final
+            } else if (Math.abs(this.error - pointToOriginFL) > 0.2 * totalDistanceFL) { //0.6 to final
                 power = (this.error * kpVal);
-                if (power > .2){
+                if (power > .2) {
                     power = .2;
                 } else {
                     power = (pointToOriginFL * kpVal);
@@ -503,12 +533,12 @@ public class NewAutonMethods {
         int target = cmDistance(FL.getTargetPosition());
         int current = cmDistance(FL.getCurrentPosition());
 
-        if (target == 0 && current == 0){
+        if (target == 0 && current == 0) {
             target = cmDistance(FR.getTargetPosition());
             current = cmDistance(FR.getCurrentPosition());
         }
 
-        if ((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal) >= 1){
+        if ((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal) >= 1) {
             this.errorI += 0;
         } else {
             this.errorI = this.errorI + this.error;
@@ -518,7 +548,7 @@ public class NewAutonMethods {
         this.errorD = (current - this.lastError);
         this.lastError = current;
 
-        return(Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1));
+        return (Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1));
     }
 
     public void PIDreset() {
