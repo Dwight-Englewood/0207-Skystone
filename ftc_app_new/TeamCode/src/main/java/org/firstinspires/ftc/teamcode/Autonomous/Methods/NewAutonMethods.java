@@ -100,6 +100,7 @@ public class NewAutonMethods {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        gyro = this.map.get(BNO055IMU.class, "gyro");
         tele.addData(">", "Gyro Calibrating. Do Not Move!");
         gyro.initialize(parameters);
         tele.addData(">", "Gyro Finished Calibrating.");

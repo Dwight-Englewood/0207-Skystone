@@ -37,8 +37,4 @@ public class GyroCalibration implements Subsystem {
     public State getState() {
         return null;
     }
-
-    public float getGyroRotation(AngleUnit unit) {
-        return gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, unit).firstAngle;
-    }
 }

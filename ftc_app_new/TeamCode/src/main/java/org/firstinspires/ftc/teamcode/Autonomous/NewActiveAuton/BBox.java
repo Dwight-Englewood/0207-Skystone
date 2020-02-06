@@ -123,13 +123,13 @@ public class BBox extends OpMode {
                 }
 
                 if (runtime.milliseconds() > 2500) {
-                    if (left > right || left > middle) { //LEFT
+                    if (left > right && left > middle) { //LEFT
                         blockBrick = 1;
                         robot.encoderReset();
-                    } else if (right > middle || right > left) { //RIGHT
+                    } else if (right > middle && right > left) { //RIGHT
                         blockBrick = 2;
                         robot.encoderReset();
-                    } else if (middle > left || middle > right) { //MIDDLE
+                    } else if (middle > left && middle > right) { //MIDDLE
                         blockBrick = 3;
                         robot.encoderReset();
                     }
