@@ -44,8 +44,6 @@ public class BBox extends OpMode {
      */
     @Override
     public void start() {
-        detector.init(hardwareMap);
-        robot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE);
         detector.start();
         runtime.reset();
     }
