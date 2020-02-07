@@ -2,20 +2,12 @@ package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.Autonomous.Methods.*;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
+import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
-
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-
-import java.util.Map;
 
 @Autonomous(name = "RBox", group = "Autonomous")
 public class RBox extends OpMode {
-    private ElapsedTime runtime = new ElapsedTime();
     NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
 
@@ -29,7 +21,7 @@ public class RBox extends OpMode {
     public int blockBrick;
 
     public void init() {
-        robot.init(hardwareMap); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
+        robot.init(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
 
         new Thread()  {
             public void run() {
@@ -59,7 +51,7 @@ public class RBox extends OpMode {
     @Override
     public void start() {
         detector.start();
-        runtime.reset();
+        robot.runtime.reset();
     }
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
@@ -87,7 +79,7 @@ public class RBox extends OpMode {
                         break;
                 }
 
-                if (runtime.milliseconds() > 2500) {
+                if (robot.runtime.milliseconds() > 2500) {
                     if (left > right && left > middle) { //LEFT
                         blockBrick = 1;
                         robot.encoderReset();
@@ -115,17 +107,17 @@ public class RBox extends OpMode {
                 break;
 
             case 3:
-                runtime.reset();
+                robot.runtime.reset();
                 robot.encoderReset();
                 break;
 
             case 4:
-                runtime.reset();
+                robot.runtime.reset();
                 robot.runWithIntake(Movement.FORWARD, 20*6,.8);
                 break;
 
             case 5:
-                if (runtime.milliseconds() > 1000) {
+                if (robot.runtime.milliseconds() > 1000) {
                     robot.encoderReset();
                 }
                 break;
@@ -163,7 +155,7 @@ public class RBox extends OpMode {
             case 14:
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
-                if (runtime.milliseconds() > 1000) {
+                if (robot.runtime.milliseconds() > 1000) {
                     robot.encoderReset();
                 }
                 break;

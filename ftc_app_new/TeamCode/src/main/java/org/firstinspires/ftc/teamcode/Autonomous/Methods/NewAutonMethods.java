@@ -6,19 +6,13 @@ import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
-import org.firstinspires.ftc.teamcode.Hardware.GyroCalibration;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.util.Range;
-import com.vuforia.Vuforia;
-
-import java.util.Map;
 
 public class NewAutonMethods {
     public DcMotor
@@ -31,7 +25,6 @@ public class NewAutonMethods {
     Telemetry tele;
 
     public ElapsedTime runtime = new ElapsedTime();
-    SkystoneDetect detector = new SkystoneDetect();
 
     public int command;
     public int origin;
@@ -56,7 +49,7 @@ public class NewAutonMethods {
      *
      * @param map  creates object on phones config
      */
-    public void init(HardwareMap map) {
+    public void init(HardwareMap map, Telemetry tele) {
         this.map = map;
         this.tele = tele;
 
@@ -69,15 +62,11 @@ public class NewAutonMethods {
         intakeL = this.map.get(DcMotor.class, "intakeL");
         intakeR = this.map.get(DcMotor.class, "intakeR");
 
-        blinkin = this.map.get(RevBlinkinLedDriver.class, "rgbReady");
-
         hinger = this.map.get(Servo.class, "hinger");
         foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
 
         closer = this.map.get(Servo.class, "closer");
-
-        gyro = this.map.get(BNO055IMU.class, "gyro");
 
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
@@ -94,10 +83,11 @@ public class NewAutonMethods {
         this.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        this.openServoAuton();}
+        this.openServoAuton();
+    }
 
     public void initGyro(){
-        gyro = map.get(BNO055IMU.class, "imu");
+        gyro = map.get(BNO055IMU.class, "gyro");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -383,6 +373,17 @@ public class NewAutonMethods {
         this.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.command++;
     }
+
+    public void intakeReset() {
+        this.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.command++;
+    }
+
+    public void runtimeReset(){
+        this.runtimeReset();
+    }
+
 
     public void closeHingeAuton() {
         this.hinger.setPosition(0);

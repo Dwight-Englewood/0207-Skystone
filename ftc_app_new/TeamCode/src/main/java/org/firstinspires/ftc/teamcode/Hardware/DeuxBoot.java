@@ -1,34 +1,31 @@
 package org.firstinspires.ftc.teamcode.Hardware;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.*;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 public class
-DeuxBoot {
-    public static DcMotor
-            BL, BR, FL, FR, lift, intakeL, intakeR;
+DeuxBoot{
+    public DcMotor
+            BL, BR, FL, FR, lift, liftL, liftR, intakeL, intakeR;
 
-    public static Servo
+    public Servo
             closer, hinger, foundationLeft, foundationRight;
 
     HardwareMap map;
     Telemetry tele;
 
-    public RevBlinkinLedDriver blinkin;
+    public ElapsedTime runtime = new ElapsedTime();
+
 
     public DeuxBoot() {
     }
 
     /**
-     *
      * @param map creates an object on phone
-     * @param tele displays data on phone
-     * @param auton determines if it is auton.
      */
-    public void init(HardwareMap map, Telemetry tele, boolean auton) {
+    public void init(HardwareMap map) {
         this.map = map;
-        this.tele = tele;
 
         BR = this.map.get(DcMotor.class, "BR");
         BL = this.map.get(DcMotor.class, "BL");
@@ -43,8 +40,6 @@ DeuxBoot {
         foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
 
-        blinkin = this.map.get(RevBlinkinLedDriver.class, "rgbReady");
-
         closer = this.map.get(Servo.class, "closer");
 
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -57,8 +52,38 @@ DeuxBoot {
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        tele.update();
+        closer.setPosition(1);
     }
+
+    public void initNew(HardwareMap map) {
+        this.map = map;
+
+        BR = this.map.get(DcMotor.class, "BR");
+        BL = this.map.get(DcMotor.class, "BL");
+        FL = this.map.get(DcMotor.class, "FL");
+        FR = this.map.get(DcMotor.class, "FR");
+
+        liftL.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftR.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        intakeL = this.map.get(DcMotor.class, "intakeL");
+        intakeR = this.map.get(DcMotor.class, "intakeR");
+
+        liftL.setDirection((DcMotorSimple.Direction.FORWARD));
+        liftR.setDirection((DcMotorSimple.Direction.REVERSE));
+
+        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
+        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+
 
     /**
      *
@@ -66,7 +91,7 @@ DeuxBoot {
      *
      * @param runMode the new runmode.
      */
-    public static void changeRunMode(DcMotor.RunMode runMode) {
+    public void changeRunMode(DcMotor.RunMode runMode) {
         BL.setMode(runMode);
         BR.setMode(runMode);
         FL.setMode(runMode);

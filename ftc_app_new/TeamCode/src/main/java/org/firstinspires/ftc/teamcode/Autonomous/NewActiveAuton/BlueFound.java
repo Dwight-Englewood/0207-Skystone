@@ -3,21 +3,15 @@ package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-
 @Autonomous(name = "BFound", group = "Autonomous")
 public class BlueFound extends OpMode {
-    private ElapsedTime runtime = new ElapsedTime();
     NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
-        robot.init(hardwareMap); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
+        robot.init(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
 
         new Thread()  {
             public void run() {
@@ -39,7 +33,7 @@ public class BlueFound extends OpMode {
      */
     @Override
     public void start() {
-        runtime.reset();
+        robot.runtime.reset();
     }
 
     /*
@@ -53,13 +47,13 @@ public class BlueFound extends OpMode {
                 break;
 
             case 1:
-                runtime.reset();
+                robot.runtime.reset();
                 robot.runToTarget(Movement.DOWNLEFT, 71*2.5);
                 break;
 
             case 2:
                 robot.closeServoAuton();
-                if (runtime.milliseconds() > 500) {
+                if (robot.runtime.milliseconds() > 500) {
                     robot.command++;
                 }
                 break;
@@ -81,13 +75,13 @@ public class BlueFound extends OpMode {
                 break;
 
             case 7:
-                runtime.reset();
+                robot.runtime.reset();
                 robot.encoderReset();
                 break;
 
             case 8:
                 robot.openServoAuton();
-                if (runtime.milliseconds() > 500) {
+                if (robot.runtime.milliseconds() > 500) {
                     robot.command++;
                 }
                 break;
