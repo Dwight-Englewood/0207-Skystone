@@ -1,0 +1,16 @@
+.idea/
+TODO.md
+
+__pycache__/
+
+
+autoLogStuff/outputForest.pdf
+autoLogStuff/outputLog.pdf
+
+*.iml
+
+*.o
+*.hi
+
+*.DS_Store
+
