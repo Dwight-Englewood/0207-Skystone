@@ -44,6 +44,7 @@ public class BBox extends OpMode {
     @Override
     public void start() {
    //     detector.start();
+        detector.isRun = true;
         robot.runtimeReset();
     }
     /*
@@ -52,7 +53,7 @@ public class BBox extends OpMode {
     @Override
     public void loop() {
         switch (robot.command) {
-            case 1:
+            case 0:
                 if (detector.leftBlock) { //LEFT
                     robot.command = 4;
                 } else if (detector.rightBlock) { //RIGHT

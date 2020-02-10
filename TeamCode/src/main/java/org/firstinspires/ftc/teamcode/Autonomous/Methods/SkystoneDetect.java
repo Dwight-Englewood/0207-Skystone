@@ -26,6 +26,8 @@ public class SkystoneDetect {
 
     int block;
 
+    public boolean isRun = false;
+
     public int left, right, middle, notvis;
 
     public boolean leftBlock = false;
@@ -46,35 +48,37 @@ public class SkystoneDetect {
         }
 
         SkystoneDetect.Spot returnedloc = this.getSkystonePosBlue(telemetry);
-        switch (returnedloc) {
-            case LEFT:
-                left++;
-                break;
+        while (!isRun) {
+            switch (returnedloc) {
+                case LEFT:
+                    left++;
+                    break;
 
-            case RIGHT:
-                right++;
-                break;
+                case RIGHT:
+                    right++;
+                    break;
 
-            case MIDDLE:
-                middle++;
-                break;
+                case MIDDLE:
+                    middle++;
+                    break;
 
-            case NOTVISIBLE:
-                notvis++;
-                break;
-        }
-        if (left > right && left > middle) { //LEFT
-            leftBlock = true;
-            rightBlock = false;
-            middleBlock = false;
-        } else if (right > middle && right > left) { //RIGHT
-            rightBlock = true;
-            middleBlock = false;
-            leftBlock = false;
-        } else if (middle > left && middle > right) { //MIDDLE
-            middleBlock = true;
-            rightBlock = false;
-            leftBlock = false;
+                case NOTVISIBLE:
+                    notvis++;
+                    break;
+            }
+            if (left > right && left > middle) { //LEFT
+                leftBlock = true;
+                rightBlock = false;
+                middleBlock = false;
+            } else if (right > middle && right > left) { //RIGHT
+                rightBlock = true;
+                middleBlock = false;
+                leftBlock = false;
+            } else if (middle > left && middle > right) { //MIDDLE
+                middleBlock = true;
+                rightBlock = false;
+                leftBlock = false;
+            }
         }
     }
 

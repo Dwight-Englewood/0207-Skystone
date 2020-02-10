@@ -13,13 +13,6 @@ public class RBox extends OpMode {
 
     int block;
 
-    public int left = 0;
-    public int right = 0;
-    public int middle = 0;
-    public int notvis = 0;
-
-    public int blockBrick;
-
     public void init() {
         robot.init(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
 
@@ -51,6 +44,7 @@ public class RBox extends OpMode {
      */
     @Override
     public void start() {
+        detector.isRun = true;
         robot.runtime.reset();
     }
     /*
@@ -60,55 +54,13 @@ public class RBox extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                SkystoneDetect.Spot returnedloc = detector.getSkystonePosRed(telemetry);
-                switch (returnedloc) {
-                    case LEFT:
-                        left++;
-                        break;
-
-                    case RIGHT:
-                        right++;
-                        break;
-
-                    case MIDDLE:
-                        middle++;
-                        break;
-
-                    case NOTVISIBLE:
-                        notvis++;
-                        break;
-                }
-
-                if (robot.runtime.milliseconds() > 2500) {
-                    if (left > right && left > middle) { //LEFT
-                        blockBrick = 1;
-                        robot.encoderReset();
-                    } else if (right > middle && right > left) { //RIGHT
-                        blockBrick = 2;
-                        robot.encoderReset();
-                    } else if (middle > left && middle > right) { //MIDDLE
-                        blockBrick = 3;
-                        robot.encoderReset();
-                    }
-                }
-
-            case 1:
-                if (blockBrick == 1) { //LEFT
-                    robot.command= 4;
-                } else if (blockBrick == 2) { //RIGHT
-                    robot.command = 101;
-                } else if (blockBrick == 3) { //MIDDLE
+                if (detector.leftBlock) { //LEFT
+                    robot.command = 4;
+                } else if (detector.rightBlock) { //RIGHT
+                    robot.command = 103;
+                } else if (detector.middleBlock) { //MIDDLE
                     robot.command = 1001;
                 }
-                break;
-
-            case 2:
-                robot.runToTarget(Movement.LEFTSTRAFE, 20);
-                break;
-
-            case 3:
-                robot.runtime.reset();
-                robot.encoderReset();
                 break;
 
             case 4:
@@ -463,17 +415,12 @@ public class RBox extends OpMode {
                 robot.intakeR.setPower(0);
                 robot.encoderReset();
                 break;
-
-
-
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("right", right);
-        telemetry.addData("middle", middle);
-        telemetry.addData("left", left);
+        telemetry.addData("right", detector.right);
+        telemetry.addData("middle", detector.middle);
+        telemetry.addData("left", detector.left);
         telemetry.addData("block", block);
-        telemetry.addData("intakeL current", robot.intakeL.getCurrentPosition());
-        telemetry.addData("intakeL target", robot.intakeL.getTargetPosition());
         telemetry.update();
     }
 }
