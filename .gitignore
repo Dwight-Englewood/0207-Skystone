@@ -1,15 +1,27 @@
-.idea/
-TODO.md
+# built application files
+*.apk
+*.ap_
 
-__pycache__/
+# Java class files
+*.class
 
+# generated files
+bin/
+gen/
 
-autoLogStuff/outputForest.pdf
-autoLogStuff/outputLog.pdf
+# Local configuration file (sdk path, etc)
+local.properties
 
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store
+
+# Android Studio
 *.iml
+.idea
+.gradle
+build/
 
-*.o
-*.hi
-
-*.DS_Store
+*ASUS_PC_01*
