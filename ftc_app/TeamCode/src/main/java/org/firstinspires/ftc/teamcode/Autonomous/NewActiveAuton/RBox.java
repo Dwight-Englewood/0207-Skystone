@@ -30,6 +30,7 @@ public class RBox extends OpMode {
         //        detector.start();
             }
         }.start();
+        robot.runtime.reset();
     }
 
     /*
@@ -37,6 +38,11 @@ public class RBox extends OpMode {
      */
     @Override
     public void init_loop() {
+        detector.detectionLoop();
+        if (robot.runtime.milliseconds() >= 5000){
+            detector.resetValues();
+            robot.runtime.reset();
+        }
     }
 
     /*
@@ -44,7 +50,7 @@ public class RBox extends OpMode {
      */
     @Override
     public void start() {
-        detector.isRun = true;
+        detector.blockFinder();
         robot.runtime.reset();
     }
     /*

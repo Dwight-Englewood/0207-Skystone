@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
-//test
+
 @Autonomous(name = "BBox", group = "Autonomous")
 public class BBox extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
@@ -36,6 +36,7 @@ public class BBox extends OpMode {
      */
     @Override
     public void init_loop() {
+        detector.detectionLoop();
     }
 
     /*
@@ -43,8 +44,7 @@ public class BBox extends OpMode {
      */
     @Override
     public void start() {
-   //     detector.start();
-        detector.isRun = true;
+        detector.blockFinder();
         robot.runtimeReset();
     }
     /*

@@ -26,8 +26,6 @@ public class SkystoneDetect {
 
     int block;
 
-    public boolean isRun = false;
-
     public int left, right, middle, notvis;
 
     public boolean leftBlock = false;
@@ -46,9 +44,10 @@ public class SkystoneDetect {
         if (tfod != null) {
             tfod.activate();
         }
+    }
 
-        SkystoneDetect.Spot returnedloc = this.getSkystonePosBlue(telemetry);
-        while (!isRun) {
+    public void detectionLoop(){
+        SkystoneDetect.Spot returnedloc = this.getSkystonePosBlue();
             switch (returnedloc) {
                 case LEFT:
                     left++;
@@ -66,20 +65,29 @@ public class SkystoneDetect {
                     notvis++;
                     break;
             }
-            if (left > right && left > middle) { //LEFT
-                leftBlock = true;
-                rightBlock = false;
-                middleBlock = false;
-            } else if (right > middle && right > left) { //RIGHT
-                rightBlock = true;
-                middleBlock = false;
-                leftBlock = false;
-            } else if (middle > left && middle > right) { //MIDDLE
-                middleBlock = true;
-                rightBlock = false;
-                leftBlock = false;
-            }
+    }
+
+    public void blockFinder(){
+        if (left > right && left > middle) { //LEFT
+            leftBlock = true;
+            rightBlock = false;
+            middleBlock = false;
+        } else if (right > middle && right > left) { //RIGHT
+            rightBlock = true;
+            middleBlock = false;
+            leftBlock = false;
+        } else if (middle > left && middle > right) { //MIDDLE
+            middleBlock = true;
+            rightBlock = false;
+            leftBlock = false;
         }
+    }
+
+    public void resetValues(){
+        left = 0;
+        right = 0;
+        middle = 0;
+        notvis = 0;
     }
 
     public boolean isInit(){
@@ -112,7 +120,7 @@ public class SkystoneDetect {
     }*/
 
     // Created for looking at RIGHTMOST 2 BLOCKS (next to wall)
-    public Spot getSkystonePosBlue(Telemetry telemetry) {
+    public Spot getSkystonePosBlue() {
         if (tfod != null) {
             // Make this a var since this is a constantly changing thing and we want to check 1 instance
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
@@ -140,7 +148,7 @@ public class SkystoneDetect {
     }
 
         // Created for looking at RIGHTMOST 2 BLOCKS (next to wall)
-    public Spot getSkystonePosRed(Telemetry telemetry) {
+    public Spot getSkystonePosRed() {
         if (tfod != null) {
             // Make this a var since this is a constantly changing thing and we want to check 1 instance
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
