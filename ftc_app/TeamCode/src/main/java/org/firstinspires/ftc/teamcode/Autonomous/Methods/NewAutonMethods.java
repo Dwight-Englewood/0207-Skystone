@@ -343,6 +343,20 @@ public class NewAutonMethods {
         }
     }
 
+    public void encoderRun(Movement movementEnum, double target) {
+        this.autonDrive(movementEnum, cmDistance(target));
+        percentagePower();
+        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
+                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
+            autonDrive(movementEnum.STOP, 0);
+            tele.update();
+            this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            this.command++;
+        }
+    }
+
     public void runWithIntake(Movement movementEnum, double target, double power) {
         this.intakeL.setPower(power);
         this.intakeR.setPower(power);

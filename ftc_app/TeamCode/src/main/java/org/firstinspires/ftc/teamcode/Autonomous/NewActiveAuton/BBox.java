@@ -64,7 +64,6 @@ public class BBox extends OpMode {
                 break;
 
             case 4:
-                robot.runtime.reset();
                 robot.runWithIntake(Movement.UPLEFT, 20*10,.8);
                 break;
 

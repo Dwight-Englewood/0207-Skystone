@@ -47,7 +47,6 @@ public class BlueFound extends OpMode {
                 break;
 
             case 1:
-                robot.runtime.reset();
                 robot.runToTarget(Movement.DOWNLEFT, 71*2.5);
                 break;
 

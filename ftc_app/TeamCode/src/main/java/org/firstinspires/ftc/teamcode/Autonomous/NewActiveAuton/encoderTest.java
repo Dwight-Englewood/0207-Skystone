@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "RFound", group = "Autonomous")
-public class RedFound extends OpMode {
+@Autonomous(name = "encoderTest", group = "Autonomous")
+public class encoderTest extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
@@ -42,76 +42,22 @@ public class RedFound extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.encoderReset();
+                robot.encoderRun(Movement.FORWARD, 80);
                 break;
 
             case 1:
-                robot.runToTarget(Movement.UPLEFT, 71*2.5);
-                break;
-
-            case 2:
-                robot.closeServoAuton();
-                if (robot.runtime.milliseconds() > 600) {
-                    robot.command++;
-                }
+                robot.encoderRun(Movement.LEFTSTRAFE, 72);
                 break;
 
             case 3:
-                robot.encoderReset();
+                robot.encoderRun(Movement.DOWNLEFT, 72);
                 break;
 
             case 4:
-                robot.runToTarget(Movement.DOWNRIGHT, 72*1.5);
+                robot.encoderRun(Movement.DOWNRIGHT, 72);
                 break;
 
             case 5:
-                robot.encoderReset();
-                break;
-
-            case 6:
-                robot.gyroTurn(-90);
-                break;
-
-             case 7:
-                robot.encoderReset();
-                break;
-
-            case 8:
-                robot.runToTarget(Movement.UPLEFT , 125);
-                break;
-
-            case 9:
-                robot.encoderReset();
-                break;
-
-            case 10:
-                robot.openServoAuton();
-                if (robot.runtime.milliseconds() > 600) {
-                    robot.command++;
-                }
-                break;
-
-            case 11:
-                //robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.encoderReset();
-                break;
-
-            case 12:
-                /*if (runtime.milliseconds() > 10000) {
-         //           robot.tapeExtend(4500,0.5);
-                }*/
-                robot.runToTarget(Movement.FORWARD,20);
-                break;
-
-            case 13:
-                robot.encoderReset();
-                break;
-
-            case 14:
-                robot.runToTarget(Movement.RIGHTSTRAFE,110*1.1);
-                break;
-
-            case 15:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

@@ -70,7 +70,6 @@ public class RBox extends OpMode {
                 break;
 
             case 4:
-                robot.runtime.reset();
                 robot.runWithIntake(Movement.FORWARD, 20*6,.8);
                 break;
 
