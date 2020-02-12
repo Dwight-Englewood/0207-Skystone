@@ -359,18 +359,18 @@ public class NewAutonMethods {
 
         if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
                 && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
-                autonDrive(movementEnum.STOP, 0);
+            autonDrive(movementEnum.STOP, 0);
 
-                if (this.FL.getCurrentPosition() != 0
-                        || this.FR.getCurrentPosition() != 0
-                        || this.BL.getCurrentPosition() != 0
-                        || this.BR.getCurrentPosition() != 0) {
-                    encoderReset();
-                    tele.addLine("Reset Not Successful");
-                    tele.update();
-                } else {
-                    this.command++;
-                }
+            if (this.FL.getCurrentPosition() != 0
+                    || this.FR.getCurrentPosition() != 0
+                    || this.BL.getCurrentPosition() != 0
+                    || this.BR.getCurrentPosition() != 0) {
+                encoderReset();
+                tele.addLine("Reset Not Successful");
+                tele.update();
+            } else {
+                this.command++;
+            }
         }
     }
 
@@ -592,6 +592,7 @@ public class NewAutonMethods {
         //rate = x(0.05937236104)
     }
 }
+
 
 
 
