@@ -58,61 +58,36 @@ public class BlueFound extends OpMode {
                 break;
 
             case 3:
-                robot.encoderReset();
-                break;
-
-            case 4:
                 robot.runToTarget(Movement.UPRIGHT, 72*1.125);
                 break;
 
-            case 5:
-                robot.encoderReset();
-                break;
-
-            case 6:
+            case 4:
                 robot.gyroTurn(90);
                 break;
 
-            case 7:
-                robot.encoderReset();
-                break;
-
-            case 8:
+            case 5:
                 robot.runToTarget(Movement.DOWNLEFT , 125);
                 break;
 
-            case 9:
-                robot.encoderReset();
-                break;
-
-            case 10:
+            case 6:
                 robot.openServoAuton();
                 if (robot.runtime.milliseconds() > 600) {
                     robot.command++;
                 }
                 break;
 
-            case 11:
-                //robot.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.encoderReset();
-                break;
-
-            case 12:
+            case 7:
                 /*if (runtime.milliseconds() > 10000) {
          //           robot.tapeExtend(4500,0.5);
                 }*/
                 robot.runToTarget(Movement.BACKWARD,20);
                 break;
 
-            case 13:
-                robot.encoderReset();
-                break;
-
-            case 14:
+            case 8:
                 robot.runToTarget(Movement.RIGHTSTRAFE,110*1.1);
                 break;
 
-            case 15:
+            case 9:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

@@ -61,11 +61,11 @@ public class RBox extends OpMode {
         switch (robot.command) {
             case 0:
                 if (detector.leftBlock) { //LEFT
-                    robot.command = 4;
+         //           robot.command = 4;
                 } else if (detector.rightBlock) { //RIGHT
-                    robot.command = 103;
+         //           robot.command = 103;
                 } else if (detector.middleBlock) { //MIDDLE
-                    robot.command = 1001;
+        //            robot.command = 1001;
                 }
                 break;
 

@@ -42,19 +42,23 @@ public class encoderTest extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.encoderRun(Movement.FORWARD, 80);
+                robot.encoderReset();
                 break;
 
             case 1:
-                robot.encoderRun(Movement.LEFTSTRAFE, 72);
+                robot.encoderRun(Movement.FORWARD, 20);
+                break;
+
+            case 2:
+                robot.encoderRun(Movement.LEFTSTRAFE, 20);
                 break;
 
             case 3:
-                robot.encoderRun(Movement.DOWNLEFT, 72);
+                robot.encoderRun(Movement.DOWNLEFT, 20);
                 break;
 
             case 4:
-                robot.encoderRun(Movement.DOWNRIGHT, 72);
+                robot.encoderRun(Movement.UPLEFT, 20);
                 break;
 
             case 5:
@@ -62,8 +66,10 @@ public class encoderTest extends OpMode {
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("Runtime:", robot.runtime.milliseconds());
-        telemetry.addData("Power:", robot.power);
+        telemetry.addData("FL:", robot.FL.getCurrentPosition());
+        telemetry.addData("FR:", robot.FR.getCurrentPosition());
+        telemetry.addData("BL:", robot.BL.getCurrentPosition());
+        telemetry.addData("BR:", robot.BR.getCurrentPosition());
         telemetry.update();
     }
 }

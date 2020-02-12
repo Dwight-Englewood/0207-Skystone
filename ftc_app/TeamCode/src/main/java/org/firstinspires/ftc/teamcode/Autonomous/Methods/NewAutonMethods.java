@@ -30,7 +30,7 @@ public class NewAutonMethods {
     public int origin;
 
     public double power, lastError;
-    final double kpVal = 0.00305;
+    final double kpVal = 0.000305;
     final double kiVal = 0.000007;
     final double kdVal = 0.0007;
     private double error, errorI, errorD;
@@ -338,8 +338,17 @@ public class NewAutonMethods {
             this.lastError = this.error;
             this.errorI = 0;
             this.error = 0;
-            tele.update();
-            this.command++;
+
+            if (this.FL.getCurrentPosition() != 0
+                    || this.FR.getCurrentPosition() != 0
+                    || this.BL.getCurrentPosition() != 0
+                    || this.BR.getCurrentPosition() != 0) {
+                encoderReset();
+                tele.addLine("Reset Not Successful");
+                tele.update();
+            } else {
+                this.command++;
+            }
         }
     }
 
@@ -350,10 +359,18 @@ public class NewAutonMethods {
 
         if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
                 && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
-            autonDrive(movementEnum.STOP, 0);
-            tele.update();
-            this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            this.command++;
+                autonDrive(movementEnum.STOP, 0);
+
+                if (this.FL.getCurrentPosition() != 0
+                        || this.FR.getCurrentPosition() != 0
+                        || this.BL.getCurrentPosition() != 0
+                        || this.BR.getCurrentPosition() != 0) {
+                    encoderReset();
+                    tele.addLine("Reset Not Successful");
+                    tele.update();
+                } else {
+                    this.command++;
+                }
         }
     }
 
@@ -467,7 +484,7 @@ public class NewAutonMethods {
         int current = FL.getCurrentPosition();
         this.error = Math.abs(cmDistance(target - current)); //Distance from current position to end position
         int pointToOriginFL = Math.abs(cmDistance(this.origin - current));  //Distance from current position to start position
-        double totalDistanceFL = Math.abs(this.error + pointToOriginFL);
+        double totalDistanceFL = Math.abs(cmDistance(this.error + pointToOriginFL));
 
 
         if (pointToOriginFL < error) { //Startpoint to Midpoint
@@ -506,7 +523,7 @@ public class NewAutonMethods {
                 power = (this.error * kpVal);
             }
         } else {
-            power = 1;
+            power = .6;
         }
 
         tele.addData("error", this.error);
