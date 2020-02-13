@@ -32,7 +32,8 @@ public class SkystoneDetect {
     public boolean rightBlock = false;
     public boolean middleBlock = false;
 
-    public boolean blue = false, red = false;
+    public boolean blue = false;
+    public boolean red = false;
 
     public SkystoneDetect() {}
 
@@ -48,9 +49,7 @@ public class SkystoneDetect {
         }
     }
 
-    public void detectionLoop(boolean side){
-        side = true;
-        if (blue) {
+    public void detectionLoopBlue(){
             SkystoneDetect.Spot returnedloc = this.getSkystonePosBlue();
             switch (returnedloc) {
                 case LEFT:
@@ -68,26 +67,27 @@ public class SkystoneDetect {
                 case NOTVISIBLE:
                     notvis++;
                     break;
-            }
-        } else if (red) {
-            SkystoneDetect.Spot returnedloc = this.getSkystonePosRed();
-            switch (returnedloc) {
-                case LEFT:
-                    left++;
-                    break;
+        }
+    }
 
-                case RIGHT:
-                    right++;
-                    break;
+    public void detectionLoopRed(){
+        SkystoneDetect.Spot returnedloc = this.getSkystonePosRed();
+        switch (returnedloc) {
+            case LEFT:
+                left++;
+                break;
 
-                case MIDDLE:
-                    middle++;
-                    break;
+            case RIGHT:
+                right++;
+                break;
 
-                case NOTVISIBLE:
-                    notvis++;
-                    break;
-            }
+            case MIDDLE:
+                middle++;
+                break;
+
+            case NOTVISIBLE:
+                notvis++;
+                break;
         }
     }
 
