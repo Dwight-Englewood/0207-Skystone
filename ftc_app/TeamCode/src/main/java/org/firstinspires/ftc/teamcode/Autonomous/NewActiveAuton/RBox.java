@@ -38,11 +38,15 @@ public class RBox extends OpMode {
      */
     @Override
     public void init_loop() {
-        detector.detectionLoop();
+        detector.detectionLoop(detector.red);
         if (robot.runtime.milliseconds() >= 5000){
             detector.resetValues();
             robot.runtime.reset();
         }
+        telemetry.addData("Left:", detector.left);
+        telemetry.addData("Right:", detector.right);
+        telemetry.addData("Middle:", detector.middle);
+        telemetry.addData("Invisible:", detector.notvis);
     }
 
     /*

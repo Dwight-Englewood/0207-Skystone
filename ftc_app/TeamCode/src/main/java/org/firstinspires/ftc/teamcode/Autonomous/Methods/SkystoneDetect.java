@@ -32,6 +32,8 @@ public class SkystoneDetect {
     public boolean rightBlock = false;
     public boolean middleBlock = false;
 
+    public boolean blue = false, red = false;
+
     public SkystoneDetect() {}
 
     public void init(HardwareMap hwMap, Telemetry telemetry) {
@@ -46,8 +48,10 @@ public class SkystoneDetect {
         }
     }
 
-    public void detectionLoop(){
-        SkystoneDetect.Spot returnedloc = this.getSkystonePosBlue();
+    public void detectionLoop(boolean side){
+        side = true;
+        if (blue) {
+            SkystoneDetect.Spot returnedloc = this.getSkystonePosBlue();
             switch (returnedloc) {
                 case LEFT:
                     left++;
@@ -65,6 +69,26 @@ public class SkystoneDetect {
                     notvis++;
                     break;
             }
+        } else if (red) {
+            SkystoneDetect.Spot returnedloc = this.getSkystonePosRed();
+            switch (returnedloc) {
+                case LEFT:
+                    left++;
+                    break;
+
+                case RIGHT:
+                    right++;
+                    break;
+
+                case MIDDLE:
+                    middle++;
+                    break;
+
+                case NOTVISIBLE:
+                    notvis++;
+                    break;
+            }
+        }
     }
 
     public void blockFinder(){

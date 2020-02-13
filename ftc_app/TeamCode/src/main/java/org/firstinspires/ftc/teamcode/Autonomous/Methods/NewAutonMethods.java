@@ -313,6 +313,7 @@ public class NewAutonMethods {
         else {
             driveScale = 0;
             this.drive(Movement.RIGHTTURN, driveScale * 1.2);
+
             return true;
         }
         this.drive(Movement.RIGHTTURN, driveScale * 1.2);
@@ -338,28 +339,6 @@ public class NewAutonMethods {
             this.lastError = this.error;
             this.errorI = 0;
             this.error = 0;
-
-            if (this.FL.getCurrentPosition() != 0
-                    || this.FR.getCurrentPosition() != 0
-                    || this.BL.getCurrentPosition() != 0
-                    || this.BR.getCurrentPosition() != 0) {
-                encoderReset();
-                tele.addLine("Reset Not Successful");
-                tele.update();
-            } else {
-                this.command++;
-            }
-        }
-    }
-
-    public void encoderRun(Movement movementEnum, double target) {
-        this.autonDrive(movementEnum, cmDistance(target));
-        percentagePower();
-        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
-                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
-            autonDrive(movementEnum.STOP, 0);
 
             if (this.FL.getCurrentPosition() != 0
                     || this.FR.getCurrentPosition() != 0
@@ -485,7 +464,7 @@ public class NewAutonMethods {
         this.error = Math.abs(cmDistance(target - current)); //Distance from current position to end position
         int pointToOriginFL = Math.abs(cmDistance(this.origin - current));  //Distance from current position to start position
         double totalDistanceFL = Math.abs(cmDistance(this.error + pointToOriginFL));
-
+        runtimeReset();
 
         if (pointToOriginFL < error) { //Startpoint to Midpoint
             if (pointToOriginFL == 0) { //Startpoint
@@ -493,12 +472,12 @@ public class NewAutonMethods {
             } else if (this.error - pointToOriginFL < 0.5 * totalDistanceFL) { //Quarter to Midpoint
                 power = (this.error * kpVal);
                 if (Math.abs(this.error - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.4 to 0.5 point
-                    power = .7;
+                    power = 1;
                 }
             } else if (this.error - pointToOriginFL > 0.2 * totalDistanceFL) { // Startpoint to 0.4
                 power = (pointToOriginFL * kpVal);
-                if (power < .2) {
-                    power = .2;
+                if (power < .25) {
+                    power = .25;
                 } else {
                     power = (pointToOriginFL * kpVal);
                 }
@@ -507,16 +486,16 @@ public class NewAutonMethods {
             if (pointToOriginFL - this.error < 0.5 * totalDistanceFL) { //Midpoint to Three Quarter
                 power = (this.error * kpVal);
                 if (Math.abs(this.error - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.5 to 0.6 point
-                    power = .7;
+                    power = 1;
                 }
             } else if (Math.abs(this.error - pointToOriginFL) > 0.2 * totalDistanceFL) { //0.6 to final
                 power = (this.error * kpVal);
-                if (power > .2) {
-                    power = .2;
+                if (power > .25) {
+                    power = .25;
                 } else {
                     power = (pointToOriginFL * kpVal);
-                    if (power > .2) {
-                        power = .2;
+                    if (power > .25) {
+                        power = .25;
                     }
                 }
             } else {
@@ -529,7 +508,15 @@ public class NewAutonMethods {
         tele.addData("error", this.error);
         tele.addData("pointToOrigin", pointToOriginFL);
         tele.addData("power", power);
-        this.drive(power);
+        if (power == .25){
+            if (runtime.milliseconds() >= 1000){
+                this.drive(power + .1);
+            } else {
+                this.drive(power);
+            }
+        } else {
+            this.drive(power);
+        }
     }
 
     public double scalePower() {
@@ -571,16 +558,14 @@ public class NewAutonMethods {
             this.tape.setPower(0);
             this.command++;
         }
-
  */
 
     public void gyroTurn(int turn) {
         if (Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 10) {
             this.adjustHeading(turn);
         } else if (Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) < 10) {
-            //   this.curVal = turn;
             this.drive(Movement.STOP, 0);
-            this.command++;
+            this.encoderReset();
         }
     }
 

@@ -47,7 +47,7 @@ public class BlueFound extends OpMode {
                 break;
 
             case 1:
-                robot.runToTarget(Movement.DOWNLEFT, 71*2.5);
+                robot.runToTarget(Movement.DOWNLEFT, 180);
                 break;
 
             case 2:
@@ -58,7 +58,7 @@ public class BlueFound extends OpMode {
                 break;
 
             case 3:
-                robot.runToTarget(Movement.UPRIGHT, 72*1.125);
+                robot.runToTarget(Movement.UPRIGHT, 85);
                 break;
 
             case 4:
@@ -84,7 +84,7 @@ public class BlueFound extends OpMode {
                 break;
 
             case 8:
-                robot.runToTarget(Movement.RIGHTSTRAFE,110*1.1);
+                robot.runToTarget(Movement.RIGHTSTRAFE,122);
                 break;
 
             case 9:
