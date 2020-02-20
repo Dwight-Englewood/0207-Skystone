@@ -68,12 +68,16 @@ public class BBox extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
+                robot.encoderReset();
+                break;
+
+            case 1:
                 if (detector.leftBlock) { //LEFT
-                    robot.command = 4;
-                } else if (detector.rightBlock) { //RIGHT
                     robot.command = 103;
+                } else if (detector.rightBlock) { //RIGHT
+                    robot.command = 4;
                 } else if (detector.middleBlock) { //MIDDLE
-                    robot.command = 1001;
+                    robot.command = 1003;
                 }
                 break;
 
@@ -91,24 +95,12 @@ public class BBox extends OpMode {
                 robot.runToTarget(Movement.BACKWARD, 30*1.5);
                 break;
 
-            case 7:
-                robot.encoderReset();
-                break;
-
             case 8:
                 robot.gyroTurn(90);
                 break;
 
-            case 9:
-                robot.encoderReset();
-                break;
-
             case 10:
                 robot.runToTarget(Movement.FORWARD, 100);
-                break;
-
-            case 11:
-                robot.encoderReset();
                 break;
 
             case 12:
@@ -129,48 +121,24 @@ public class BBox extends OpMode {
                 robot.gyroTurn(188);
                 break;
 
-            case 16:
-                robot.encoderReset();
-                break;
-
             case 17:
                 robot.runToTarget(Movement.FORWARD, 100);
-                break;
-
-            case 18:
-                robot.encoderReset();
                 break;
 
             case 101:
                 robot.runToTarget(Movement.RIGHTSTRAFE, 12);
                 break;
 
-            case 102:
-                robot.encoderReset();
-                break;
-
             case 103:
-                robot.runToTarget(Movement.FORWARD, 2.5*5.2);
-                break;
-
-            case 104:
-                robot.encoderReset();
+                robot.runToTarget(Movement.FORWARD, 20);
                 break;
 
             case 105:
                 robot.gyroTurn(90);
                 break;
 
-            case 106:
-                robot.encoderReset();
-                break;
-
             case 107:
                 robot.runToTarget(Movement.RIGHTSTRAFE, 125);
-                break;
-
-            case 108:
-                robot.encoderReset();
                 break;
 
             case 109:
@@ -187,24 +155,12 @@ public class BBox extends OpMode {
                 robot.runToTarget(Movement.LEFTSTRAFE, 50);
                 break;
 
-            case 112:
-                robot.encoderReset();
-                break;
-
             case 113:
                 robot.runToTarget(Movement.BACKWARD, 150);
                 break;
 
-            case 114:
-                robot.encoderReset();
-                break;
-
             case 115:
                 robot.gyroTurn(0);
-                break;
-
-            case 116:
-                robot.encoderReset();
                 break;
 
             case 117:
@@ -221,24 +177,12 @@ public class BBox extends OpMode {
                 robot.runToTarget(Movement.LEFTSTRAFE,225);
                 break;
 
-            case 120:
-                robot.encoderReset();
-                break;
-
             case 121:
                 robot.gyroTurn(90);
                 break;
 
-            case 122:
-                robot.encoderReset();
-                break;
-
             case 123:
                 robot.runToTarget(Movement.RIGHTSTRAFE, 100);
-                break;
-
-            case 124:
-                robot.encoderReset();
                 break;
 
             case 125:
@@ -255,24 +199,12 @@ public class BBox extends OpMode {
                 robot.runToTarget(Movement.LEFTSTRAFE,60);
                 break;
 
-            case 128:
-                robot.encoderReset();
-                break;
-
             case 129:
                 robot.runToTarget(Movement.BACKWARD, 220);
                 break;
 
-            case 130:
-                robot.encoderReset();
-                break;
-
             case 131:
                 robot.gyroTurn(0);
-                break;
-
-            case 132:
-                robot.encoderReset();
                 break;
 
             case 133:
@@ -285,36 +217,16 @@ public class BBox extends OpMode {
                 robot.encoderReset();
                 break;
 
-            case 1001:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 40);
-                break;
-
-            case 1002:
-                robot.encoderReset();
-                break;
-
             case 1003:
                 robot.runToTarget(Movement.FORWARD, 15);
-                break;
-
-            case 1004:
-                robot.encoderReset();
                 break;
 
             case 1005:
                 robot.gyroTurn(90);
                 break;
 
-            case 1006:
-                robot.encoderReset();
-                break;
-
             case 1007:
                 robot.runToTarget(Movement.RIGHTSTRAFE, 125);
-                break;
-
-            case 1008:
-                robot.encoderReset();
                 break;
 
             case 1009:
@@ -331,24 +243,12 @@ public class BBox extends OpMode {
                 robot.runToTarget(Movement.LEFTSTRAFE, 50);
                 break;
 
-            case 1012:
-                robot.encoderReset();
-                break;
-
             case 1013:
                 robot.runToTarget(Movement.BACKWARD, 150);
                 break;
 
-            case 1014:
-                robot.encoderReset();
-                break;
-
             case 1015:
                 robot.gyroTurn(0);
-                break;
-
-            case 1016:
-                robot.encoderReset();
                 break;
 
             case 1017:
@@ -365,24 +265,12 @@ public class BBox extends OpMode {
                 robot.runToTarget(Movement.LEFTSTRAFE,230);
                 break;
 
-            case 1020:
-                robot.encoderReset();
-                break;
-
             case 1021:
                 robot.gyroTurn(90);
                 break;
 
-            case 1022:
-                robot.encoderReset();
-                break;
-
             case 1023:
                 robot.runToTarget(Movement.RIGHTSTRAFE, 80);
-                break;
-
-            case 1024:
-                robot.encoderReset();
                 break;
 
             case 1025:
@@ -399,24 +287,12 @@ public class BBox extends OpMode {
                 robot.runToTarget(Movement.LEFTSTRAFE,50);
                 break;
 
-            case 1028:
-                robot.encoderReset();
-                break;
-
             case 1029:
                 robot.runToTarget(Movement.BACKWARD, 220);
                 break;
 
-            case 1030:
-                robot.encoderReset();
-                break;
-
             case 1031:
                 robot.gyroTurn(0);
-                break;
-
-            case 1032:
-                robot.encoderReset();
                 break;
 
             case 1033:

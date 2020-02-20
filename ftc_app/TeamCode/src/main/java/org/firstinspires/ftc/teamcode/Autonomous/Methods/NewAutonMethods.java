@@ -365,10 +365,16 @@ public class NewAutonMethods {
 
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if ((Math.abs(FL.getCurrentPosition() - FL.getTargetPosition()) < 0.15 * (Math.abs(FL.getCurrentPosition() + FL.getTargetPosition())) ||
-                (Math.abs(BR.getCurrentPosition() - BR.getTargetPosition()) < 0.15 * (Math.abs(BR.getCurrentPosition() + BR.getTargetPosition()))))) {
-            autonDrive(movementEnum.STOP, 0);
+        if (this.FL.getCurrentPosition() != 0
+                || this.FR.getCurrentPosition() != 0
+                || this.BL.getCurrentPosition() != 0
+                || this.BR.getCurrentPosition() != 0) {
+            this.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            this.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            encoderReset();
+            tele.addLine("Reset Not Successful");
             tele.update();
+        } else {
             this.command++;
         }
     }

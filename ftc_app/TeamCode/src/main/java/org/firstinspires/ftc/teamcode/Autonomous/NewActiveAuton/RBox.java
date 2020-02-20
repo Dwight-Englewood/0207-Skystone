@@ -68,12 +68,16 @@ public class RBox extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
+                robot.encoderReset();
+                break;
+
+            case 1:
                 if (detector.leftBlock) { //LEFT
-         //           robot.command = 4;
+                    robot.command = 4;
                 } else if (detector.rightBlock) { //RIGHT
-         //           robot.command = 103;
+                    robot.command = 103;
                 } else if (detector.middleBlock) { //MIDDLE
-        //            robot.command = 1001;
+                    robot.command = 1001;
                 }
                 break;
 
