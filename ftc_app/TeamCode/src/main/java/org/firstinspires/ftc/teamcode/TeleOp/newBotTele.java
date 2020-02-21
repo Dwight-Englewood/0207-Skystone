@@ -34,11 +34,10 @@ public class newBotTele extends OpMode {
                 gamepad1.left_trigger * speed,
                 gamepad1.right_trigger * speed);
 
-        robot.liftL.setPower(gamepad2.right_stick_y);
-        robot.liftR.setPower(gamepad2.right_stick_y);
+        robot.lift.setPower(gamepad2.right_stick_y);
 
         robot.intakeL.setPower(gamepad2.left_stick_y);
-        robot.intakeR.setPower(gamepad2.left_stick_y);
+        robot.intakeR.setPower(-gamepad2.left_stick_y);
 
         if (gamepad1.b) {
             speed = 0.5;
@@ -48,7 +47,43 @@ public class newBotTele extends OpMode {
             speed = -1;
         }
         telemetry.addData("Speed", speed);
+
+        /*if (gamepad2.x){
+            robot.foundationLeft.setPosition(1);
+            robot.foundationRight.setPosition(1);
+        } else {
+            robot.foundationLeft.setPosition(0);
+            robot.foundationRight.setPosition(0);
+        }
+
+        if (gamepad2.dpad_up){
+            robot.hinge.setPosition(1);
+            robot.spinner.setPosition(1);
+            robot.grabber.setPosition(1);
+
+        } else if (gamepad2.dpad_down){
+            robot.hinge.setPosition(0);
+            robot.spinner.setPosition(0);
+            robot.grabber.setPosition(0);
+        }
+
+        if (gamepad2.dpad_right){
+            robot.leftBlue.setPosition(1);
+            robot.leftPurp.setPosition(1);
+            robot.rightBlue.setPosition(1);
+            robot.rightPurp.setPosition(1);
+
+        } else if (gamepad2.dpad_left){
+            robot.leftBlue.setPosition(0);
+            robot.leftPurp.setPosition(0);
+            robot.rightBlue.setPosition(0);
+            robot.rightPurp.setPosition(0);
+        }
+
+         */
     }
+
+
 
     /*
      * Code to run ONCE after the driver hits STOP

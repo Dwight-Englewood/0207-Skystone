@@ -35,6 +35,8 @@ public class NewAutonMethods {
     final double kdVal = 0.0007;
     private double error, errorI, errorD;
 
+    final double theoryVal = 0.0003;
+
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
 
@@ -84,6 +86,44 @@ public class NewAutonMethods {
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.openServoAuton();
+    }
+
+    public void initNew(HardwareMap map, Telemetry tele) {
+        this.map = map;
+
+        BR = this.map.get(DcMotor.class, "BR");
+        BL = this.map.get(DcMotor.class, "BL");
+        FL = this.map.get(DcMotor.class, "FL");
+        FR = this.map.get(DcMotor.class, "FR");
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        lift = this.map.get(DcMotor.class, "lift");
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        intakeL = this.map.get(DcMotor.class, "intakeL");
+        intakeL.setDirection((DcMotorSimple.Direction.REVERSE));
+
+        intakeR = this.map.get(DcMotor.class, "intakeR");
+        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+
+        /*foundationLeft = this.map.get(Servo.class, "fleft");
+        foundationRight = this.map.get(Servo.class, "fright");
+
+        leftBlue = this.map.get(Servo.class, "leftBlue");
+        leftPurp = this.map.get(Servo.class, "leftPurp");
+        rightBlue = this.map.get(Servo.class, "rightBlue");
+        rightPurp = this.map.get(Servo.class, "rightPurp");
+
+        hinge = this.map.get(Servo.class, "hinge");
+        spinner = this.map.get(Servo.class, "spinner");
+        grabber = this.map.get(Servo.class, "grabber");
+
+         */
+
+        this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void initGyro(){
@@ -312,11 +352,11 @@ public class NewAutonMethods {
             driveScale = .5;
         else {
             driveScale = 0;
-            this.drive(Movement.RIGHTTURN, driveScale * 1.2);
+            this.drive(Movement.RIGHTTURN, driveScale * 1.1);
 
             return true;
         }
-        this.drive(Movement.RIGHTTURN, driveScale * 1.2);
+        this.drive(Movement.RIGHTTURN, driveScale * 1.1);
         return false;
     }
     //Positive is left turn, negative is right turn.
@@ -361,21 +401,23 @@ public class NewAutonMethods {
         } else {
             this.autonDrive(movementEnum, cmDistance(target));
         }
-        this.drive(scalePower());
+        percentagePower();
 
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
+                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
+            autonDrive(movementEnum.STOP, 0);
 
-        if (this.FL.getCurrentPosition() != 0
-                || this.FR.getCurrentPosition() != 0
-                || this.BL.getCurrentPosition() != 0
-                || this.BR.getCurrentPosition() != 0) {
-            this.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            this.intakeR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            encoderReset();
-            tele.addLine("Reset Not Successful");
-            tele.update();
-        } else {
-            this.command++;
+            if (this.FL.getCurrentPosition() != 0
+                    || this.FR.getCurrentPosition() != 0
+                    || this.BL.getCurrentPosition() != 0
+                    || this.BR.getCurrentPosition() != 0) {
+                encoderReset();
+                tele.addLine("Reset Not Successful");
+                tele.update();
+            } else {
+                this.command++;
+            }
         }
     }
 
@@ -476,36 +518,36 @@ public class NewAutonMethods {
             if (pointToOriginFL == 0) { //Startpoint
                 power = 0.1;
             } else if (this.error - pointToOriginFL < 0.5 * totalDistanceFL) { //Quarter to Midpoint
-                power = (this.error * kpVal);
+                power = (this.error * theoryVal);
                 if (Math.abs(this.error - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.4 to 0.5 point
                     power = 1;
                 }
             } else if (this.error - pointToOriginFL > 0.2 * totalDistanceFL) { // Startpoint to 0.4
-                power = (pointToOriginFL * kpVal);
+                power = (pointToOriginFL * theoryVal);
                 if (power < .25) {
                     power = .25;
                 } else {
-                    power = (pointToOriginFL * kpVal);
+                    power = (pointToOriginFL * theoryVal);
                 }
             }
         } else if (pointToOriginFL > this.error) { //Midpoint to Endpoint
             if (pointToOriginFL - this.error < 0.5 * totalDistanceFL) { //Midpoint to Three Quarter
-                power = (this.error * kpVal);
+                power = (this.error * theoryVal);
                 if (Math.abs(this.error - pointToOriginFL) < 0.2 * totalDistanceFL) { // 0.5 to 0.6 point
                     power = 1;
                 }
             } else if (Math.abs(this.error - pointToOriginFL) > 0.2 * totalDistanceFL) { //0.6 to final
-                power = (this.error * kpVal);
+                power = (this.error * theoryVal);
                 if (power > .25) {
                     power = .25;
                 } else {
-                    power = (pointToOriginFL * kpVal);
+                    power = (pointToOriginFL * theoryVal);
                     if (power > .25) {
                         power = .25;
                     }
                 }
             } else {
-                power = (this.error * kpVal);
+                power = (this.error * theoryVal);
             }
         } else {
             power = .6;

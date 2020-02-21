@@ -7,10 +7,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class
 DeuxBoot{
     public DcMotor
-            BL, BR, FL, FR, lift, liftL, liftR, intakeL, intakeR;
+            BL, BR, FL, FR, lift, intakeL, intakeR;
 
     public Servo
-            closer, hinger, foundationLeft, foundationRight;
+            closer, hinger, foundationLeft, foundationRight,
+            leftBlue, leftPurp, rightBlue, rightPurp, hinge, spinner, grabber;
 
     HardwareMap map;
     Telemetry tele;
@@ -51,8 +52,8 @@ DeuxBoot{
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         closer.setPosition(1);
+        this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void initNew(HardwareMap map) {
@@ -62,28 +63,36 @@ DeuxBoot{
         BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
-
-        liftL = this.map.get(DcMotor.class, "liftL");
-        liftR = this.map.get(DcMotor.class, "liftR");
-
-        liftL.setDirection(DcMotorSimple.Direction.REVERSE);
-        liftR.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        intakeL = this.map.get(DcMotor.class, "intakeL");
-        intakeR = this.map.get(DcMotor.class, "intakeR");
-
-        intakeL.setDirection((DcMotorSimple.Direction.REVERSE));
-        intakeR.setDirection((DcMotorSimple.Direction.FORWARD));
-
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        lift = this.map.get(DcMotor.class, "lift");
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        intakeL = this.map.get(DcMotor.class, "intakeL");
+        intakeL.setDirection((DcMotorSimple.Direction.REVERSE));
+
+        intakeR = this.map.get(DcMotor.class, "intakeR");
+        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+
+        /*foundationLeft = this.map.get(Servo.class, "fleft");
+        foundationRight = this.map.get(Servo.class, "fright");
+
+        leftBlue = this.map.get(Servo.class, "leftBlue");
+        leftPurp = this.map.get(Servo.class, "leftPurp");
+        rightBlue = this.map.get(Servo.class, "rightBlue");
+        rightPurp = this.map.get(Servo.class, "rightPurp");
+
+        hinge = this.map.get(Servo.class, "hinge");
+        spinner = this.map.get(Servo.class, "spinner");
+        grabber = this.map.get(Servo.class, "grabber");
+
+         */
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-
-
 
     /**
      *
