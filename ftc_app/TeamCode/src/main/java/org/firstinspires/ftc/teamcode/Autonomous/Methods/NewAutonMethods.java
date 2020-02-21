@@ -36,6 +36,8 @@ public class NewAutonMethods {
     private double error, errorI, errorD;
 
     final double theoryVal = 0.0003;
+    final double lowerBound = 0.235;
+    final double upperBound = 0.85;
 
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
@@ -352,11 +354,11 @@ public class NewAutonMethods {
             driveScale = .5;
         else {
             driveScale = 0;
-            this.drive(Movement.RIGHTTURN, driveScale * 1.1);
+            this.drive(Movement.RIGHTTURN, driveScale * 1.05);
 
             return true;
         }
-        this.drive(Movement.RIGHTTURN, driveScale * 1.1);
+        this.drive(Movement.RIGHTTURN, driveScale * 1.05);
         return false;
     }
     //Positive is left turn, negative is right turn.
@@ -404,8 +406,8 @@ public class NewAutonMethods {
         percentagePower();
 
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
-                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.07 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
+                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.07 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
             autonDrive(movementEnum.STOP, 0);
 
             if (this.FL.getCurrentPosition() != 0
@@ -524,8 +526,8 @@ public class NewAutonMethods {
                 }
             } else if (this.error - pointToOriginFL > 0.2 * totalDistanceFL) { // Startpoint to 0.4
                 power = (pointToOriginFL * theoryVal);
-                if (power < .25) {
-                    power = .25;
+                if (power < lowerBound) {
+                    power = lowerBound;
                 } else {
                     power = (pointToOriginFL * theoryVal);
                 }
@@ -538,19 +540,19 @@ public class NewAutonMethods {
                 }
             } else if (Math.abs(this.error - pointToOriginFL) > 0.2 * totalDistanceFL) { //0.6 to final
                 power = (this.error * theoryVal);
-                if (power > .25) {
-                    power = .25;
+                if (power > lowerBound) {
+                    power = lowerBound;
                 } else {
                     power = (pointToOriginFL * theoryVal);
-                    if (power > .25) {
-                        power = .25;
+                    if (power > lowerBound) {
+                        power = lowerBound;
                     }
                 }
             } else {
                 power = (this.error * theoryVal);
             }
         } else {
-            power = .6;
+            power = upperBound;
         }
 
         tele.addData("error", this.error);

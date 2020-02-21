@@ -6,12 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "timerTest", group = "Autonomous")
+@Autonomous(name = "TimerProgram", group = "Autonomous")
 public class timerTest extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
-        robot.initNew(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
+        robot.init(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
     }
 
     /*
@@ -36,7 +36,7 @@ public class timerTest extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.intakeL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.intakeL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 robot.command++;
                 break;
 
