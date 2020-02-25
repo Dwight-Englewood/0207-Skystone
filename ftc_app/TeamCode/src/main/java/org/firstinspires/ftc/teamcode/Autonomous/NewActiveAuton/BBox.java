@@ -82,7 +82,7 @@ public class BBox extends OpMode {
                 break;
 
             case 4:
-                robot.runWithIntake(Movement.FORWARD, 20*6,.8);
+                robot.runWithIntake(Movement.FORWARD, 20*6,.5);
                 break;
 
             case 5:
@@ -104,8 +104,8 @@ public class BBox extends OpMode {
                 break;
 
             case 9:
-                robot.intakeL.setPower(-.8);
-                robot.intakeR.setPower(-.8);
+                robot.intakeL.setPower(-0.8);
+                robot.intakeR.setPower(-0.8);
                 robot.gyroTurn(88);
                 break;
 

@@ -52,6 +52,15 @@ DeuxBoot{
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         closer.setPosition(1);
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
@@ -67,15 +76,22 @@ DeuxBoot{
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lift = this.map.get(DcMotor.class, "lift");
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeL = this.map.get(DcMotor.class, "intakeL");
         intakeL.setDirection((DcMotorSimple.Direction.REVERSE));
+        intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeR = this.map.get(DcMotor.class, "intakeR");
         intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");

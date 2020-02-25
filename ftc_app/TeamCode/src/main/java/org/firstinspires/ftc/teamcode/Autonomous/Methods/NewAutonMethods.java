@@ -28,12 +28,13 @@ public class NewAutonMethods {
 
     public int command;
     public int origin;
+    private int originTick;
 
     public double power, lastError;
     final double kpVal = 0.000305;
     final double kiVal = 0.000007;
     final double kdVal = 0.0007;
-    private double error, errorI, errorD;
+    private double error = 0, errorI = 0, errorD = 0;
 
     final double theoryVal = 0.0003;
     final double lowerBound = 0.235;
@@ -81,10 +82,14 @@ public class NewAutonMethods {
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        this.FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.openServoAuton();
@@ -101,15 +106,22 @@ public class NewAutonMethods {
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lift = this.map.get(DcMotor.class, "lift");
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeL = this.map.get(DcMotor.class, "intakeL");
         intakeL.setDirection((DcMotorSimple.Direction.REVERSE));
+        intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeR = this.map.get(DcMotor.class, "intakeR");
         intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
@@ -373,10 +385,10 @@ public class NewAutonMethods {
         } else {
             this.autonDrive(movementEnum, cmDistance(target));
         }
-        percentagePower();
+        this.robinPower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.05 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
-                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.05 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.07 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
+                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.07 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
             autonDrive(movementEnum.STOP, 0);
             this.lastError = this.error;
             this.errorI = 0;
@@ -403,7 +415,7 @@ public class NewAutonMethods {
         } else {
             this.autonDrive(movementEnum, cmDistance(target));
         }
-        percentagePower();
+        this.robinPower();
 
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.07 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
@@ -442,7 +454,6 @@ public class NewAutonMethods {
 
     public void runtimeReset(){ this.runtime.reset();
     }
-
 
     public void closeHingeAuton() {
         this.hinger.setPosition(0);
@@ -596,6 +607,36 @@ public class NewAutonMethods {
         this.errorI = 0;
         this.errorD = 0;
         this.lastError = 0;
+    }
+
+    public void robinPower() {
+        double power;
+        int tartar = FL.getTargetPosition();
+        int curcur = FL.getCurrentPosition();
+        int diff = Math.abs(tartar - curcur);
+        int originDiff = Math.abs(this.originTick - curcur);
+
+        if (originDiff < 75) {
+            power = .1;
+        } else if (originDiff < 250) {
+            power = .3;
+        } else if (originDiff < 400) {
+            power = .5;
+        } else {
+            power = 1;
+        }
+
+        if (diff < 100) {
+            power = .1;
+        } else if (diff < 300) {
+            power = .3;
+        } else if (diff < 500) {
+            power = .5;
+        } else if (diff < 750) {
+            power = .7;
+        }
+
+        this.drive(power);
     }
 
 /*
