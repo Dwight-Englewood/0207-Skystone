@@ -519,7 +519,7 @@ public class NewAutonMethods {
         this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void percentagePower() {
+    /*public void percentagePower() {
         int target = FL.getTargetPosition();
         int current = FL.getCurrentPosition();
         this.error = Math.abs(cmDistance(target - current)); //Distance from current position to end position
@@ -602,6 +602,8 @@ public class NewAutonMethods {
         return (Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1));
     }
 
+     */
+
     public void PIDreset() {
         this.error = 0;
         this.errorI = 0;
@@ -621,9 +623,9 @@ public class NewAutonMethods {
         } else if (originDiff < 250) {
             power = .3;
         } else if (originDiff < 400) {
-            power = .5;
+            power = .45;
         } else {
-            power = 1;
+            power = .65;
         }
 
         if (diff < 100) {
@@ -631,9 +633,9 @@ public class NewAutonMethods {
         } else if (diff < 300) {
             power = .3;
         } else if (diff < 500) {
-            power = .5;
+            power = .45;
         } else if (diff < 750) {
-            power = .7;
+            power = .65;
         }
 
         this.drive(power);

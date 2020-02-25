@@ -92,10 +92,6 @@ public class BlueFound extends OpMode {
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("FL Power", robot.FL.getPower());
-        telemetry.addData("FL cur", robot.FL.getCurrentPosition());
-        telemetry.addData("BR Power", robot.BR.getPower());
-        telemetry.addData("BR cur", robot.BR.getCurrentPosition());
         telemetry.update();
     }
 }
