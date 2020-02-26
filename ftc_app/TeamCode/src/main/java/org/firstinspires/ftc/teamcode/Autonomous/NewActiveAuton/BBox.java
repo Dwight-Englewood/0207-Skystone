@@ -11,8 +11,6 @@ public class BBox extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
 
-    int block;
-
     public void init() {
         robot.init(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
 
@@ -27,8 +25,10 @@ public class BBox extends OpMode {
             public void run() {
                 detector.init(hardwareMap, telemetry);
                 detector.isInit();// whatever ur vision init method is
+                //        detector.start();
             }
         }.start();
+        robot.runtime.reset();
     }
 
     /*
@@ -40,17 +40,10 @@ public class BBox extends OpMode {
         if (robot.runtime.milliseconds() >= 5000){
             detector.resetValues();
             robot.runtime.reset();
-            telemetry.addData("Left:", detector.left);
-            telemetry.addData("Right:", detector.right);
-            telemetry.addData("Middle:", detector.middle);
-            telemetry.addData("Invisible:", detector.notvis);
-            telemetry.update();
         }
-        telemetry.addData("Left:", detector.left);
-        telemetry.addData("Right:", detector.right);
-        telemetry.addData("Middle:", detector.middle);
-        telemetry.addData("Invisible:", detector.notvis);
-        telemetry.update();
+        telemetry.addData("rightConf", detector.rightConf);
+        telemetry.addData("midConf", detector.midConf);
+        telemetry.addData("leftConf", detector.leftConf);
     }
 
     /*
@@ -59,7 +52,7 @@ public class BBox extends OpMode {
     @Override
     public void start() {
         detector.blockFinder();
-        robot.runtimeReset();
+        robot.runtime.reset();
     }
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
@@ -73,76 +66,132 @@ public class BBox extends OpMode {
 
             case 1:
                 if (detector.leftBlock) { //LEFT
-                    robot.command = 103;
-                } else if (detector.rightBlock) { //RIGHT
                     robot.command = 4;
+                } else if (detector.rightBlock) { //RIGHT
+                    robot.command = 101;
                 } else if (detector.middleBlock) { //MIDDLE
-                    robot.command = 1003;
+                    robot.command = 1001;
                 }
                 break;
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             case 4:
-                robot.runWithIntake(Movement.FORWARD, 20*6,.5);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 25);
                 break;
 
             case 5:
-                if (robot.runtime.milliseconds() > 1000) {
-                    robot.encoderReset();
-                }
+                robot.runToTarget(Movement.FORWARD, 17);
                 break;
 
             case 6:
-                robot.runToTarget(Movement.BACKWARD, 30*1.5);
+                robot.gyroTurn(90);
                 break;
 
             case 7:
-                robot.gyroTurn(90);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 105);
                 break;
 
             case 8:
-                robot.runToTarget(Movement.FORWARD, 100);
+                robot.runWithIntake(Movement.FORWARD, 17,.7);
                 break;
 
             case 9:
-                robot.intakeL.setPower(-0.8);
-                robot.intakeR.setPower(-0.8);
-                robot.gyroTurn(88);
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                robot.encoderReset();
                 break;
 
             case 10:
-                robot.intakeL.setPower(0);
-                robot.intakeR.setPower(0);
-                if (robot.runtime.milliseconds() > 1000) {
-                    robot.encoderReset();
-                }
+                robot.runToTarget(Movement.LEFTSTRAFE, 70);
                 break;
 
             case 11:
-                robot.gyroTurn(188);
+                robot.runToTarget(Movement.FORWARD, 170);
                 break;
 
             case 12:
-                robot.runToTarget(Movement.FORWARD, 100);
+                robot.gyroTurn(0);
                 break;
 
+            case 13:
+                robot.runWithIntake(Movement.RIGHTSTRAFE, 10, -1);
+                break;
+
+            case 14:
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                robot.encoderReset();
+                break;
+
+            case 15:
+                robot.runToTarget(Movement.RIGHTSTRAFE,195);
+                break;
+
+            case 16:
+                robot.gyroTurn(-90);
+                break;
+
+            case 17:
+                robot.runToTarget(Movement.LEFTSTRAFE, 70);
+                break;
+
+            case 18:
+                robot.gyroTurn(-45);
+                break;
+
+            case 19:
+                robot.runWithIntake(Movement.FORWARD, 17,.7);
+                break;
+
+            case 20:
+                robot.encoderReset();
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                break;
+
+            case 21:
+                robot.gyroTurn(-90);
+                break;
+
+            case 22:
+                robot.runToTarget(Movement.RIGHTSTRAFE,60);
+                break;
+
+            case 23:
+                robot.runToTarget(Movement.BACKWARD, 170);
+                break;
+
+            case 24:
+                robot.gyroTurn(0);
+                break;
+
+            case 25:
+                robot.runWithIntake(Movement.RIGHTSTRAFE, 60, -1);
+                break;
+
+            case 26:
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                robot.encoderReset();
+                break;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             case 101:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 12);
+                robot.runToTarget(Movement.LEFTSTRAFE, 18.5);
                 break;
 
             case 102:
-                robot.runToTarget(Movement.FORWARD, 20);
+                robot.runToTarget(Movement.FORWARD, 15);
                 break;
 
             case 103:
-                robot.gyroTurn(90);
+                robot.gyroTurn(-90);
                 break;
 
             case 104:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 125);
+                robot.runToTarget(Movement.LEFTSTRAFE, 105);
                 break;
 
             case 105:
-                robot.runWithIntake(Movement.FORWARD, 12,.4);
+                robot.runWithIntake(Movement.FORWARD, 17,.7);
                 break;
 
             case 106:
@@ -152,7 +201,7 @@ public class BBox extends OpMode {
                 break;
 
             case 107:
-                robot.runToTarget(Movement.LEFTSTRAFE, 50);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 75);
                 break;
 
             case 108:
@@ -164,7 +213,7 @@ public class BBox extends OpMode {
                 break;
 
             case 110:
-                robot.runWithIntake(Movement.LEFTSTRAFE, 10, -1);
+                robot.runWithIntake(Movement.RIGHTSTRAFE, 10, -1);
                 break;
 
             case 111:
@@ -174,19 +223,19 @@ public class BBox extends OpMode {
                 break;
 
             case 112:
-                robot.runToTarget(Movement.LEFTSTRAFE,225);
+                robot.runToTarget(Movement.RIGHTSTRAFE,200);
                 break;
 
             case 113:
-                robot.gyroTurn(90);
+                robot.gyroTurn(-90);
                 break;
 
             case 114:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 100);
+                robot.runToTarget(Movement.LEFTSTRAFE, 70);
                 break;
 
             case 115:
-                robot.runWithIntake(Movement.FORWARD, 20,.4);
+                robot.runWithIntake(Movement.FORWARD, 17,7);
                 break;
 
             case 116:
@@ -196,11 +245,11 @@ public class BBox extends OpMode {
                 break;
 
             case 117:
-                robot.runToTarget(Movement.LEFTSTRAFE,60);
+                robot.runToTarget(Movement.RIGHTSTRAFE,50);
                 break;
 
             case 118:
-                robot.runToTarget(Movement.BACKWARD, 220);
+                robot.runToTarget(Movement.BACKWARD, 230);
                 break;
 
             case 119:
@@ -208,7 +257,7 @@ public class BBox extends OpMode {
                 break;
 
             case 120:
-                robot.runWithIntake(Movement.LEFTSTRAFE, 40, -1);
+                robot.runWithIntake(Movement.RIGHTSTRAFE, 60, -1);
                 break;
 
             case 121:
@@ -216,100 +265,103 @@ public class BBox extends OpMode {
                 robot.intakeR.setPower(0);
                 robot.encoderReset();
                 break;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            case 1001:
+                robot.runToTarget(Movement.LEFTSTRAFE, 40);
+                break;
 
-            case 1003:
+            case 1002:
                 robot.runToTarget(Movement.FORWARD, 15);
                 break;
 
+            case 1003:
+                robot.gyroTurn(-90);
+                break;
+
             case 1004:
-                robot.gyroTurn(90);
+                robot.runToTarget(Movement.LEFTSTRAFE, 105);
                 break;
 
             case 1005:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 125);
+                robot.runWithIntake(Movement.FORWARD, 17,.7);
                 break;
 
             case 1006:
-                robot.runWithIntake(Movement.FORWARD, 18,.4);
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                robot.encoderReset();
                 break;
 
             case 1007:
-                robot.intakeL.setPower(0);
-                robot.intakeR.setPower(0);
-                robot.encoderReset();
+                robot.runToTarget(Movement.RIGHTSTRAFE, 65);
                 break;
 
             case 1008:
-                robot.runToTarget(Movement.LEFTSTRAFE, 50);
-                break;
-
-            case 1009:
                 robot.runToTarget(Movement.BACKWARD, 150);
                 break;
 
-            case 1010:
+            case 1009:
                 robot.gyroTurn(0);
+                break;
+
+            case 1010:
+                robot.runWithIntake(Movement.RIGHTSTRAFE, 10, -1);
                 break;
 
             case 1011:
-                robot.runWithIntake(Movement.LEFTSTRAFE, 10, -1);
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                robot.encoderReset();
                 break;
 
             case 1012:
-                robot.intakeL.setPower(0);
-                robot.intakeR.setPower(0);
-                robot.encoderReset();
+                robot.runToTarget(Movement.RIGHTSTRAFE,205);
                 break;
 
             case 1013:
-                robot.runToTarget(Movement.LEFTSTRAFE,230);
+                robot.gyroTurn(-90);
                 break;
 
             case 1014:
-                robot.gyroTurn(90);
+                robot.runToTarget(Movement.LEFTSTRAFE, 72.5);
                 break;
 
             case 1015:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 80);
+                robot.runWithIntake(Movement.FORWARD, 17,.7);
                 break;
 
             case 1016:
-                robot.runWithIntake(Movement.FORWARD, 20,.4);
-                break;
-
-            case 1017:
                 robot.encoderReset();
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
                 break;
 
-            case 1018:
-                robot.runToTarget(Movement.LEFTSTRAFE,50);
+            case 1017:
+                robot.runToTarget(Movement.RIGHTSTRAFE,60);
                 break;
 
-            case 1019:
+            case 1018:
                 robot.runToTarget(Movement.BACKWARD, 220);
                 break;
 
-            case 1020:
+            case 1019:
                 robot.gyroTurn(0);
                 break;
 
-            case 1021:
-                robot.runWithIntake(Movement.LEFTSTRAFE, 40, -1);
+            case 1020:
+                robot.runWithIntake(Movement.RIGHTSTRAFE, 70, -1);
                 break;
 
-            case 1022:
+            case 1021:
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
                 robot.encoderReset();
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("right", detector.right);
-        telemetry.addData("middle", detector.middle);
-        telemetry.addData("left", detector.left);
-        telemetry.addData("block", block);
+        telemetry.addData("rightConf", detector.rightConf);
+        telemetry.addData("midConf", detector.midConf);
+        telemetry.addData("leftConf", detector.leftConf);
         telemetry.update();
     }
 }

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Hardware.DeuxBoot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Old Bot Tele-op",group="TeleOp")
-public class FlywheelsTele extends OpMode {
+public class oldTeleOp extends OpMode {
     DeuxBoot robot = new DeuxBoot();
     double speed;
     boolean buttonAheld = false;

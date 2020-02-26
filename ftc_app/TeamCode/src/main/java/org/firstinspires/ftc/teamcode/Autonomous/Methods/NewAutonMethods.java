@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.util.Range;
 
 public class NewAutonMethods {
     public DcMotor
-            BL, BR, FL, FR, lift, intakeL, intakeR;
+            BL, BR, FL, FR, lift, intakeL, intakeR, tape;
 
     public static Servo
             closer, hinger, foundationLeft, foundationRight;
@@ -387,8 +387,8 @@ public class NewAutonMethods {
         }
         this.robinPower();
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.07 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
-                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.07 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.075 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
+                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.075 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
             autonDrive(movementEnum.STOP, 0);
             this.lastError = this.error;
             this.errorI = 0;
@@ -418,8 +418,8 @@ public class NewAutonMethods {
         this.robinPower();
 
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.07 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
-                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.07 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.075 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
+                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.075 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
             autonDrive(movementEnum.STOP, 0);
 
             if (this.FL.getCurrentPosition() != 0
@@ -479,23 +479,6 @@ public class NewAutonMethods {
     public void closeServoAuton() {
         this.foundationLeft.setPosition(0.57); //0.55 //right
         this.foundationRight.setPosition(0.32); //0.35 //left
-    }
-
-    public void intakeAuton(int target, double power) {
-        this.intakeL.setTargetPosition(cmDistance(target));
-        this.intakeR.setTargetPosition(cmDistance(target));
-
-        this.intakeL.setPower(power);
-        this.intakeR.setPower(power);
-
-        this.intakeL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        this.intakeR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if ((Math.abs(this.intakeL.getCurrentPosition() - this.intakeL.getTargetPosition()) < 5) || (Math.abs(this.intakeR.getCurrentPosition() - this.intakeR.getTargetPosition()) < 5)) {
-            this.intakeL.setPower(0);
-            this.intakeR.setPower(0);
-            this.command++;
-        }
     }
 
     public void lowerLift(double height) {
@@ -619,29 +602,29 @@ public class NewAutonMethods {
         int originDiff = Math.abs(this.originTick - curcur);
 
         if (originDiff < 75) {
-            power = .1;
+            power = .12;
         } else if (originDiff < 250) {
             power = .3;
         } else if (originDiff < 400) {
-            power = .45;
+            power = .4;
         } else {
-            power = .65;
+            power = .7;
         }
 
         if (diff < 100) {
-            power = .1;
+            power = .12;
         } else if (diff < 300) {
             power = .3;
         } else if (diff < 500) {
-            power = .45;
+            power = .4;
         } else if (diff < 750) {
-            power = .65;
+            power = .7;
         }
 
         this.drive(power);
     }
 
-/*
+
     public void tapeExtend(int target, double power) {
         this.tape.setTargetPosition(target);
         this.tape.setPower(power);
@@ -649,9 +632,15 @@ public class NewAutonMethods {
 
         if ((Math.abs(this.tape.getCurrentPosition() - this.tape.getTargetPosition()) < 25)) {
             this.tape.setPower(0);
-            this.command++;
+            if (this.tape.getCurrentPosition() != 0) {
+                this.tape.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                tele.addLine("Reset Not Successful");
+                tele.update();
+            } else {
+                this.command++;
+            }
         }
- */
+    }
 
     public void gyroTurn(int turn) {
         if (Math.abs(turn - this.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle) > 10) {

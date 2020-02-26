@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Hardware.DeuxBoot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="New Tele-Op",group="TeleOp")
-public class newBotTele extends OpMode {
+public class newTeleOp extends OpMode {
     DeuxBoot robot = new DeuxBoot();
     double speed;
 

@@ -1,18 +1,19 @@
-package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
+package org.firstinspires.ftc.teamcode.Autonomous.StatesAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "RBox", group = "Autonomous")
-public class RBox extends OpMode {
+@Autonomous(name = "BBox New", group = "Autonomous")
+public class BBoxNew extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
 
     public void init() {
-        robot.init(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
+        robot.initNew(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
 
         new Thread()  {
             public void run() {
@@ -25,7 +26,7 @@ public class RBox extends OpMode {
             public void run() {
                 detector.init(hardwareMap, telemetry);
                 detector.isInit();// whatever ur vision init method is
-        //        detector.start();
+                //        detector.start();
             }
         }.start();
         robot.runtime.reset();
@@ -36,7 +37,7 @@ public class RBox extends OpMode {
      */
     @Override
     public void init_loop() {
-        detector.detectionLoopRed();
+        detector.detectionLoopBlue();
         if (robot.runtime.milliseconds() >= 5000){
             detector.resetValues();
             robot.runtime.reset();

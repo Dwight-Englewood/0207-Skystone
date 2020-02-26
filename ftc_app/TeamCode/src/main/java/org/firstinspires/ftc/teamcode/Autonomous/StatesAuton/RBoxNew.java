@@ -1,18 +1,19 @@
-package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
+package org.firstinspires.ftc.teamcode.Autonomous.StatesAuton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "RBox", group = "Autonomous")
-public class RBox extends OpMode {
+@Autonomous(name = "RBox New", group = "Autonomous")
+public class RBoxNew extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
 
     public void init() {
-        robot.init(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
+        robot.initNew(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
 
         new Thread()  {
             public void run() {
