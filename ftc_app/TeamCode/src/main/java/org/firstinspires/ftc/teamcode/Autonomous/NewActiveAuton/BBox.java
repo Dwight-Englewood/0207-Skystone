@@ -48,6 +48,7 @@ public class BBox extends OpMode {
 
     /*
      * Code to run ONCE when the driver hits PLAY
+     *
      */
     @Override
     public void start() {
@@ -66,16 +67,16 @@ public class BBox extends OpMode {
 
             case 1:
                 if (detector.leftBlock) { //LEFT
-                    robot.command = 4;
-                } else if (detector.rightBlock) { //RIGHT
                     robot.command = 101;
+                } else if (detector.rightBlock) { //RIGHT
+                    robot.command = 4;
                 } else if (detector.middleBlock) { //MIDDLE
                     robot.command = 1001;
                 }
                 break;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             case 4:
-                robot.runToTarget(Movement.RIGHTSTRAFE, 25);
+                robot.runToTarget(Movement.RIGHTSTRAFE, 20);
                 break;
 
             case 5:
@@ -105,7 +106,7 @@ public class BBox extends OpMode {
                 break;
 
             case 11:
-                robot.runToTarget(Movement.FORWARD, 170);
+                robot.runToTarget(Movement.FORWARD, 140);
                 break;
 
             case 12:
@@ -123,52 +124,36 @@ public class BBox extends OpMode {
                 break;
 
             case 15:
-                robot.runToTarget(Movement.RIGHTSTRAFE,195);
+                robot.runToTarget(Movement.RIGHTSTRAFE,190);
                 break;
 
             case 16:
-                robot.gyroTurn(-90);
+                robot.runWithIntake(Movement.FORWARD, 110,.85);
                 break;
 
             case 17:
-                robot.runToTarget(Movement.LEFTSTRAFE, 70);
-                break;
-
-            case 18:
-                robot.gyroTurn(-45);
-                break;
-
-            case 19:
-                robot.runWithIntake(Movement.FORWARD, 17,.7);
-                break;
-
-            case 20:
                 robot.encoderReset();
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
                 break;
 
-            case 21:
-                robot.gyroTurn(-90);
+            case 18:
+                robot.runToTarget(Movement.BACKWARD,80);
                 break;
 
-            case 22:
-                robot.runToTarget(Movement.RIGHTSTRAFE,60);
+            case 19:
+                robot.runToTarget(Movement.LEFTSTRAFE, 210);
                 break;
 
-            case 23:
-                robot.runToTarget(Movement.BACKWARD, 170);
-                break;
-
-            case 24:
-                robot.gyroTurn(0);
-                break;
-
-            case 25:
+            case 20:
                 robot.runWithIntake(Movement.RIGHTSTRAFE, 60, -1);
                 break;
 
-            case 26:
+            case 21:
+                robot.runToTarget(Movement.FORWARD, 20);
+                break;
+
+            case 22:
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
                 robot.encoderReset();
@@ -191,7 +176,7 @@ public class BBox extends OpMode {
                 break;
 
             case 105:
-                robot.runWithIntake(Movement.FORWARD, 17,.7);
+                robot.runWithIntake(Movement.FORWARD, 19,.7);
                 break;
 
             case 106:
@@ -235,7 +220,7 @@ public class BBox extends OpMode {
                 break;
 
             case 115:
-                robot.runWithIntake(Movement.FORWARD, 17,7);
+                robot.runWithIntake(Movement.FORWARD, 19,.7);
                 break;
 
             case 116:
@@ -261,6 +246,10 @@ public class BBox extends OpMode {
                 break;
 
             case 121:
+                robot.runToTarget(Movement.FORWARD, 20);
+                break;
+
+            case 122:
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
                 robot.encoderReset();
@@ -297,7 +286,7 @@ public class BBox extends OpMode {
                 break;
 
             case 1008:
-                robot.runToTarget(Movement.BACKWARD, 150);
+                robot.runToTarget(Movement.BACKWARD, 140);
                 break;
 
             case 1009:
@@ -315,7 +304,7 @@ public class BBox extends OpMode {
                 break;
 
             case 1012:
-                robot.runToTarget(Movement.RIGHTSTRAFE,205);
+                robot.runToTarget(Movement.RIGHTSTRAFE,220);
                 break;
 
             case 1013:
@@ -353,15 +342,16 @@ public class BBox extends OpMode {
                 break;
 
             case 1021:
+                robot.runToTarget(Movement.FORWARD, 20);
+                break;
+
+            case 1022:
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
                 robot.encoderReset();
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("rightConf", detector.rightConf);
-        telemetry.addData("midConf", detector.midConf);
-        telemetry.addData("leftConf", detector.leftConf);
         telemetry.update();
     }
 }
