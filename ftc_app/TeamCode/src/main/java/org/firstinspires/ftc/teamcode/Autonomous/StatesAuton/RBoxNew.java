@@ -124,59 +124,47 @@ public class RBoxNew extends OpMode {
                 break;
 
             case 15:
-                robot.runToTarget(Movement.RIGHTSTRAFE,195);
+                robot.runToTarget(Movement.RIGHTSTRAFE,205);
                 break;
 
             case 16:
-                robot.gyroTurn(-90);
+                robot.runWithIntake(Movement.FORWARD, 30,.7);
                 break;
 
             case 17:
-                robot.runToTarget(Movement.LEFTSTRAFE, 70);
-                break;
-
-            case 18:
-                robot.gyroTurn(-45);
-                break;
-
-            case 19:
-                robot.runWithIntake(Movement.FORWARD, 17,.7);
-                break;
-
-            case 20:
                 robot.encoderReset();
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
                 break;
 
-            case 21:
+            case 18:
                 robot.gyroTurn(-90);
                 break;
 
-            case 22:
+            case 19:
                 robot.runToTarget(Movement.RIGHTSTRAFE,60);
                 break;
 
-            case 23:
+            case 20:
                 robot.runToTarget(Movement.BACKWARD, 170);
                 break;
 
-            case 24:
+            case 21:
                 robot.gyroTurn(0);
                 break;
 
-            case 25:
+            case 22:
                 robot.runWithIntake(Movement.RIGHTSTRAFE, 60, -1);
                 break;
 
-            case 26:
+            case 23:
                 robot.intakeL.setPower(0);
                 robot.intakeR.setPower(0);
                 robot.encoderReset();
                 break;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             case 101:
-                robot.runToTarget(Movement.LEFTSTRAFE, 18.5);
+                robot.runToTarget(Movement.LEFTSTRAFE, 16.5);
                 break;
 
             case 102:
@@ -224,7 +212,7 @@ public class RBoxNew extends OpMode {
                 break;
 
             case 112:
-                robot.runToTarget(Movement.RIGHTSTRAFE,200);
+                robot.runToTarget(Movement.RIGHTSTRAFE,215);
                 break;
 
             case 113:
@@ -232,7 +220,7 @@ public class RBoxNew extends OpMode {
                 break;
 
             case 114:
-                robot.runToTarget(Movement.LEFTSTRAFE, 70);
+                robot.runToTarget(Movement.LEFTSTRAFE, 80);
                 break;
 
             case 115:

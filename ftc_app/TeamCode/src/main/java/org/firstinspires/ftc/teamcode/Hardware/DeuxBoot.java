@@ -67,9 +67,9 @@ DeuxBoot{
         BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
-        BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         lift = this.map.get(DcMotor.class, "lift");
