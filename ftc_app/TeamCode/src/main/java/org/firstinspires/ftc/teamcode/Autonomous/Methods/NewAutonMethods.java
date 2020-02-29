@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.util.Range;
 
 public class NewAutonMethods {
     public DcMotor
-            BL, BR, FL, FR, lift, intakeL, intakeR, tape;
+            BL, BR, FL, FR, lift, intakeL, intakeR, tape, motor;
 
     public static Servo
             closer, hinger, foundationLeft, foundationRight;
@@ -30,11 +30,11 @@ public class NewAutonMethods {
     public int origin;
     private int originTick;
 
-    public double power, lastError;
-    final double kpVal = 0.000305;
-    final double kiVal = 0.000007;
-    final double kdVal = 0.0007;
-    private double error = 0, errorI = 0, errorD = 0;
+    double power, lastError;
+    final double kpVal = 0.00005;
+    final double kiVal = 0.0000004;
+    final double kdVal = 0.00025;
+    double error = 0, errorI = 0, errorD = 0;
 
     final double theoryVal = 0.0003;
     final double lowerBound = 0.235;
@@ -379,7 +379,7 @@ public class NewAutonMethods {
         return (target * 1.2);
     }
 
-    public void runToTarget(Movement movementEnum, double target) {
+    /*public void runToTarget(Movement movementEnum, double target) {
         if (strafe) {
             this.autonDrive(movementEnum, cmDistance(strafeVal(target)));
         } else {
@@ -434,6 +434,8 @@ public class NewAutonMethods {
             }
         }
     }
+
+     */
 
     public void encoderReset() {
         this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -563,6 +565,40 @@ public class NewAutonMethods {
         }
     }
 
+     */
+
+    /*public void robinPower() {
+        double power;
+        int tartar = FL.getTargetPosition();
+        int curcur = FL.getCurrentPosition();
+        int diff = Math.abs(tartar - curcur);
+        int originDiff = Math.abs(this.originTick - curcur);
+
+        if (originDiff < 75) {
+            power = .1;
+        } else if (originDiff < 250) {
+            power = .3;
+        } else if (originDiff < 400) {
+            power = .5;
+        } else {
+            power = 1;
+        }
+
+        if (diff < 100) {
+            power = .1;
+        } else if (diff < 300) {
+            power = .3;
+        } else if (diff < 500) {
+            power = .5;
+        } else if (diff < 825) {
+            power = .7;
+        }
+
+        this.drive(power);
+    }
+
+     */
+
     public double scalePower() {
         int target = cmDistance(FL.getTargetPosition());
         int current = cmDistance(FL.getCurrentPosition());
@@ -572,7 +608,7 @@ public class NewAutonMethods {
             current = cmDistance(FR.getCurrentPosition());
         }
 
-        if ((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal) >= 1) {
+        if ((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal) >= .85) {
             this.errorI += 0;
         } else {
             this.errorI = this.errorI + this.error;
@@ -585,45 +621,32 @@ public class NewAutonMethods {
         return (Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1));
     }
 
-     */
+    public void finishDrive(){
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.01 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition())) ||
+                Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 0.01 * (Math.abs(this.FR.getTargetPosition() + this.FR.getCurrentPosition()))) {
+            this.drive(Movement.STOP, 0);
+            this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-    public void PIDreset() {
-        this.error = 0;
-        this.errorI = 0;
-        this.errorD = 0;
-        this.lastError = 0;
-    }
-
-    public void robinPower() {
-        double power;
-        int tartar = FL.getTargetPosition();
-        int curcur = FL.getCurrentPosition();
-        int diff = Math.abs(tartar - curcur);
-        int originDiff = Math.abs(this.originTick - curcur);
-
-        if (originDiff < 75) {
-            power = .12;
-        } else if (originDiff < 250) {
-            power = .3;
-        } else if (originDiff < 400) {
-            power = .4;
+            this.lastError = this.error;
+            this.errorI = 0;
+            this.error = 0;
+            this.command++;
         } else {
-            power = .7;
+            this.drive(scalePower());
         }
-
-        if (diff < 100) {
-            power = .12;
-        } else if (diff < 300) {
-            power = .3;
-        } else if (diff < 500) {
-            power = .4;
-        } else if (diff < 750) {
-            power = .7;
-        }
-
-        this.drive(power);
     }
 
+    public void setTarget(Movement movement, int target) {
+        this.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.autonDrive(movement, cmDistance(target));
+        this.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.originTick = FL.getCurrentPosition();
+
+        if (FL.getCurrentPosition() == 0 && FL.getTargetPosition() == 0) {
+            this.originTick = cmDistance(FR.getTargetPosition());
+        }
+        this.command++;
+    }
 
     public void tapeExtend(int target, double power) {
         this.tape.setTargetPosition(target);
@@ -658,6 +681,76 @@ public class NewAutonMethods {
         return (int) (gearMotorTick * (distance / wheelCirc));
         //rate = x(0.05937236104)
     }
+    /*public void initTest(HardwareMap map, Telemetry tele){
+        this.map = map;
+        motor = this.map.get(DcMotor.class, "motor");
+        motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+    //    this.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void runMotor(Movement movement, int target) {
+        this.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.motorDrive(movement, cmDistance(target));
+        this.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.originTick = motor.getCurrentPosition();
+        this.command++;
+    }
+
+    public void finishMotor(){
+        if (Math.abs(this.motor.getTargetPosition() - this.motor.getCurrentPosition()) <= 0.01 * (Math.abs(this.motor.getTargetPosition() + this.motor.getCurrentPosition()))) {
+            this.motor.setPower(0);
+            this.motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            this.lastError = this.error;
+            this.errorI = 0;
+            this.error = 0;
+            this.command++;
+        } else {
+            this.motor.setPower(scaleMotor());
+        }
+    }
+
+    public void motorDrive(Movement movement, int target) {
+        switch (movement) {
+            case FORWARD:
+                motor.setTargetPosition(target);
+                break;
+
+            case BACKWARD:
+                motor.setTargetPosition(-target);
+                break;
+
+            case STOP:
+                motor.setTargetPosition(motor.getCurrentPosition());
+                break;
+        }
+    }
+
+    public double scaleMotor() {
+        int target = cmDistance(motor.getTargetPosition());
+        int current = cmDistance(motor.getCurrentPosition());
+
+        if (target == 0 && current == 0) {
+            target = cmDistance(motor.getTargetPosition());
+            current = cmDistance(motor.getCurrentPosition());
+        }
+
+        if ((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal) >= .85) {
+            this.errorI += 0;
+        } else {
+            this.errorI = this.errorI + this.error;
+        }
+
+        this.error = target - current; //Distance from current position to end position
+        this.errorD = current - this.lastError;
+        this.lastError = current;
+
+        return (Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1));
+    }
+
+     */
 }
 
 

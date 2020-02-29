@@ -42,11 +42,11 @@ public class RedFound extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.encoderReset();
+                robot.setTarget(Movement.UPLEFT, 180);
                 break;
 
             case 1:
-                robot.runToTarget(Movement.UPLEFT, 180);
+                robot.finishDrive();
                 break;
 
             case 2:
@@ -57,42 +57,56 @@ public class RedFound extends OpMode {
                 break;
 
             case 3:
-                robot.runToTarget(Movement.DOWNRIGHT, 108);
+                robot.setTarget(Movement.DOWNRIGHT, 85);
                 break;
 
             case 4:
-                robot.gyroTurn(-90);
+                robot.gyroTurn(90);
                 break;
 
             case 5:
-                robot.runToTarget(Movement.UPLEFT , 125);
+                robot.finishDrive();
                 break;
 
             case 6:
+                robot.setTarget(Movement.UPLEFT , 125);
+                break;
+
+            case 7:
+                robot.finishDrive();
+                break;
+
+            case 8:
                 robot.openServoAuton();
                 if (robot.runtime.milliseconds() > 600) {
                     robot.command++;
                 }
                 break;
 
-            case 7:
+            case 9:
                 /*if (runtime.milliseconds() > 10000) {
          //           robot.tapeExtend(4500,0.5);
                 }*/
-                robot.runToTarget(Movement.FORWARD,20);
+                robot.setTarget(Movement.FORWARD,15);
                 break;
 
-            case 8:
-                robot.runToTarget(Movement.RIGHTSTRAFE,121);
+            case 10:
+                robot.finishDrive();
                 break;
 
-            case 9:
+            case 11:
+                robot.setTarget(Movement.RIGHTSTRAFE,122);
+                break;
+
+            case 12:
+                robot.finishDrive();
+                break;
+
+            case 13:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("Runtime:", robot.runtime.milliseconds());
-        telemetry.addData("Power:", robot.power);
         telemetry.update();
     }
 }

@@ -60,7 +60,7 @@ public class RBox extends OpMode {
     @Override
     public void loop() {
         switch (robot.command) {
-            case 0:
+            /*case 0:
                 robot.encoderReset();
                 break;
 
@@ -349,6 +349,8 @@ public class RBox extends OpMode {
                 robot.intakeR.setPower(0);
                 robot.encoderReset();
                 break;
+
+             */
         }
         telemetry.addData("Case:", robot.command);
         telemetry.update();

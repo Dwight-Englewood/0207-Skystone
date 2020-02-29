@@ -43,11 +43,11 @@ public class BlueFound extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.encoderReset();
+                robot.setTarget(Movement.DOWNLEFT, 180);
                 break;
 
             case 1:
-                robot.runToTarget(Movement.DOWNLEFT, 180);
+                robot.finishDrive();
                 break;
 
             case 2:
@@ -58,7 +58,7 @@ public class BlueFound extends OpMode {
                 break;
 
             case 3:
-                robot.runToTarget(Movement.UPRIGHT, 85);
+                robot.setTarget(Movement.UPRIGHT, 85);
                 break;
 
             case 4:
@@ -66,28 +66,44 @@ public class BlueFound extends OpMode {
                 break;
 
             case 5:
-                robot.runToTarget(Movement.DOWNLEFT , 125);
+                robot.finishDrive();
                 break;
 
             case 6:
+                robot.setTarget(Movement.DOWNLEFT , 125);
+                break;
+
+            case 7:
+                robot.finishDrive();
+                break;
+
+            case 8:
                 robot.openServoAuton();
                 if (robot.runtime.milliseconds() > 600) {
                     robot.command++;
                 }
                 break;
 
-            case 7:
+            case 9:
                 /*if (runtime.milliseconds() > 10000) {
          //           robot.tapeExtend(4500,0.5);
                 }*/
-                robot.runToTarget(Movement.BACKWARD,15);
+                robot.setTarget(Movement.BACKWARD,15);
                 break;
 
-            case 8:
-                robot.runToTarget(Movement.RIGHTSTRAFE,122);
+            case 10:
+                robot.finishDrive();
                 break;
 
-            case 9:
+            case 11:
+                robot.setTarget(Movement.RIGHTSTRAFE,122);
+                break;
+
+            case 12:
+                robot.finishDrive();
+                break;
+
+            case 13:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
