@@ -16,10 +16,10 @@ import com.qualcomm.robotcore.util.Range;
 
 public class NewAutonMethods {
     public DcMotor
-            BL, BR, FL, FR, lift, intakeL, intakeR, tape, motor;
+            BL, BR, FL, FR, lift, intakeL, intakeR, tape;
 
     public static Servo
-            closer, hinger, foundationLeft, foundationRight;
+            closer, hinger, foundationLeft, foundationRight, leftPurp, rightPurp, leftBlue, rightBlue, spinner, grabber;
 
     HardwareMap map;
     Telemetry tele;
@@ -31,10 +31,10 @@ public class NewAutonMethods {
     private int originTick;
 
     double power, lastError;
-    final double kpVal = 0.00005;
-    final double kiVal = 0.0000004;
-    final double kdVal = 0.00025;
-    double error = 0, errorI = 0, errorD = 0;
+    public final double kpVal = 0.000075;
+    public final double kiVal = 0.0000006;
+    public final double kdVal = 0.0004*0;
+    public double error = 0, errorI = 0, errorD = 0;
 
     final double theoryVal = 0.0003;
     final double lowerBound = 0.235;
@@ -102,28 +102,30 @@ public class NewAutonMethods {
         BL = this.map.get(DcMotor.class, "BL");
         FL = this.map.get(DcMotor.class, "FL");
         FR = this.map.get(DcMotor.class, "FR");
+
+        lift = this.map.get(DcMotor.class, "lift");
+        intakeL = this.map.get(DcMotor.class, "intakeL");
+        intakeR = this.map.get(DcMotor.class, "intakeR");
+
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeL.setDirection((DcMotorSimple.Direction.REVERSE));
+        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
+
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        lift = this.map.get(DcMotor.class, "lift");
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        intakeL = this.map.get(DcMotor.class, "intakeL");
-        intakeL.setDirection((DcMotorSimple.Direction.REVERSE));
         intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        intakeR = this.map.get(DcMotor.class, "intakeR");
-        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
         intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        /*foundationLeft = this.map.get(Servo.class, "fleft");
+        foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
 
         leftBlue = this.map.get(Servo.class, "leftBlue");
@@ -131,11 +133,11 @@ public class NewAutonMethods {
         rightBlue = this.map.get(Servo.class, "rightBlue");
         rightPurp = this.map.get(Servo.class, "rightPurp");
 
-        hinge = this.map.get(Servo.class, "hinge");
+        hinger = this.map.get(Servo.class, "hinge");
         spinner = this.map.get(Servo.class, "spinner");
         grabber = this.map.get(Servo.class, "grabber");
 
-         */
+
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
@@ -366,11 +368,11 @@ public class NewAutonMethods {
             driveScale = .5;
         else {
             driveScale = 0;
-            this.drive(Movement.RIGHTTURN, driveScale * 1.05);
+            this.drive(Movement.RIGHTTURN, driveScale * 0.9);
 
             return true;
         }
-        this.drive(Movement.RIGHTTURN, driveScale * 1.05);
+        this.drive(Movement.RIGHTTURN, driveScale * 0.9);
         return false;
     }
     //Positive is left turn, negative is right turn.
@@ -637,9 +639,9 @@ public class NewAutonMethods {
     }
 
     public void setTarget(Movement movement, int target) {
-        this.motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.autonDrive(movement, cmDistance(target));
-        this.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.originTick = FL.getCurrentPosition();
 
         if (FL.getCurrentPosition() == 0 && FL.getTargetPosition() == 0) {

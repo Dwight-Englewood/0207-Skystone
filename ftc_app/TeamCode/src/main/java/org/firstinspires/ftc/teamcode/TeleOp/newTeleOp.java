@@ -35,9 +35,8 @@ public class newTeleOp extends OpMode {
                 gamepad1.right_trigger * speed);
 
         robot.lift.setPower(gamepad2.right_stick_y);
-
-        robot.intakeL.setPower(gamepad2.left_stick_y*0.5);
-        robot.intakeR.setPower(-gamepad2.left_stick_y*0.5);
+        robot.intakeL.setPower(gamepad2.left_stick_y*0.75);
+        robot.intakeR.setPower(-gamepad2.left_stick_y*0.75);
 
         if (gamepad1.b) {
             speed = 0.5;
@@ -48,7 +47,7 @@ public class newTeleOp extends OpMode {
         }
         telemetry.addData("Speed", speed);
 
-        /*if (gamepad2.x){
+        if (gamepad2.x){
             robot.foundationLeft.setPosition(1);
             robot.foundationRight.setPosition(1);
         } else {
@@ -80,7 +79,7 @@ public class newTeleOp extends OpMode {
             robot.rightPurp.setPosition(0);
         }
 
-         */
+
     }
 
 

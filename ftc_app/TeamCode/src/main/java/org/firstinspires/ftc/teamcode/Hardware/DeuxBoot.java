@@ -84,7 +84,7 @@ DeuxBoot{
         intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
         intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        /*foundationLeft = this.map.get(Servo.class, "fleft");
+        foundationLeft = this.map.get(Servo.class, "fleft");
         foundationRight = this.map.get(Servo.class, "fright");
 
         leftBlue = this.map.get(Servo.class, "leftBlue");
@@ -95,8 +95,6 @@ DeuxBoot{
         hinge = this.map.get(Servo.class, "hinge");
         spinner = this.map.get(Servo.class, "spinner");
         grabber = this.map.get(Servo.class, "grabber");
-
-         */
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
