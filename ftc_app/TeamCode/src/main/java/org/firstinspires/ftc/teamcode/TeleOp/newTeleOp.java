@@ -8,6 +8,12 @@ import org.firstinspires.ftc.teamcode.Hardware.DeuxBoot;
 public class newTeleOp extends OpMode {
     DeuxBoot robot = new DeuxBoot();
     double speed;
+    boolean buttonAheld = false;
+    boolean grabberClosed = true;
+    boolean buttonBheld = false;
+    boolean hingedClosed = true;
+    boolean buttonXheld = false;
+    boolean spinnerClosed = false;
 
     @Override
     public void init() {
@@ -47,7 +53,7 @@ public class newTeleOp extends OpMode {
         }
         telemetry.addData("Speed", speed);
 
-        if (gamepad2.x){
+        if (gamepad2.y){
             robot.foundationLeft.setPosition(1);
             robot.foundationRight.setPosition(1);
         } else {
@@ -55,29 +61,57 @@ public class newTeleOp extends OpMode {
             robot.foundationRight.setPosition(0);
         }
 
-        if (gamepad2.dpad_up){
-            robot.hinge.setPosition(1);
-            robot.spinner.setPosition(1);
-            robot.grabber.setPosition(1);
 
-        } else if (gamepad2.dpad_down){
-            robot.hinge.setPosition(0);
-            robot.spinner.setPosition(0);
-            robot.grabber.setPosition(0);
+
+        if (gamepad2.a && !buttonAheld) {
+            buttonAheld = true;
+            if (grabberClosed) {
+                grabberClosed = false;
+                robot.grabber.setPosition(1);
+            } else {
+                grabberClosed = true;
+                robot.grabber.setPosition(0);
+            }
         }
 
-        if (gamepad2.dpad_right){
-            robot.leftBlue.setPosition(1);
-            robot.leftPurp.setPosition(1);
-            robot.rightBlue.setPosition(1);
-            robot.rightPurp.setPosition(1);
-
-        } else if (gamepad2.dpad_left){
-            robot.leftBlue.setPosition(0);
-            robot.leftPurp.setPosition(0);
-            robot.rightBlue.setPosition(0);
-            robot.rightPurp.setPosition(0);
+        if (!gamepad2.a) {
+            buttonAheld = false;
         }
+
+        if (gamepad2.b && !buttonBheld) {
+            buttonBheld = true;
+            if (hingedClosed) {
+                hingedClosed = false;
+                robot.hinge.setPosition(1);
+                robot.spinner.setPosition(1);
+            } else {
+                hingedClosed = true;
+                robot.hinge.setPosition(0);
+                robot.spinner.setPosition(0);
+            }
+        }
+
+        if (!gamepad2.b) {
+            buttonBheld = false;
+        }
+
+        if (gamepad2.x && !buttonXheld) {
+            buttonXheld = true;
+            if (spinnerClosed) {
+                spinnerClosed = false;
+                robot.spinner.setPosition(0);
+            } else {
+                spinnerClosed = true;
+                robot.spinner.setPosition(0.35);
+            }
+        }
+
+        if (!gamepad2.x) {
+            buttonXheld = false;
+        }
+
+
+
 
 
     }
