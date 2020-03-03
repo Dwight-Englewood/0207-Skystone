@@ -31,9 +31,9 @@ public class NewAutonMethods {
     private int originTick;
 
     double power, lastError;
-    public final double kpVal = 0.000075;
-    public final double kiVal = 0.0000006;
-    public final double kdVal = 0.0004*0;
+    public final double kpVal = 0.000045;
+    public final double kiVal = 0.00000065;
+    public final double kdVal = 0.0003;
     public double error = 0, errorI = 0, errorD = 0;
 
     final double theoryVal = 0.0003;
@@ -43,7 +43,7 @@ public class NewAutonMethods {
     public RevBlinkinLedDriver blinkin;
     public static BNO055IMU gyro;
 
-    public boolean strafe;
+    public boolean strafe = false, diagonal = false;
 
     public NewAutonMethods() {
         command = 0;
@@ -205,6 +205,7 @@ public class NewAutonMethods {
                 FR.setTargetPosition(target);
                 BL.setTargetPosition(target);
                 BR.setTargetPosition(-target);
+                strafe = true;
                 break;
 
             case RIGHTSTRAFE:
@@ -212,6 +213,7 @@ public class NewAutonMethods {
                 FR.setTargetPosition(-target);
                 BL.setTargetPosition(-target);
                 BR.setTargetPosition(target);
+                strafe = true;
                 break;
 
             case UPRIGHT:
@@ -220,6 +222,7 @@ public class NewAutonMethods {
 
                 FR.setTargetPosition(0);
                 BL.setTargetPosition(0);
+                diagonal = true;
                 break;
 
             case UPLEFT:
@@ -228,6 +231,7 @@ public class NewAutonMethods {
 
                 FL.setTargetPosition(0);
                 BR.setTargetPosition(0);
+                diagonal = true;
                 break;
 
             case DOWNRIGHT:
@@ -236,6 +240,7 @@ public class NewAutonMethods {
 
                 FL.setTargetPosition(0);
                 BR.setTargetPosition(0);
+                diagonal = true;
                 break;
 
             case DOWNLEFT:
@@ -244,6 +249,7 @@ public class NewAutonMethods {
 
                 FR.setTargetPosition(0);
                 BL.setTargetPosition(0);
+                diagonal = true;
                 break;
 
             case LEFTTURN:
@@ -290,7 +296,6 @@ public class NewAutonMethods {
                 FR.setPower(-power);
                 BL.setPower(-power);
                 BR.setPower(power);
-                strafe = true;
                 break;
 
             case RIGHTSTRAFE:
@@ -298,7 +303,6 @@ public class NewAutonMethods {
                 FR.setPower(power);
                 BL.setPower(power);
                 BR.setPower(-power);
-                strafe = true;
                 break;
 
             case UPRIGHT:
@@ -369,7 +373,6 @@ public class NewAutonMethods {
         else {
             driveScale = 0;
             this.drive(Movement.RIGHTTURN, driveScale * 0.9);
-
             return true;
         }
         this.drive(Movement.RIGHTTURN, driveScale * 0.9);
@@ -601,7 +604,7 @@ public class NewAutonMethods {
 
      */
 
-    public double scalePower() {
+    public void scalePower() {
         int target = cmDistance(FL.getTargetPosition());
         int current = cmDistance(FL.getCurrentPosition());
 
@@ -620,31 +623,30 @@ public class NewAutonMethods {
         this.errorD = (current - this.lastError);
         this.lastError = current;
 
-        return (Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1));
+        this.drive(Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1));
     }
 
     public void finishDrive(){
         if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.01 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition())) ||
                 Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 0.01 * (Math.abs(this.FR.getTargetPosition() + this.FR.getCurrentPosition()))) {
             this.drive(Movement.STOP, 0);
-            this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             this.lastError = this.error;
             this.errorI = 0;
             this.error = 0;
             this.command++;
         } else {
-            this.drive(scalePower());
+            scalePower();
         }
     }
 
     public void setTarget(Movement movement, int target) {
-        this.FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.autonDrive(movement, cmDistance(target));
-        this.FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.originTick = FL.getCurrentPosition();
 
-        if (FL.getCurrentPosition() == 0 && FL.getTargetPosition() == 0) {
+        if (FL.getTargetPosition() == 0 && FL.getCurrentPosition() == 0) {
             this.originTick = cmDistance(FR.getTargetPosition());
         }
         this.command++;

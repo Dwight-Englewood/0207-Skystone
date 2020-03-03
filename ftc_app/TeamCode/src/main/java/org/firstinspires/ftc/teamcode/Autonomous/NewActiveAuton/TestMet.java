@@ -43,7 +43,7 @@ public class TestMet extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.setTarget(Movement.FORWARD, 50);
+                robot.setTarget(Movement.DOWNRIGHT, 50);
                 break;
 
             case 1:
@@ -51,7 +51,7 @@ public class TestMet extends OpMode {
                 break;
 
             case 2:
-                robot.setTarget(Movement.FORWARD, 100);
+                robot.setTarget(Movement.UPLEFT, 50);
                 break;
 
             case 3:
@@ -59,18 +59,24 @@ public class TestMet extends OpMode {
                 break;
 
             case 4:
-                robot.setTarget(Movement.BACKWARD, 150);
                 break;
-
-            case 5:
-                robot.gyroTurn(0);
-                break;
-
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("FL Current", robot.FL.getCurrentPosition());
         telemetry.addData("FL Target", robot.FL.getTargetPosition());
+        telemetry.addData("FL Current", robot.FL.getCurrentPosition());
         telemetry.addData("FL Power", robot.FL.getPower());
+
+        telemetry.addData("FR Target", robot.FR.getTargetPosition());
+        telemetry.addData("FR Current", robot.FR.getCurrentPosition());
+        telemetry.addData("FR Power", robot.FR.getPower());
+
+        telemetry.addData("BL Target", robot.BL.getTargetPosition());
+        telemetry.addData("BL Current", robot.BL.getCurrentPosition());
+        telemetry.addData("BL Power", robot.BL.getPower());
+
+        telemetry.addData("BR Target", robot.BR.getTargetPosition());
+        telemetry.addData("BR Current", robot.BR.getCurrentPosition());
+        telemetry.addData("BR Power", robot.BR.getPower());
 
         telemetry.addData("P", robot.error * robot.kpVal);
         telemetry.addData("I", robot.errorI * robot.kiVal);

@@ -34,6 +34,7 @@ public class BlueFound extends OpMode {
     @Override
     public void start() {
         robot.runtime.reset();
+        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -62,11 +63,11 @@ public class BlueFound extends OpMode {
                 break;
 
             case 4:
-                robot.gyroTurn(90);
+                robot.finishDrive();
                 break;
 
             case 5:
-                robot.finishDrive();
+                robot.gyroTurn(90);
                 break;
 
             case 6:
@@ -108,6 +109,13 @@ public class BlueFound extends OpMode {
                 break;
         }
         telemetry.addData("Case:", robot.command);
+        telemetry.addData("FL Target", robot.FL.getTargetPosition());
+        telemetry.addData("FL Current", robot.FL.getCurrentPosition());
+        telemetry.addData("FL Power", robot.FL.getPower());
+
+        telemetry.addData("FR Target", robot.FR.getTargetPosition());
+        telemetry.addData("FR Current", robot.FR.getCurrentPosition());
+        telemetry.addData("FL Power", robot.FL.getPower());
         telemetry.update();
     }
 }

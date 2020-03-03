@@ -61,8 +61,6 @@ public class newTeleOp extends OpMode {
             robot.foundationRight.setPosition(0);
         }
 
-
-
         if (gamepad2.a && !buttonAheld) {
             buttonAheld = true;
             if (grabberClosed) {
@@ -109,13 +107,7 @@ public class newTeleOp extends OpMode {
         if (!gamepad2.x) {
             buttonXheld = false;
         }
-
-
-
-
-
     }
-
 
 
     /*
