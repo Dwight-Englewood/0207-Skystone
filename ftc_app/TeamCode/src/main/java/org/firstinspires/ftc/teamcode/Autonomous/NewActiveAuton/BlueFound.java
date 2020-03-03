@@ -3,6 +3,10 @@ package org.firstinspires.ftc.teamcode.Autonomous.NewActiveAuton;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
@@ -44,7 +48,7 @@ public class BlueFound extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.setTarget(Movement.DOWNLEFT, 180);
+                robot.setTarget(Movement.DOWNLEFT, 190);
                 break;
 
             case 1:
@@ -52,14 +56,14 @@ public class BlueFound extends OpMode {
                 break;
 
             case 2:
-                robot.closeServoAuton();
-                if (robot.runtime.milliseconds() > 600) {
+                robot.newCloseServoAuton();
+                if (robot.runtime.milliseconds() > 500) {
                     robot.command++;
                 }
                 break;
 
             case 3:
-                robot.setTarget(Movement.UPRIGHT, 85);
+                robot.setTarget(Movement.UPRIGHT, 125);
                 break;
 
             case 4:
@@ -67,11 +71,11 @@ public class BlueFound extends OpMode {
                 break;
 
             case 5:
-                robot.gyroTurn(90);
+                robot.gyroTurn(89);
                 break;
 
             case 6:
-                robot.setTarget(Movement.DOWNLEFT , 125);
+                robot.setTarget(Movement.DOWNLEFT , 140);
                 break;
 
             case 7:
@@ -79,42 +83,40 @@ public class BlueFound extends OpMode {
                 break;
 
             case 8:
-                robot.openServoAuton();
-                if (robot.runtime.milliseconds() > 600) {
+                robot.gyroTurn(89);
+                break;
+
+            case 9:
+                robot.newOpenServoAuton();
+                if (robot.runtime.milliseconds() > 500) {
                     robot.command++;
                 }
                 break;
 
-            case 9:
-                /*if (runtime.milliseconds() > 10000) {
-         //           robot.tapeExtend(4500,0.5);
-                }*/
+            case 10:
                 robot.setTarget(Movement.BACKWARD,15);
                 break;
 
-            case 10:
-                robot.finishDrive();
-                break;
-
             case 11:
-                robot.setTarget(Movement.RIGHTSTRAFE,122);
+                robot.finishDrive();
                 break;
 
             case 12:
-                robot.finishDrive();
+                robot.setTarget(Movement.RIGHTSTRAFE,132);
                 break;
 
             case 13:
+                robot.finishDrive();
+                break;
+
+            case 14:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("FL Target", robot.FL.getTargetPosition());
+        telemetry.addData("Current Heading", robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         telemetry.addData("FL Current", robot.FL.getCurrentPosition());
-        telemetry.addData("FL Power", robot.FL.getPower());
-
-        telemetry.addData("FR Target", robot.FR.getTargetPosition());
-        telemetry.addData("FR Current", robot.FR.getCurrentPosition());
+        telemetry.addData("FL Target", robot.FL.getTargetPosition());
         telemetry.addData("FL Power", robot.FL.getPower());
         telemetry.update();
     }

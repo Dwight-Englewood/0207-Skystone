@@ -43,7 +43,7 @@ public class BlueFoundation extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.setTarget(Movement.DOWNLEFT, 180);
+                robot.setTarget(Movement.BACKWARD, 140);
                 break;
 
             case 1:
@@ -58,52 +58,22 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 3:
-                robot.setTarget(Movement.UPRIGHT, 85);
+                robot.setTarget(Movement.FORWARD, 160);
                 break;
 
             case 4:
-                robot.gyroTurn(90);
+                robot.finishDrive();
                 break;
 
             case 5:
-                robot.finishDrive();
-                break;
-
-            case 6:
-                robot.setTarget(Movement.DOWNLEFT , 125);
-                break;
-
-            case 7:
-                robot.finishDrive();
-                break;
-
-            case 8:
-                robot.openServoAuton();
-                if (robot.runtime.milliseconds() > 600) {
-                    robot.command++;
-                }
-                break;
-
-            case 9:
-                /*if (runtime.milliseconds() > 10000) {
-                    robot.tapeExtend(4500,0.5);
-                }*/
-                robot.setTarget(Movement.BACKWARD,15);
-                break;
-
-            case 10:
-                robot.finishDrive();
-                break;
-
-            case 11:
                 robot.setTarget(Movement.RIGHTSTRAFE,122);
                 break;
 
-            case 12:
+            case 6:
                 robot.finishDrive();
                 break;
 
-            case 13:
+            case 7:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }

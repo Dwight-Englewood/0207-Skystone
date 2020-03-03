@@ -136,10 +136,8 @@ public class NewAutonMethods {
         hinger = this.map.get(Servo.class, "hinge");
         spinner = this.map.get(Servo.class, "spinner");
         grabber = this.map.get(Servo.class, "grabber");
-
-
-
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.newOpenServoAuton();
     }
 
     public void initGyro(){
@@ -366,16 +364,16 @@ public class NewAutonMethods {
         headingError = targetHeading - curHeading;
         double driveScale = headingError;
         this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        if (headingError < -0.3)
+        if (headingError < -0.5)
             driveScale = -.5;
-        else if (headingError > 0.3)
+        else if (headingError > 0.5)
             driveScale = .5;
         else {
             driveScale = 0;
-            this.drive(Movement.RIGHTTURN, driveScale * 0.9);
+            this.drive(Movement.RIGHTTURN, driveScale * 0.8);
             return true;
         }
-        this.drive(Movement.RIGHTTURN, driveScale * 0.9);
+        this.drive(Movement.RIGHTTURN, driveScale * 0.8);
         return false;
     }
     //Positive is left turn, negative is right turn.
@@ -383,35 +381,7 @@ public class NewAutonMethods {
     public double strafeVal(double target) {
         return (target * 1.2);
     }
-
-    /*public void runToTarget(Movement movementEnum, double target) {
-        if (strafe) {
-            this.autonDrive(movementEnum, cmDistance(strafeVal(target)));
-        } else {
-            this.autonDrive(movementEnum, cmDistance(target));
-        }
-        this.robinPower();
-        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.075 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
-                && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.075 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
-            autonDrive(movementEnum.STOP, 0);
-            this.lastError = this.error;
-            this.errorI = 0;
-            this.error = 0;
-
-            if (this.FL.getCurrentPosition() != 0
-                    || this.FR.getCurrentPosition() != 0
-                    || this.BL.getCurrentPosition() != 0
-                    || this.BR.getCurrentPosition() != 0) {
-                encoderReset();
-                tele.addLine("Reset Not Successful");
-                tele.update();
-            } else {
-                this.command++;
-            }
-        }
-    }
-
+/*
     public void runWithIntake(Movement movementEnum, double target, double power) {
         this.intakeL.setPower(power);
         this.intakeR.setPower(power);
@@ -486,6 +456,16 @@ public class NewAutonMethods {
     public void closeServoAuton() {
         this.foundationLeft.setPosition(0.57); //0.55 //right
         this.foundationRight.setPosition(0.32); //0.35 //left
+    }
+
+    public void newOpenServoAuton() {
+        this.foundationLeft.setPosition(1);
+        this.foundationRight.setPosition(1);
+    }
+
+    public void newCloseServoAuton() {
+        this.foundationLeft.setPosition(0);
+        this.foundationRight.setPosition(0);
     }
 
     public void lowerLift(double height) {
@@ -604,7 +584,7 @@ public class NewAutonMethods {
 
      */
 
-    public void scalePower() {
+    public double scalePower() {
         int target = cmDistance(FL.getTargetPosition());
         int current = cmDistance(FL.getCurrentPosition());
 
@@ -623,21 +603,22 @@ public class NewAutonMethods {
         this.errorD = (current - this.lastError);
         this.lastError = current;
 
-        this.drive(Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1));
+        return Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1);
     }
 
     public void finishDrive(){
-        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.01 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition())) ||
-                Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 0.01 * (Math.abs(this.FR.getTargetPosition() + this.FR.getCurrentPosition()))) {
+        if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.07 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition())) &&
+                Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 0.07 * (Math.abs(this.FR.getTargetPosition() + this.FR.getCurrentPosition()))) {
             this.drive(Movement.STOP, 0);
             this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             this.lastError = this.error;
             this.errorI = 0;
             this.error = 0;
+            this.runtime.reset();
             this.command++;
         } else {
-            scalePower();
+            this.drive(scalePower());
         }
     }
 
