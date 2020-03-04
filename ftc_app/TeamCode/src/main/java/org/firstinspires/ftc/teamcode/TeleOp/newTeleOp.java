@@ -14,6 +14,8 @@ public class newTeleOp extends OpMode {
     boolean hingedClosed = true;
     boolean buttonXheld = false;
     boolean spinnerClosed = false;
+    boolean buttonYheld = false;
+    boolean foundationClosed = false;
 
     @Override
     public void init() {
@@ -41,8 +43,8 @@ public class newTeleOp extends OpMode {
                 gamepad1.right_trigger * speed);
 
         robot.lift.setPower(gamepad2.right_stick_y);
-        robot.intakeL.setPower(gamepad2.left_stick_y*0.75);
-        robot.intakeR.setPower(-gamepad2.left_stick_y*0.75);
+        robot.intakeL.setPower(gamepad2.left_stick_y*0.50);
+        robot.intakeR.setPower(-gamepad2.left_stick_y*0.50);
 
         if (gamepad1.b) {
             speed = 0.5;
@@ -53,13 +55,35 @@ public class newTeleOp extends OpMode {
         }
         telemetry.addData("Speed", speed);
 
-        if (gamepad2.y){
-            robot.foundationLeft.setPosition(1);
-            robot.foundationRight.setPosition(1);
-        } else {
-            robot.foundationLeft.setPosition(0);
-            robot.foundationRight.setPosition(0);
+        if (gamepad2.dpad_up) {
+            robot.leftBlue.setPosition(1);
+            robot.leftPurp.setPosition(0);
+            robot.rightBlue.setPosition(0);
+            robot.rightPurp.setPosition(1);
+
+        }else{
+            robot.leftBlue.setPosition(0);
+            robot.leftPurp.setPosition(1);
+            robot.rightBlue.setPosition(1);
+            robot.rightPurp.setPosition(0);
         }
+        if (gamepad2.y && !buttonYheld) {
+            buttonYheld = true;
+            if (foundationClosed) {
+                foundationClosed = false;
+                robot.foundationLeft.setPosition(1);
+                robot.foundationRight.setPosition(0);
+            } else {
+                foundationClosed = true;
+                robot.foundationLeft.setPosition(0);
+                robot.foundationRight.setPosition(1);
+            }
+        }
+
+        if (!gamepad2.y) {
+            buttonYheld = false;
+        }
+
 
         if (gamepad2.a && !buttonAheld) {
             buttonAheld = true;
@@ -84,7 +108,7 @@ public class newTeleOp extends OpMode {
                 robot.spinner.setPosition(1);
             } else {
                 hingedClosed = true;
-                robot.hinge.setPosition(0);
+                robot.hinge.setPosition(0.1);
                 robot.spinner.setPosition(0);
             }
         }
@@ -107,7 +131,13 @@ public class newTeleOp extends OpMode {
         if (!gamepad2.x) {
             buttonXheld = false;
         }
+
+
+
+
+
     }
+
 
 
     /*
@@ -118,3 +148,4 @@ public class newTeleOp extends OpMode {
     public void stop () {
     }
 }
+ 
