@@ -34,6 +34,7 @@ public class BlueFoundation extends OpMode {
     @Override
     public void start() {
         robot.runtime.reset();
+        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -66,7 +67,7 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 5:
-                robot.setTarget(Movement.RIGHTSTRAFE,122);
+                robot.setTarget(Movement.LEFTSTRAFE,122);
                 break;
 
             case 6:

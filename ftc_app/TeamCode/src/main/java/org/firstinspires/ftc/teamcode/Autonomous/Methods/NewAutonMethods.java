@@ -110,7 +110,7 @@ public class NewAutonMethods {
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
 
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeL.setDirection((DcMotorSimple.Direction.REVERSE));
@@ -381,18 +381,12 @@ public class NewAutonMethods {
     public double strafeVal(double target) {
         return (target * 1.2);
     }
-/*
-    public void runWithIntake(Movement movementEnum, double target, double power) {
-        this.intakeL.setPower(power);
-        this.intakeR.setPower(power);
-        if (strafe) {
-            this.autonDrive(movementEnum, cmDistance(strafeVal(target)));
-        } else {
-            this.autonDrive(movementEnum, cmDistance(target));
-        }
-        this.robinPower();
 
+    public void runNow(Movement movementEnum, double target, double power) {
+        this.autonDrive(movementEnum, cmDistance(target));
+        this.drive(power);
         this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         if (Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 0.075 * (Math.abs(this.FL.getTargetPosition() + this.FL.getCurrentPosition()))
                 && Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 0.075 * (Math.abs(this.BL.getTargetPosition() + this.BL.getCurrentPosition()))) {
             autonDrive(movementEnum.STOP, 0);
@@ -409,8 +403,6 @@ public class NewAutonMethods {
             }
         }
     }
-
-     */
 
     public void encoderReset() {
         this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
