@@ -6,20 +6,19 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "TestMet", group = "Autonomous")
+@Autonomous(name = "Test", group = "Autonomous")
 public class TestMet extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
         robot.init(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
 
-        new Thread()  {
+        new Thread() {
             public void run() {
                 robot.initGyro();
                 robot.isGyroInit();// whatever ur init gyro method is on robot
             }
-        }.start();
-    }
+        }.start();    }
 
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
@@ -34,7 +33,6 @@ public class TestMet extends OpMode {
     @Override
     public void start() {
         robot.runtime.reset();
-        robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*
@@ -44,7 +42,7 @@ public class TestMet extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.runNow(Movement.FORWARD, 70, 0.5);
+                robot.setTarget(Movement.UPLEFT, 180);
                 break;
 
             case 1:
@@ -52,36 +50,63 @@ public class TestMet extends OpMode {
                 break;
 
             case 2:
-                robot.runNow(Movement.BACKWARD, 30, 0.5);
+                robot.closeServoAuton();
+                if (robot.runtime.milliseconds() > 600) {
+                    robot.command++;
+                }
                 break;
 
             case 3:
-                robot.finishDrive();
+                robot.setTarget(Movement.DOWNRIGHT, 85);
                 break;
 
             case 4:
+                robot.gyroTurn(90);
+                break;
+
+            case 5:
+                robot.finishDrive();
+                break;
+
+            case 6:
+                robot.setTarget(Movement.UPLEFT , 125);
+                break;
+
+            case 7:
+                robot.finishDrive();
+                break;
+
+            case 8:
+                robot.openServoAuton();
+                if (robot.runtime.milliseconds() > 600) {
+                    robot.command++;
+                }
+                break;
+
+            case 9:
+                /*if (runtime.milliseconds() > 10000) {
+         //           robot.tapeExtend(4500,0.5);
+                }*/
+                robot.setTarget(Movement.FORWARD,15);
+                break;
+
+            case 10:
+                robot.finishDrive();
+                break;
+
+            case 11:
+                robot.setTarget(Movement.RIGHTSTRAFE,122);
+                break;
+
+            case 12:
+                robot.finishDrive();
+                break;
+
+            case 13:
+                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("FL Target", robot.FL.getTargetPosition());
-        telemetry.addData("FL Current", robot.FL.getCurrentPosition());
-        telemetry.addData("FL Power", robot.FL.getPower());
-
-        telemetry.addData("FR Target", robot.FR.getTargetPosition());
-        telemetry.addData("FR Current", robot.FR.getCurrentPosition());
-        telemetry.addData("FR Power", robot.FR.getPower());
-
-        telemetry.addData("BL Target", robot.BL.getTargetPosition());
-        telemetry.addData("BL Current", robot.BL.getCurrentPosition());
-        telemetry.addData("BL Power", robot.BL.getPower());
-
-        telemetry.addData("BR Target", robot.BR.getTargetPosition());
-        telemetry.addData("BR Current", robot.BR.getCurrentPosition());
-        telemetry.addData("BR Power", robot.BR.getPower());
-
-        telemetry.addData("P", robot.error * robot.kpVal);
-        telemetry.addData("I", robot.errorI * robot.kiVal);
-        telemetry.addData("D", robot.errorD * robot.kdVal);
         telemetry.update();
     }
 }

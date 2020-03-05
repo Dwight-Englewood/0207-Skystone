@@ -460,6 +460,25 @@ public class NewAutonMethods {
         this.foundationRight.setPosition(0);
     }
 
+    public void liftClaws(){
+        this.leftBlue.setPosition(0);
+        this.leftPurp.setPosition(1);
+        this.rightBlue.setPosition(1);
+        this.rightPurp.setPosition(0);
+    }
+
+    public void lowerClaws(){
+        this.leftBlue.setPosition(0);
+        this.leftPurp.setPosition(1);
+        this.rightBlue.setPosition(1);
+        this.rightPurp.setPosition(0);
+    }
+
+    public void closeClaws(){
+        this.leftBlue.setPosition(0);
+        this.rightBlue.setPosition(1);
+    }
+
     public void lowerLift(double height) {
         this.lift.setDirection(DcMotorSimple.Direction.FORWARD);
         this.lift.setTargetPosition(cmDistance(height));

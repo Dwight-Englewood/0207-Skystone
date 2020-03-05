@@ -57,7 +57,7 @@ DeuxBoot{
         intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         closer.setPosition(1);
-        this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void initNew(HardwareMap map) {
@@ -96,7 +96,8 @@ DeuxBoot{
         spinner = this.map.get(Servo.class, "spinner");
         grabber = this.map.get(Servo.class, "grabber");
 
-        this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
     /**
@@ -145,25 +146,30 @@ DeuxBoot{
      * @param leftTrigger The power levels from the left Trigger
      * @param rightTrigger The power levels from the left Trigger.
      */
-    public void notKevinDrive(double leftStick_y, double leftStick_x, double leftTrigger, double rightTrigger) {
+    public void notKevinDrive(double leftStick_y, double leftStick_x, double leftTrigger, double rightTrigger, double speed) {
+        leftStick_y *= -1;
         if (leftTrigger > .3) {
-            drive(Movement.LEFTSTRAFE, leftTrigger * 0.75);
+            drive(Movement.LEFTSTRAFE, leftTrigger);
             return;
         }
         if (rightTrigger > .3) {
-            drive(Movement.RIGHTSTRAFE, rightTrigger * 0.75);
+            drive(Movement.RIGHTSTRAFE, rightTrigger);
+            return;
+        }
+        if (Math.abs(leftStick_y) > .5) {
+            FL.setPower(-leftStick_y * speed);
+            FR.setPower(-leftStick_y * speed);
+            BL.setPower(-leftStick_y * speed);
+            BR.setPower(-leftStick_y * speed);
             return;
         }
 
-        FL.setPower(leftStick_y);
-        FR.setPower(leftStick_y);
-        BL.setPower(leftStick_y);
-        BR.setPower(leftStick_y);
+        FL.setPower(-leftStick_x * speed);
+        FR.setPower(leftStick_x * speed);
+        BL.setPower(-leftStick_x * speed);
+        BR.setPower(leftStick_x * speed);
 
-        FL.setPower(-leftStick_x);
-        FR.setPower(leftStick_x);
-        BL.setPower(-leftStick_x);
-        BR.setPower(leftStick_x);
+
     }
 
     /**

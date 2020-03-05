@@ -20,6 +20,10 @@ public class newTeleOp extends OpMode {
     @Override
     public void init() {
         robot.initNew(hardwareMap);
+        robot.leftBlue.setPosition(0);
+        robot.leftPurp.setPosition(1);
+        robot.rightBlue.setPosition(1);
+        robot.rightPurp.setPosition(0);
     }
 
     @Override
@@ -37,17 +41,18 @@ public class newTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        robot.notKevinDrive(gamepad1.left_stick_y * speed,
-                gamepad1.left_stick_x * speed,
-                gamepad1.left_trigger * speed,
-                gamepad1.right_trigger * speed);
+        robot.notKevinDrive(gamepad1.left_stick_y,
+                gamepad1.left_stick_x,
+                gamepad1.left_trigger,
+                gamepad1.right_trigger,
+                speed);
 
         robot.lift.setPower(gamepad2.right_stick_y);
         robot.intakeL.setPower(gamepad2.left_stick_y*0.50);
         robot.intakeR.setPower(-gamepad2.left_stick_y*0.50);
 
         if (gamepad1.b) {
-            speed = 0.5;
+            speed = 0.25;
         } else if (gamepad1.a) {
             speed = 1;
         } else if (gamepad1.y) {
@@ -55,7 +60,7 @@ public class newTeleOp extends OpMode {
         }
         telemetry.addData("Speed", speed);
 
-        if (gamepad2.dpad_up) {
+        /*if (gamepad2.dpad_up) {
             robot.leftBlue.setPosition(1);
             robot.leftPurp.setPosition(0);
             robot.rightBlue.setPosition(0);
@@ -67,6 +72,9 @@ public class newTeleOp extends OpMode {
             robot.rightBlue.setPosition(1);
             robot.rightPurp.setPosition(0);
         }
+
+         */
+
         if (gamepad2.y && !buttonYheld) {
             buttonYheld = true;
             if (foundationClosed) {
@@ -132,13 +140,17 @@ public class newTeleOp extends OpMode {
             buttonXheld = false;
         }
 
+        telemetry.addData("FL Power", robot.FL.getPower());
+        telemetry.addData("FR Power", robot.FR.getPower());
+        telemetry.addData("BL Power", robot.BL.getPower());
+        telemetry.addData("BR Power", robot.BR.getPower());
 
-
-
-
+        telemetry.addData("FL encoder", robot.FL.getCurrentPosition());
+        telemetry.addData("FR encoder", robot.FR.getCurrentPosition());
+        telemetry.addData("BL encoder", robot.BL.getCurrentPosition());
+        telemetry.addData("BR encoder", robot.BR.getCurrentPosition());
+        telemetry.update();
     }
-
-
 
     /*
      * Code to run ONCE after the driver hits STOP

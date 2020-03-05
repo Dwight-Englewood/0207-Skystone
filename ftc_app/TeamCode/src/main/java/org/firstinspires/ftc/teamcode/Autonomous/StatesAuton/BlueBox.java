@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "Red Foundation States", group = "Autonomous")
-public class RedFoundation extends OpMode {
+@Autonomous(name = "Blue Box States", group = "Autonomous")
+public class BlueBox extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
@@ -44,68 +44,38 @@ public class RedFoundation extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.setTarget(Movement.DOWNLEFT, 190);
+                robot.lowerClaws();
+                if (robot.runtime.milliseconds() > 500) {
+                    robot.command++;
+                }
                 break;
 
             case 1:
-                robot.finishDrive();
+                robot.runtime.reset();
                 break;
 
             case 2:
-                robot.newCloseServoAuton();
+                robot.closeClaws();
                 if (robot.runtime.milliseconds() > 500) {
                     robot.command++;
                 }
                 break;
-
             case 3:
-                robot.setTarget(Movement.UPRIGHT, 125);
+                robot.runtime.reset();
                 break;
 
             case 4:
-                robot.finishDrive();
-                break;
-
-            case 5:
-                robot.gyroTurn(89);
-                break;
-
-            case 6:
-                robot.setTarget(Movement.DOWNLEFT , 140);
-                break;
-
-            case 7:
-                robot.finishDrive();
-                break;
-
-            case 8:
-                robot.gyroTurn(89);
-                break;
-
-            case 9:
-                robot.newOpenServoAuton();
+                robot.liftClaws();
                 if (robot.runtime.milliseconds() > 500) {
                     robot.command++;
                 }
                 break;
 
-            case 10:
-                robot.setTarget(Movement.BACKWARD,15);
+            case 5:
+                robot.runtime.reset();
                 break;
 
-            case 11:
-                robot.finishDrive();
-                break;
-
-            case 12:
-                robot.setTarget(Movement.FORWARD,132);
-                break;
-
-            case 13:
-                robot.finishDrive();
-                break;
-
-            case 14:
+            case 6:
                 robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
