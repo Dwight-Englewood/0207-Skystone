@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "Red Foundation States", group = "Autonomous")
+@Autonomous(name = "Red Foundation", group = "Autonomous")
 public class RedFoundation extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 

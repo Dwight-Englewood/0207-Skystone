@@ -28,6 +28,7 @@ public class SkystoneDetect {
 
     public int left, right, middle, notvis;
     public int leftConf, rightConf, midConf;
+    public char LEFT, RIGHT, MIDDLE;
 
     public boolean leftBlock = false;
     public boolean rightBlock = false;
@@ -92,20 +93,24 @@ public class SkystoneDetect {
         }
     }
 
-    public void blockFinder(){
+    public char blockFinder(){
         if (leftConf > rightConf && leftConf > midConf) { //LEFT
             leftBlock = true;
             rightBlock = false;
             middleBlock = false;
+            return LEFT; //LEFT
         } else if (rightConf > midConf && rightConf > leftConf) { //RIGHT
             rightBlock = true;
             middleBlock = false;
             leftBlock = false;
+            return RIGHT; //RIGHT
         } else if (midConf > leftConf && midConf > rightConf) { //MIDDLE
             middleBlock = true;
             rightBlock = false;
             leftBlock = false;
+            return MIDDLE; //MIDDLE
         }
+        return 0;
     }
 
     public void resetValues(){

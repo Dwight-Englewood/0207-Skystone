@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.Hardware;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 public class
 DeuxBoot{
@@ -12,6 +16,8 @@ DeuxBoot{
     public Servo
             closer, hinger, foundationLeft, foundationRight,
             leftBlue, leftPurp, rightBlue, rightPurp, hinge, spinner, grabber;
+
+    public float curHeading;
 
     HardwareMap map;
     Telemetry tele;
@@ -97,7 +103,6 @@ DeuxBoot{
         grabber = this.map.get(Servo.class, "grabber");
 
         this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
     }
 
     /**
@@ -168,10 +173,16 @@ DeuxBoot{
         FR.setPower(leftStick_x * speed);
         BL.setPower(-leftStick_x * speed);
         BR.setPower(leftStick_x * speed);
-
-
     }
 
+    public void kevinDrive(double leftStick_y, double leftStick_x, double rightStick_y, double rightStick_x, double leftTrigger, double rightTrigger){
+        if (Math.abs(leftStick_y) > .3) {
+            FL.setPower((leftStick_y + leftStick_x - rightStick_x));
+            FR.setPower((leftStick_y + leftStick_x + rightStick_x));
+            BL.setPower((leftStick_y - leftStick_x - rightStick_x));
+            BR.setPower((leftStick_y - leftStick_x + rightStick_x));
+        }
+    }
     /**
      *
      * Sets motor power levels to specified power levels..

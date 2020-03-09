@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "Blue Foundation States", group = "Autonomous")
+@Autonomous(name = "Blue Foundation", group = "Autonomous")
 public class BlueFoundation extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
@@ -44,7 +44,7 @@ public class BlueFoundation extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.setTarget(Movement.DOWNRIGHT, 190);
+                robot.setTarget(Movement.DOWNRIGHT, 180);
                 break;
 
             case 1:

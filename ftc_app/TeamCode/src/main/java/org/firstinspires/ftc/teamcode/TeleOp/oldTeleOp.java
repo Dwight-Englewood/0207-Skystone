@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Hardware.DeuxBoot;
 
+@Disabled
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Old Bot Tele-op",group="TeleOp")
 public class oldTeleOp extends OpMode {
     DeuxBoot robot = new DeuxBoot();

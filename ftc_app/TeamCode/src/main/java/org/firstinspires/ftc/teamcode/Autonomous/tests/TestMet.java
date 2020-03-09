@@ -1,22 +1,27 @@
-package org.firstinspires.ftc.teamcode.Autonomous.StatesAuton;
+package org.firstinspires.ftc.teamcode.Autonomous.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "Blue Box States", group = "Autonomous")
-public class BlueBox extends OpMode {
+@Autonomous(name = "PID Test", group = "Autonomous")
+public class TestMet extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
 
     public void init() {
         robot.initNew(hardwareMap, telemetry); // init all ur motors and crap (NOTE: DO NOT INIT GYRO OR VISION IN THIS METHOD)
 
-        new Thread()  {
+        new Thread() {
             public void run() {
                 robot.initGyro();
-                telemetry.addData("Gyro Initialized", robot.isGyroInit());
+                robot.isGyroInit();// whatever ur init gyro method is on robot
             }
         }.start();
     }
@@ -44,42 +49,42 @@ public class BlueBox extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.lowerClaws();
-                if (robot.runtime.milliseconds() > 500) {
-                    robot.command++;
-                }
+                robot.gyroTurn(0);
                 break;
 
             case 1:
-                robot.runtime.reset();
+                robot.setTarget(Movement.FORWARD, 50);
                 break;
 
             case 2:
-                robot.closeClaws();
-                if (robot.runtime.milliseconds() > 500) {
-                    robot.command++;
-                }
+                robot.finishDrive();
                 break;
+
             case 3:
-                robot.runtime.reset();
+                robot.setTarget(Movement.FORWARD, 100);
                 break;
 
             case 4:
-                robot.liftClaws();
-                if (robot.runtime.milliseconds() > 500) {
-                    robot.command++;
-                }
+                robot.finishDrive();
                 break;
 
             case 5:
-                robot.runtime.reset();
+                robot.setTarget(Movement.BACKWARD, 150);
                 break;
 
             case 6:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.finishDrive();
                 break;
         }
         telemetry.addData("Case:", robot.command);
+        telemetry.addData("Power", robot.FL.getPower());
+        telemetry.addData("TARGET", robot.FL.getTargetPosition());
+        telemetry.addData("CURRENT", robot.FL.getCurrentPosition());
+
+        telemetry.addData("P", robot.error * robot.kpVal);
+        telemetry.addData("I", robot.errorI * robot.kiVal);
+        telemetry.addData("D", robot.errorD * robot.kdVal);
+
         telemetry.update();
     }
 }
