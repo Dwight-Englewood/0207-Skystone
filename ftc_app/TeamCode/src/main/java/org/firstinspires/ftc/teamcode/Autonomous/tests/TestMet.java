@@ -83,7 +83,7 @@ public class TestMet extends OpMode {
 
         telemetry.addData("P", robot.error * robot.kpVal);
         telemetry.addData("I", robot.errorI * robot.kiVal);
-        telemetry.addData("D", robot.errorD * robot.kdVal);
+        telemetry.addData("D", -robot.errorD * robot.kdVal);
 
         telemetry.update();
     }

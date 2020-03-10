@@ -15,7 +15,7 @@ DeuxBoot{
 
     public Servo
             closer, hinger, foundationLeft, foundationRight,
-            leftBlue, leftPurp, rightBlue, rightPurp, hinge, spinner, grabber;
+            leftBlue, leftPurp, rightBlue, rightPurp, hinge, spinner, grabber, extend;
 
     public float curHeading;
 
@@ -31,41 +31,6 @@ DeuxBoot{
     /**
      * @param map creates an object on phone
      */
-    public void init(HardwareMap map) {
-        this.map = map;
-
-        BR = this.map.get(DcMotor.class, "BR");
-        BL = this.map.get(DcMotor.class, "BL");
-        FL = this.map.get(DcMotor.class, "FL");
-        FR = this.map.get(DcMotor.class, "FR");
-
-        lift = this.map.get(DcMotor.class, "Lift");
-        intakeL = this.map.get(DcMotor.class, "intakeL");
-        intakeR = this.map.get(DcMotor.class, "intakeR");
-
-        hinger = this.map.get(Servo.class, "hinger");
-        foundationLeft = this.map.get(Servo.class, "fleft");
-        foundationRight = this.map.get(Servo.class, "fright");
-
-        closer = this.map.get(Servo.class, "closer");
-
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeL.setDirection((DcMotorSimple.Direction.FORWARD));
-        intakeR.setDirection((DcMotorSimple.Direction.REVERSE));
-
-        BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FR.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        closer.setPosition(1);
-        this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
     public void initNew(HardwareMap map) {
         this.map = map;
 
@@ -101,6 +66,7 @@ DeuxBoot{
         hinge = this.map.get(Servo.class, "hinge");
         spinner = this.map.get(Servo.class, "spinner");
         grabber = this.map.get(Servo.class, "grabber");
+        extend = this.map.get(Servo.class, "extend");
 
         this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }

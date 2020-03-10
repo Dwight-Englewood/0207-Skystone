@@ -67,20 +67,11 @@ public class newTeleOp extends OpMode {
         }
         telemetry.addData("Speed", speed);
 
-        /*if (gamepad2.dpad_up) {
-            robot.leftBlue.setPosition(1);
-            robot.leftPurp.setPosition(0);
-            robot.rightBlue.setPosition(0);
-            robot.rightPurp.setPosition(1);
-
-        }else{
-            robot.leftBlue.setPosition(0);
-            robot.leftPurp.setPosition(1);
-            robot.rightBlue.setPosition(1);
-            robot.rightPurp.setPosition(0);
+        if (gamepad2.dpad_right) {
+            robot.extend.setPosition(0);
+        } else if (gamepad2.dpad_left){
+            robot.extend.setPosition(1);
         }
-
-         */
 
         if (gamepad2.y && !buttonYheld) {
             buttonYheld = true;

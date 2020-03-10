@@ -44,7 +44,7 @@ public class BlueFoundation extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.setTarget(Movement.DOWNRIGHT, 180);
+                robot.setTarget(Movement.DOWNRIGHT, 200);
                 break;
 
             case 1:
@@ -53,13 +53,13 @@ public class BlueFoundation extends OpMode {
 
             case 2:
                 robot.newCloseServoAuton();
-                if (robot.runtime.milliseconds() > 500) {
+                if (robot.runtime.milliseconds() > 450) {
                     robot.command++;
                 }
                 break;
 
             case 3:
-                robot.setTarget(Movement.UPLEFT, 125);
+                robot.setTarget(Movement.FORWARD, 50);
                 break;
 
             case 4:
@@ -67,46 +67,32 @@ public class BlueFoundation extends OpMode {
                 break;
 
             case 5:
-                robot.gyroTurn(89);
+                robot.setTarget(Movement.UPLEFT, 90);
                 break;
 
             case 6:
-                robot.setTarget(Movement.DOWNRIGHT , 140);
-                break;
-
-            case 7:
                 robot.finishDrive();
                 break;
 
+            case 7:
+                robot.gyroTurn(90);
+                break;
+
             case 8:
-                robot.gyroTurn(89);
+                robot.setTarget(Movement.BACKWARD , 30);
                 break;
 
             case 9:
                 robot.newOpenServoAuton();
-                if (robot.runtime.milliseconds() > 500) {
-                    robot.command++;
-                }
+                robot.finishDrive();
                 break;
 
             case 10:
-                robot.setTarget(Movement.BACKWARD,15);
+                robot.setTarget(Movement.FORWARD,120);
                 break;
 
             case 11:
                 robot.finishDrive();
-                break;
-
-            case 12:
-                robot.setTarget(Movement.FORWARD,132);
-                break;
-
-            case 13:
-                robot.finishDrive();
-                break;
-
-            case 14:
-                robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 break;
         }
         telemetry.addData("Case:", robot.command);
