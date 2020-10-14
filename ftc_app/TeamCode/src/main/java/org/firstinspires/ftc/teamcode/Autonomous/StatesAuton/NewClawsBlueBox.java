@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Methods.NewAutonMethods;
 import org.firstinspires.ftc.teamcode.Autonomous.Methods.SkystoneDetect;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
 
-@Autonomous(name = "NewCLawsBlueBox", group = "Autonomous")
+@Autonomous(name = "NewClawsBlueBox", group = "Autonomous")
 public class NewClawsBlueBox extends OpMode {
     NewAutonMethods robot = new NewAutonMethods();
     SkystoneDetect detector = new SkystoneDetect();
@@ -34,6 +34,7 @@ public class NewClawsBlueBox extends OpMode {
                 //        detector.start();
             }
         }.start();
+        robot.initClaws();
         robot.runtime.reset();
     }
 
@@ -59,7 +60,7 @@ public class NewClawsBlueBox extends OpMode {
     public void start() {
         detector.blockFinder();
         robot.runtime.reset();
-        robot.lowerRightClaws();
+        robot.lowerOpenLeftClaws();
         robot.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     /*
@@ -69,115 +70,234 @@ public class NewClawsBlueBox extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.setTarget(Movement.FORWARD, 68);
+                if (detector.leftBlock) {
+                    robot.command = 1;
+                } else if (detector.rightBlock) {
+                    robot.command = 100;
+                } else if (detector.middleBlock) {
+                    robot.command = 1000;
+                }
+            case 100:
+                robot.setTarget(Movement.LEFTSTRAFE, 53);
                 break;
 
-            case 1:
+            case 101:
                 robot.finishDrive();
                 break;
 
-            case 2:
-                robot.closeRightClaws();
+            case 102:
+                robot.setTarget(Movement.FORWARD, 82);
+                break;
+
+            case 103:
+                robot.finishDrive();
+                break;
+
+            case 104:
+                robot.closeLeftClaws();
                 if (robot.runtime.milliseconds() > 500) {
                     robot.command++;
                 }
                 break;
 
-            case 3:
-                robot.setTarget(Movement.BACKWARD, 30);
-                break;
-
-            case 4:
-                robot.finishDrive();
-                break;
-
-            case 5:
-                robot.liftRightClaws();
-                robot.setTarget(Movement.RIGHTSTRAFE, 220);
-                break;
-
-            case 6:
-                robot.finishDrive();
-                break;
-
-            case 7:
-                robot.setTarget(Movement.FORWARD, 40);
-                break;
-
-            case 8:
-                robot.lowerRightClaws();
-                robot.openRightClaws();
-                robot.finishDrive();
-                break;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            case 9:
+            case 105:
                 robot.setTarget(Movement.BACKWARD, 35);
                 break;
 
-            case 10:
-                robot.liftRightClaws();
+            case 106:
+                robot.liftLeftClaws();
                 robot.finishDrive();
                 break;
 
-            case 11:
-                robot.setTarget(Movement.LEFTSTRAFE, 280);
-                break;
-
-            case 12:
-                robot.finishDrive();
-                break;
-
-            case 13:
-                robot.setTarget(Movement.FORWARD, 45);
-                break;
-
-            case 14:
-                robot.lowerRightClaws();
-                robot.finishDrive();
-                break;
-
-            case 15:
-                robot.setTarget(Movement.BACKWARD, 35);
-                break;
-
-            case 16:
-                robot.closeRightClaws();
-                robot.finishDrive();
-                break;
-
-            case 17:
+            case 107:
                 robot.setTarget(Movement.RIGHTSTRAFE, 280);
                 break;
 
-            case 18:
-                robot.liftRightClaws();
+            case 108:
                 robot.finishDrive();
                 break;
 
-            case 19:
-                robot.setTarget(Movement.FORWARD, 50);
+            case 109:
+                robot.setTarget(Movement.FORWARD, 33);
                 break;
 
-            case 20:
-                robot.lowerRightClaws();
-                robot.openRightClaws();
+            case 110:
                 robot.finishDrive();
                 break;
 
-            case 21:
+            case 111:
+                robot.setTarget(Movement.BACKWARD, 30);
+                break;
+
+            case 112:
+                robot.lowerOpenLeftClaws();
+                robot.finishDrive();
+                break;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            case 113:
+                robot.setTarget(Movement.LEFTSTRAFE, 220);
+                break;
+
+            case 114:
+                robot.liftLeftClaws();
+                robot.finishDrive();
+                break;
+
+            case 115:
+                robot.setTarget(Movement.FORWARD, 35);
+                break;
+
+            case 116:
+                robot.lowerOpenLeftClaws();
+                robot.finishDrive();
+                break;
+
+            case 117:
+                robot.closeLeftClaws();
+                if (robot.runtime.milliseconds() > 500) {
+                    robot.command++;
+                }
+                break;
+
+            case 118:
+                robot.setTarget(Movement.BACKWARD, 26);
+                break;
+
+            case 119:
+                robot.liftLeftClaws();
+                robot.finishDrive();
+                break;
+
+            case 120:
+                robot.setTarget(Movement.RIGHTSTRAFE, 234);
+                break;
+
+            case 121:
+                robot.finishDrive();
+                break;
+
+            case 122:
+                robot.setTarget(Movement.FORWARD, 28);
+                break;
+
+            case 123:
+                robot.finishDrive();
+                break;
+
+            case 124:
+                robot.setTarget(Movement.BACKWARD, 31);
+                break;
+
+            case 125:
+                robot.lowerOpenLeftClaws();
+                robot.finishDrive();
+                break;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            case 126:
+                robot.setTarget(Movement.LEFTSTRAFE, 259);
+                break;
+
+            case 127:
+                robot.liftLeftClaws();
+                robot.finishDrive();
+                break;
+
+            case 128:
+                robot.setTarget(Movement.FORWARD, 44);
+                break;
+
+            case 129:
+                robot.lowerOpenLeftClaws();
+                robot.finishDrive();
+                break;
+
+            case 130:
+                robot.closeLeftClaws();
+                if (robot.runtime.milliseconds() > 500) {
+                    robot.command++;
+                }
+                break;
+
+            case 131:
+                robot.setTarget(Movement.BACKWARD, 37);
+                break;
+
+            case 132:
+                robot.liftLeftClaws();
+                robot.finishDrive();
+                break;
+
+            case 133:
+                robot.setTarget(Movement.RIGHTSTRAFE, 245);
+                break;
+
+            case 134:
+                robot.finishDrive();
+                break;
+
+            case 135:
+                robot.setTarget(Movement.FORWARD, 29);
+                break;
+
+            case 136:
+                robot.finishDrive();
+                break;
+
+            case 137:
                 robot.setTarget(Movement.BACKWARD, 35);
                 break;
 
-            case 22:
-                robot.liftRightClaws();
+            case 138:
+                robot.lowerOpenLeftClaws();
                 robot.finishDrive();
                 break;
+
+            case 139:
+                robot.gyroTurn(175);
+                robot.openServoAuton();
+                break;
+
+            case 140:
+                robot.setTarget(Movement.BACKWARD, 70);
+                break;
+
+            case 141:
+                robot.liftLeftClaws();
+                robot.finishDrive();
+                break;
+
+            case 142:
+                robot.closeServoAuton();
+                if (robot.runtime.milliseconds() > 500) {
+                    robot.command++;
+                }
+                break;
+
+            case 143:
+                robot.setTarget(Movement.FORWARD, 110);
+                break;
+
+            case 144:
+                robot.finishDrive();
+                break;
+
+            case 145:
+                robot.setTarget(Movement.RIGHTSTRAFE, 130);
+                break;
+
+            case 146:
+                robot.openServoAuton();
+                robot.finishDrive();
+                break;
+
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("Current Heading", robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
 
-        telemetry.addData("FL Current", robot.FL.getCurrentPosition());
-        telemetry.addData("FL Target", robot.FL.getTargetPosition());
+        telemetry.addData("Failsafe:", robot.timerFailSafe());
+        telemetry.addData("runtime", robot.runtime.milliseconds());
+
+        telemetry.addData("Powersafe:", robot.tinyPowerValue());
+        telemetry.addData("power", robot.FL.getPower());
         telemetry.update();
     }
 }

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Methods;
 
+import android.graphics.Point;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import com.qualcomm.robotcore.hardware.*;
@@ -10,9 +12,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Movement;
+import org.firstinspires.ftc.teamcode.Hardware.Variables;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.util.Range;
+
+import java.util.ArrayList;
 
 public class NewAutonMethods {
     public DcMotor
@@ -31,7 +35,7 @@ public class NewAutonMethods {
     public int origin;
     float curHeading;
 
-    public double kpVal = 0.000065, kiVal = 0.0000002, kdVal = 0.00003;
+    public double kpVal = 0.000045, kiVal = 0.0000004, kdVal = 0.00003;
     public double lastError, error = 0, errorI = 0, errorD = 0;
 
     public final double TkpVal = 0.02, TkiVal = 0.00002, TkdVal = 0.0006;
@@ -39,7 +43,7 @@ public class NewAutonMethods {
 
     public static BNO055IMU gyro;
 
-    public boolean strafe = false, backLeft = false;
+    public boolean strafe = false, backLeft = false, backRight = false;
 
     public NewAutonMethods() {
         command = 0;
@@ -48,7 +52,7 @@ public class NewAutonMethods {
     /**
      * inits hardware
      *
-     * @param map  creates object on phones config
+     * @param map creates object on phones config
      */
 
     public void initNew(HardwareMap map, Telemetry tele) {
@@ -95,10 +99,10 @@ public class NewAutonMethods {
         extend = this.map.get(Servo.class, "extend");
 
         this.changeRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        this.newOpenServoAuton();
+        this.newCloseServoAuton();
     }
 
-    public void initGyro(){
+    public void initGyro() {
         gyro = map.get(BNO055IMU.class, "gyro");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -108,7 +112,7 @@ public class NewAutonMethods {
         curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 
-    public boolean isGyroInit(){
+    public boolean isGyroInit() {
         return gyro.isGyroCalibrated();
     }
 
@@ -148,6 +152,8 @@ public class NewAutonMethods {
                 FR.setTargetPosition(target);
                 BL.setTargetPosition(target);
                 BR.setTargetPosition(target);
+                backRight = false;
+                backLeft = false;
                 break;
 
             case BACKWARD:
@@ -155,6 +161,8 @@ public class NewAutonMethods {
                 FR.setTargetPosition(-target);
                 BL.setTargetPosition(-target);
                 BR.setTargetPosition(-target);
+                backRight = false;
+                backLeft = false;
                 break;
 
             case LEFTSTRAFE:
@@ -163,6 +171,8 @@ public class NewAutonMethods {
                 BL.setTargetPosition(target);
                 BR.setTargetPosition(-target);
                 strafe = true;
+                backRight = false;
+                backLeft = false;
                 break;
 
             case RIGHTSTRAFE:
@@ -171,6 +181,8 @@ public class NewAutonMethods {
                 BL.setTargetPosition(-target);
                 BR.setTargetPosition(target);
                 strafe = true;
+                backRight = false;
+                backLeft = false;
                 break;
 
             case UPRIGHT:
@@ -179,6 +191,7 @@ public class NewAutonMethods {
 
                 FR.setTargetPosition(FR.getCurrentPosition());
                 BL.setTargetPosition(BL.getCurrentPosition());
+                backRight = true;
                 backLeft = false;
                 break;
 
@@ -189,6 +202,7 @@ public class NewAutonMethods {
                 FL.setTargetPosition(FL.getCurrentPosition());
                 BR.setTargetPosition(BR.getCurrentPosition());
                 backLeft = true;
+                backRight = false;
                 break;
 
             case DOWNRIGHT:
@@ -198,6 +212,7 @@ public class NewAutonMethods {
                 FL.setTargetPosition(FL.getCurrentPosition());
                 BR.setTargetPosition(BR.getCurrentPosition());
                 backLeft = true;
+                backRight = false;
                 break;
 
             case DOWNLEFT:
@@ -206,6 +221,7 @@ public class NewAutonMethods {
 
                 FR.setTargetPosition(FR.getCurrentPosition());
                 BL.setTargetPosition(BL.getCurrentPosition());
+                backRight = true;
                 backLeft = false;
                 break;
 
@@ -317,23 +333,6 @@ public class NewAutonMethods {
         }
     }
 
-    public boolean adjustHeading(int targetHeading) {
-        double headingError;
-        curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        headingError = targetHeading - curHeading;
-        this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        if (headingError < -1 && headingError > -180)
-            this.drive(Movement.LEFTTURN, scaleTurn(targetHeading));
-        else if (headingError > 1 && headingError < 180) {
-            this.drive(Movement.RIGHTTURN, scaleTurn(targetHeading));
-        } else {
-            return true;
-        }
-        return false;
-    }
-    //Positive is left turn, negative is right turn.
-
     public double strafeVal(double target) {
         return (target * 1.2);
     }
@@ -355,7 +354,8 @@ public class NewAutonMethods {
         this.command++;
     }
 
-    public void runtimeReset(){ this.runtime.reset();
+    public void runtimeReset() {
+        this.runtime.reset();
     }
 
     public void closeHingeAuton() {
@@ -375,13 +375,13 @@ public class NewAutonMethods {
     }
 
     public void openServoAuton() {
-        this.foundationLeft.setPosition(0);
-        this.foundationRight.setPosition(1);
+        this.foundationLeft.setPosition(0.57);
+        this.foundationRight.setPosition(0.32);
     }
 
     public void closeServoAuton() {
-        this.foundationLeft.setPosition(0.57); //0.55 //right
-        this.foundationRight.setPosition(0.32); //0.35 //left
+        this.foundationLeft.setPosition(0); //0.55 //right
+        this.foundationRight.setPosition(1); //0.35 //left
     }
 
     public void newCloseServoAuton() {
@@ -390,43 +390,72 @@ public class NewAutonMethods {
     }
 
     public void newOpenServoAuton() {
-        this.foundationLeft.setPosition(1);
-        this.foundationRight.setPosition(0);
+        this.foundationLeft.setPosition(0.4);
+        this.foundationRight.setPosition(0.6);
     }
 
-    public void liftRightClaws(){
+    public void liftRightClaws() {
         this.leftBlue.setPosition(0);
-        this.leftPurp.setPosition(0.5);
-   //     this.rightBlue.setPosition(1);
-   //     this.rightPurp.setPosition(0.5);
+        this.leftPurp.setPosition(1);
     }
 
-    public void lowerRightClaws(){
+    public void lowerOpenRightClaws() {
         this.leftBlue.setPosition(1);
-        this.leftPurp.setPosition(0.08);
- //       this.rightBlue.setPosition(0);
- //       this.rightPurp.setPosition(1);
+        this.leftPurp.setPosition(0);
     }
 
-    public void closeRightClaws(){
+    public void lowerCloseRightClaws() {
+        this.leftBlue.setPosition(1);
+        this.leftPurp.setPosition(1);
+    }
+
+    public void closeRightClaws() {
+        this.leftPurp.setPosition(1);
+    }
+
+    public void openRightClaws() {
+        this.leftPurp.setPosition(0);
+    }
+
+    public void liftLeftClaws() {
+        this.rightBlue.setPosition(0);
+        this.rightPurp.setPosition(1);
+    }
+
+    public void lowerOpenLeftClaws() {
+        this.rightBlue.setPosition(1);
+        this.rightPurp.setPosition(0);
+    }
+
+    public void lowerCloseLeftClaws() {
+        this.rightBlue.setPosition(0);
+        this.rightPurp.setPosition(1);
+    }
+
+    public void closeLeftClaws() {
+        this.rightBlue.setPosition(0);
+    }
+
+    public void openLeftClaws() {
+        this.rightBlue.setPosition(0);
+    }
+
+    public void initClaws() {
+        this.rightBlue.setPosition(1);
+        this.rightPurp.setPosition(1);
         this.leftBlue.setPosition(0);
-  //      this.rightBlue.setPosition(1);
+        this.leftPurp.setPosition(0);
     }
 
-    public void openRightClaws(){
-        this.leftBlue.setPosition(1);
-        //      this.rightBlue.setPosition(1);
-    }
-
-    public void lowerClosedClaws(){
+    public void lowerClosedClaws() {
         this.leftPurp.setPosition(0.08);
     }
 
-    public void extendExtend(){
+    public void extendExtend() {
         this.extend.setPosition(0);
     }
 
-    public void detractExtend(){
+    public void detractExtend() {
         this.extend.setPosition(1);
     }
 
@@ -451,24 +480,62 @@ public class NewAutonMethods {
         this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public double scalePower() {
-        if (!backLeft) {
-            target = cmDistance(BR.getTargetPosition());
-            current = cmDistance(BR.getCurrentPosition());
+    public boolean adjustHeading(int targetHeading) {
+        double headingError;
+        curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        headingError = targetHeading - curHeading;
+        this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        if (headingError < -1 && headingError > -180)
+            this.drive(Movement.LEFTTURN, 0.1 * scaleTurn(targetHeading));
+        else if (headingError > 1 && headingError < 180) {
+            this.drive(Movement.RIGHTTURN, 0.1 * scaleTurn(targetHeading));
         } else {
+            return true;
+        }
+        return false;
+    }
+    //Positive is left turn, negative is right turn.
+
+    public double scalePower() {
+        if (!backLeft && !backRight) {
+            target = cmDistance((Math.abs(BR.getTargetPosition()) + Math.abs(BL.getTargetPosition()) + Math.abs(FL.getTargetPosition()) + Math.abs(FR.getTargetPosition())) / 4);
+            current = cmDistance((Math.abs(BR.getCurrentPosition()) + Math.abs(BL.getCurrentPosition()) + Math.abs(FL.getCurrentPosition()) + Math.abs(FR.getCurrentPosition())) / 4);
+        } else if (!backRight && backLeft) {
             target = cmDistance(BL.getTargetPosition());
             current = cmDistance(BL.getCurrentPosition());
-        }
-
-        /*if (Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 25){
-            kpVal *= 0.5;
-        } else if (Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 100){
-            kpVal *= 0.75;
+        } else if (!backLeft && backRight) {
+            target = cmDistance(BL.getTargetPosition());
+            current = cmDistance(BL.getCurrentPosition());
         } else {
-            kpVal = 0.00008;
+            target = cmDistance((Math.abs(BR.getTargetPosition()) + Math.abs(BL.getTargetPosition()) + Math.abs(FL.getTargetPosition()) + Math.abs(FR.getTargetPosition())) / 4);
+            current = cmDistance((Math.abs(BR.getCurrentPosition()) + Math.abs(BL.getCurrentPosition()) + Math.abs(FL.getCurrentPosition()) + Math.abs(FR.getCurrentPosition())) / 4);
         }
 
+        /*if (Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 100){
+            kpVal *= 0.2;
+        } else if (Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 200){
+            kpVal *= 0.5;
+        } else {`
+            kpVal = 0.000045;
+        }
          */
+
+        if (Math.abs(target - current) <= 0.01 * (Math.abs(target + current))) {
+            kpVal *= 0.25;
+        } else if (Math.abs(target - current) <= 0.1 * (Math.abs(target + current))) {
+            kpVal *= 0.75;
+        } else if (Math.abs(target - current) <= 0.25 * (Math.abs(target + current))) {
+            kpVal *= 0.85;
+        } else {
+            kpVal = 0.000045;
+        }
+
+        if (Math.abs(target) < 15000) {
+            kpVal *= 2.5;
+        } else {
+            kpVal = 0.000045;
+        }
 
         if ((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal) >= .75) {
             this.errorI += 0;
@@ -483,7 +550,7 @@ public class NewAutonMethods {
         return Range.clip((this.error * this.kpVal) + (this.errorI * this.kiVal) - (this.errorD * this.kdVal), -1, 1);
     }
 
-    public double scaleTurn(double targHeading){
+    public double scaleTurn(double targHeading) {
         curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
 
         if ((this.Terror * this.TkpVal) + (this.TerrorI * this.TkiVal) - (this.TerrorD * this.TkdVal) > 1) {
@@ -499,12 +566,12 @@ public class NewAutonMethods {
         return Math.abs(Range.clip((this.Terror * this.TkpVal) + (this.TerrorI * this.TkiVal) - (this.TerrorD * this.TkdVal), -1, 1));
     }
 
-    public void finishDrive(){
+    public void finishDrive() {
         if (backLeft) {
-            if (Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 25
-                    && Math.abs(this.BR.getTargetPosition() - this.BR.getCurrentPosition()) <= 25
-                    && Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 25
-                    && Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 25) {
+            if ((Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 25
+                    || Math.abs(this.BR.getTargetPosition() - this.BR.getCurrentPosition()) <= 25
+                    || Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 25
+                    || Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 25) || (timerFailSafe() && tinyPowerValue())) {
                 this.drive(Movement.STOP, 0);
                 this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -517,11 +584,10 @@ public class NewAutonMethods {
                 this.drive(scalePower());
             }
         } else {
-            if (Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 25
-                    && Math.abs(this.BR.getTargetPosition() - this.BR.getCurrentPosition()) <= 25
-                    && Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 25
-                    && Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 25) {
-
+            if ((Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 25
+                    || Math.abs(this.BR.getTargetPosition() - this.BR.getCurrentPosition()) <= 25
+                    || Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 25
+                    || Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 25) || (timerFailSafe() && tinyPowerValue())) {
                 this.drive(Movement.STOP, 0);
                 this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -562,6 +628,83 @@ public class NewAutonMethods {
         this.command++;
     }
 
+    public void setHeadingTarget(Movement movement, int target) {
+        this.autonDrive(movement, cmDistance(target));
+        this.changeRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.originTick = BL.getCurrentPosition();
+
+        if (BL.getTargetPosition() == 0 && BL.getCurrentPosition() == 0) {
+            this.originTick = cmDistance(BR.getTargetPosition());
+        }
+        this.command++;
+    }
+
+    public void targetHeadingWrapper(int turn, double targetHeading) {
+        //   if (backLef) {
+        if ((Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 25
+                && Math.abs(this.BR.getTargetPosition() - this.BR.getCurrentPosition()) <= 25
+                && Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 25
+                && Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 25) && adjustHeading(turn) || timerFailSafe()) {
+            this.drive(Movement.STOP, 0);
+            this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            this.lastError = this.error;
+            this.errorI = 0;
+            this.error = 0;
+
+            this.TlastError = this.Terror;
+            this.TerrorI = 0;
+            this.Terror = 0;
+            this.runtime.reset();
+            this.command++;
+        } else {
+            this.FL.setPower(scalePower() + scaleTurn(targetHeading));
+            this.FR.setPower(scalePower() - scaleTurn(targetHeading));
+            this.BL.setPower(scalePower() + scaleTurn(targetHeading));
+            this.BR.setPower(scalePower() - scaleTurn(targetHeading));
+        }
+    /*    } else {
+            if ((Math.abs(this.BL.getTargetPosition() - this.BL.getCurrentPosition()) <= 25
+                    && Math.abs(this.BR.getTargetPosition() - this.BR.getCurrentPosition()) <= 25
+                    && Math.abs(this.FL.getTargetPosition() - this.FL.getCurrentPosition()) <= 25
+                    && Math.abs(this.FR.getTargetPosition() - this.FR.getCurrentPosition()) <= 25) && adjustHeading(turn)) {
+
+                this.drive(Movement.STOP, 0);
+                this.changeRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                this.lastError = this.error;
+                this.errorI = 0;
+                this.error = 0;
+
+                this.TlastError = this.Terror;
+                this.TerrorI = 0;
+                this.Terror = 0;
+                this.runtime.reset();
+                this.command++;
+            } else {
+                this.FL.setPower(scalePower() - scaleTurn(targetHeading));
+                this.FR.setPower(scalePower() + scaleTurn(targetHeading));
+                this.BL.setPower(scalePower() - scaleTurn(targetHeading));
+                this.BR.setPower(scalePower() + scaleTurn(targetHeading));
+            }
+        }
+     */
+    }
+
+    public boolean timerFailSafe() {
+        if (Math.abs(target) < 7500) {
+            return runtime.milliseconds() > 700;
+        } else if (Math.abs(target) < 15000) {
+            return runtime.milliseconds() > 950;
+        } else {
+            return runtime.milliseconds() > 1500;
+        }
+    }
+
+    public boolean tinyPowerValue() {
+        return Math.abs(FL.getPower()) < 0.25 && Math.abs(FR.getPower()) < 0.25 && Math.abs(BL.getPower()) < 0.25 && Math.abs(BR.getPower()) < 0.25;
+    }
+
     public void tapeExtend(int target, double power) {
         this.tape.setTargetPosition(target);
         this.tape.setPower(power);
@@ -586,9 +729,8 @@ public class NewAutonMethods {
         return (int) (gearMotorTick * (distance / wheelCirc));
         //rate = x(0.05937236104)
     }
+
+    }
+
+ */
 }
-
-
-
-
-

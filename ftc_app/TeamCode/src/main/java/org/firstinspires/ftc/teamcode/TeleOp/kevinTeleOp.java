@@ -3,6 +3,10 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Hardware.DeuxBoot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Kevin Tele-Op",group="TeleOp")
@@ -21,6 +25,14 @@ public class kevinTeleOp extends OpMode {
     @Override
     public void init() {
         robot.initNew(hardwareMap);
+
+        new Thread()  {
+            public void run() {
+                robot.initGyro();
+                robot.isGyroInit();// whatever ur init gyro method is on robot
+            }
+        }.start();
+
         robot.leftBlue.setPosition(0);
         robot.leftPurp.setPosition(1);
         robot.rightBlue.setPosition(1);
@@ -42,88 +54,23 @@ public class kevinTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        robot.kevinDrive(gamepad1.left_stick_y,
-                gamepad1.left_stick_x,
-                gamepad1.right_stick_y,
+        robot.tankDrive(gamepad1.left_stick_x,
+                gamepad1.left_stick_y,
                 gamepad1.right_stick_x,
                 gamepad1.left_trigger,
                 gamepad1.right_trigger);
 
-        if (gamepad2.y && !buttonYheld) {
-            buttonYheld = true;
-            if (foundationClosed) {
-                foundationClosed = false;
-                robot.foundationLeft.setPosition(1);
-                robot.foundationRight.setPosition(0);
-            } else {
-                foundationClosed = true;
-                robot.foundationLeft.setPosition(0);
-                robot.foundationRight.setPosition(1);
-            }
-        }
-
-        if (!gamepad2.y) {
-            buttonYheld = false;
-        }
-
-
-        if (gamepad2.a && !buttonAheld) {
-            buttonAheld = true;
-            if (grabberClosed) {
-                grabberClosed = false;
-                robot.grabber.setPosition(1);
-            } else {
-                grabberClosed = true;
-                robot.grabber.setPosition(0);
-            }
-        }
-
-        if (!gamepad2.a) {
-            buttonAheld = false;
-        }
-
-        if (gamepad2.b && !buttonBheld) {
-            buttonBheld = true;
-            if (hingedClosed) {
-                hingedClosed = false;
-                robot.hinge.setPosition(1);
-                robot.spinner.setPosition(1);
-            } else {
-                hingedClosed = true;
-                robot.hinge.setPosition(0.1);
-                robot.spinner.setPosition(0);
-            }
-        }
-
-        if (!gamepad2.b) {
-            buttonBheld = false;
-        }
-
-        if (gamepad2.x && !buttonXheld) {
-            buttonXheld = true;
-            if (spinnerClosed) {
-                spinnerClosed = false;
-                robot.spinner.setPosition(0);
-            } else {
-                spinnerClosed = true;
-                robot.spinner.setPosition(0.35);
-            }
-        }
-
-        if (!gamepad2.x) {
-            buttonXheld = false;
-        }
-
-        telemetry.addData("FL Power", robot.FL.getPower());
+/*        telemetry.addData("FL Power", robot.FL.getPower());
         telemetry.addData("FR Power", robot.FR.getPower());
         telemetry.addData("BL Power", robot.BL.getPower());
         telemetry.addData("BR Power", robot.BR.getPower());
 
-        telemetry.addData("FL encoder", robot.FL.getCurrentPosition());
-        telemetry.addData("FR encoder", robot.FR.getCurrentPosition());
-        telemetry.addData("BL encoder", robot.BL.getCurrentPosition());
-        telemetry.addData("BR encoder", robot.BR.getCurrentPosition());
+        telemetry.addData("Heading", robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        telemetry.addData("+45",   Math.sin(robot.returnHeading() + 45));
+        telemetry.addData("-45",   Math.sin(robot.returnHeading() - 45));
         telemetry.update();
+
+ */
     }
 
     /*
@@ -134,4 +81,3 @@ public class kevinTeleOp extends OpMode {
     public void stop () {
     }
 }
-

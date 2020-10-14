@@ -49,41 +49,35 @@ public class TestMet extends OpMode {
     public void loop() {
         switch (robot.command) {
             case 0:
-                robot.gyroTurn(0);
+             //   robot.setHeadingTarget(Movement.FORWARD, 30, 90);
                 break;
 
             case 1:
-                robot.setTarget(Movement.FORWARD, 50);
+             //   robot.targetHeadingWrapper();
                 break;
 
             case 2:
-                robot.finishDrive();
+                robot.setHeadingTarget(Movement.BACKWARD, 30);
                 break;
 
             case 3:
-                robot.setTarget(Movement.FORWARD, 100);
-                break;
-
-            case 4:
-                robot.finishDrive();
-                break;
-
-            case 5:
-                robot.setTarget(Movement.BACKWARD, 150);
-                break;
-
-            case 6:
-                robot.finishDrive();
+                robot.targetHeadingWrapper(0, 30);
                 break;
         }
         telemetry.addData("Case:", robot.command);
-        telemetry.addData("Power", robot.FL.getPower());
-        telemetry.addData("TARGET", robot.FL.getTargetPosition());
-        telemetry.addData("CURRENT", robot.FL.getCurrentPosition());
+        telemetry.addData("FL Power", robot.FL.getPower());
+        telemetry.addData("FL TARGET", robot.FL.getTargetPosition());
+        telemetry.addData("FL CURRENT", robot.FL.getCurrentPosition());
+
+        telemetry.addData("CURRENT", robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
 
         telemetry.addData("P", robot.error * robot.kpVal);
         telemetry.addData("I", robot.errorI * robot.kiVal);
         telemetry.addData("D", -robot.errorD * robot.kdVal);
+
+        telemetry.addData("TP", robot.Terror * robot.TkpVal);
+        telemetry.addData("TI", robot.TerrorI * robot.TkiVal);
+        telemetry.addData("TD", -robot.TerrorD * robot.TkdVal);
 
         telemetry.update();
     }

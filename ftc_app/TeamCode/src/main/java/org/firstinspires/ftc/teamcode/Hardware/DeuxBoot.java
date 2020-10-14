@@ -23,7 +23,7 @@ DeuxBoot{
     Telemetry tele;
 
     public ElapsedTime runtime = new ElapsedTime();
-
+    public static BNO055IMU gyro;
 
     public DeuxBoot() {
     }
@@ -69,6 +69,20 @@ DeuxBoot{
         extend = this.map.get(Servo.class, "extend");
 
         this.changeRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void initGyro(){
+        gyro = map.get(BNO055IMU.class, "gyro");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        gyro.initialize(parameters);
+        curHeading = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+    }
+
+    public boolean isGyroInit(){
+        return gyro.isGyroCalibrated();
     }
 
     /**
@@ -141,13 +155,50 @@ DeuxBoot{
         BR.setPower(leftStick_x * speed);
     }
 
-    public void kevinDrive(double leftStick_y, double leftStick_x, double rightStick_y, double rightStick_x, double leftTrigger, double rightTrigger){
-        if (Math.abs(leftStick_y) > .3) {
-            FL.setPower((leftStick_y + leftStick_x - rightStick_x));
-            FR.setPower((leftStick_y + leftStick_x + rightStick_x));
-            BL.setPower((leftStick_y - leftStick_x - rightStick_x));
-            BR.setPower((leftStick_y - leftStick_x + rightStick_x));
+    public void kevinDrive(double leftStick_y, double leftStick_x, double leftTrigger, double rightTrigger){
+        leftStick_y *= -1;
+        if (leftTrigger > .3) {
+            drive(Movement.LEFTSTRAFE, leftTrigger);
+            return;
         }
+        if (rightTrigger > .3) {
+            drive(Movement.RIGHTSTRAFE, rightTrigger);
+            return;
+        }
+        if (Math.abs(leftStick_y) > .5) {
+            FL.setPower(-leftStick_y * - returnHeading());
+            FR.setPower(-leftStick_y * + returnHeading());
+            BL.setPower(-leftStick_y * + returnHeading());
+            BR.setPower(-leftStick_y * - returnHeading());
+            return;
+        }
+
+        FL.setPower(-leftStick_x * - returnHeading());
+        FR.setPower(leftStick_x * + returnHeading());
+        BL.setPower(-leftStick_x * + returnHeading());
+        BR.setPower(leftStick_x * - returnHeading());
+    }
+
+    public void tankDrive(double leftStickX, double leftStickY, double rightStickX, double leftTrigger, double rightTrigger) {
+        if (leftTrigger > .3) {
+            drive(Movement.LEFTTURN, leftTrigger);
+            return;
+        }
+        if (rightTrigger > .3) {
+            drive(Movement.RIGHTTURN, rightTrigger);
+            return;
+        }
+        if (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle > 45) {
+            FL.setPower(leftStickY - leftStickX - rightStickX);
+            FR.setPower(leftStickY + leftStickX + rightStickX);
+            BL.setPower(leftStickY + leftStickX - rightStickX);
+            BR.setPower(leftStickY - leftStickX + rightStickX);
+        }
+    }
+
+
+    public double returnHeading(){
+        return (Math.sin(gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle));
     }
     /**
      *
